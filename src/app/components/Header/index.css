@@ -1,0 +1,55 @@
+.Image__profile {
+  width: 64px;
+  height: 64px;
+}
+
+.Nav__header {
+  display: flex;
+  gap: 24px;
+  justify-content: flex-start;
+  padding: 2rem 2rem 0 2rem;
+  align-items: center;
+  font-family: "Poppins";
+  font-weight: 700;
+}
+
+nav {
+  width: 300px;
+  background-color: #222338;
+  color: rgb(236, 235, 235);
+  min-height: 100vh;
+  flex-grow: 1;
+}
+
+.Nav__list li {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 1rem;
+  margin: 0.5rem 0;
+  gap: 16px;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.Inactive:hover {
+  background-color: #478bff5f;
+}
+
+.Nav__list {
+  font-family: "Poppins";
+  padding: 1rem;
+}
+
+.Active {
+  background-color: #347dfd;
+}
+
+.Heading__menu {
+  font-family: "Poppins";
+  font-weight: 700;
+  padding: 0 1rem;
+  margin-top: 3rem;
+  margin-left: 1rem;
+}
