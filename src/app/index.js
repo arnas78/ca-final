@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="Content">
       <Header image={logo} />
-      <Home />
+      <Home image={logo} />
       <Profile />
     </div>
   );

@@ -11,7 +11,7 @@ function Header({ image }) {
     <header className="Header">
       <nav>
         <div className="Nav__header">
-          <img className="Image__profile" src={image} alt="profile"></img>
+          <img className="Image__logo" src={image} alt="profile"></img>
         </div>
         <h4 className="Heading__menu">Meniu</h4>
         <ul className="Nav__list">

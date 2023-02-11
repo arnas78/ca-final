@@ -2,3 +2,9 @@
   color: rgb(236, 235, 235);
   font-family: "Poppins";
 }
+
+.Image__profile {
+  width: 192px;
+  height: 192px;
+  border-radius: 100px;
+}
