@@ -1,0 +1,40 @@
+.Section__lunch {
+    max-width: 1070px;
+    margin: 0 auto;
+}
+
+.trigger-button {
+width: 100%;
+  }
+  
+.Container__weekdays {
+    max-width: 300px;
+}
+  
+
+  
+  .List {
+    color: #000000;
+    list-style: none;
+    margin: 0;
+    font-size: 18px;
+    overflow: hidden;
+    height: 0px;
+    transition: height 0.3s ease;
+    padding: 0;
+  }
+  
+  .List__Active {
+    height: 100px;
+    overflow: auto;
+  }
+  
+  li {
+    margin-bottom: 2px;
+  }
+  
+  li:hover {
+    font-size: 19px;
+    cursor: pointer;
+  }
+  

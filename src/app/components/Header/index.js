@@ -1,36 +1,41 @@
 import React from "react";
 import "./index.css";
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { useLocation } from 'react-router-dom';
 
 function Header({ image }) {
+  // const [number, setNumber] = useState("");
+
+  const location = useLocation().pathname;
+  
   return (
     <header className="Header">
       <nav>
         <div className="Nav__header">
           <img className="Image__logo" src={image} alt="profile"></img>
         </div>
-        <h4 className="Heading__menu">Meniu</h4>
         <ul className="Nav__list">
-          <li className="Active">
-            <FontAwesomeIcon icon={faBriefcase} />
+          <Link className={location === "/" ? "Active" : "Inactive"} to="/">
+            <FontAwesomeIcon icon={faBriefcase} className="Icon__link"/>
             Pagrindinis
-          </li>
-          <li className="Inactive">
-            <FontAwesomeIcon icon={faUtensils} />
+          </Link>
+          <Link className={location === "/lunch" ? "Active" : "Inactive"} to="/lunch">
+            <FontAwesomeIcon icon={faUtensils} className="Icon__link"/>
             Pietūs
-          </li>
-          <li className="Inactive">
-            <FontAwesomeIcon icon={faBook} />
+          </Link>
+          <Link className={location === "/learning" ? "Active" : "Inactive"} to="/learning">
+            <FontAwesomeIcon icon={faBook} className="Icon__link"/>
             Apmokymai
-          </li>
-          <li className="Inactive">
-            <FontAwesomeIcon icon={faCalendarDays} />
+          </Link>
+          <Link className={location === "/events" ? "Active" : "Inactive"} to="/events">
+            <FontAwesomeIcon icon={faCalendarDays} className="Icon__link"/>
             Renginiai
-          </li>
+          </Link>
         </ul>
       </nav>
     </header>
