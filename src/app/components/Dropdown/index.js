@@ -1,18 +1,28 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
-const BasicDropdown = ({ showDropdown, setShowDropdown, items, weekday }) => {
+const Dropdown = ({ showingIdx, idx, func, items, weekday }) => {
   return (
-    <div class="dropdown-wrapper">
-      <button onClick={setShowDropdown} className="trigger-button">
-        { weekday }
+    <div className="dropdown-wrapper">
+      <button
+        onClick={func}
+        className={showingIdx === idx ? "Activated" : "trigger-button"}
+      >
+        {weekday}
+        <FontAwesomeIcon
+          icon={showingIdx === idx ? faArrowUp : faArrowDown}
+          className="Icon__arrow"
+        />
       </button>
-      <ul className={showDropdown ? "List List__Active" : "List"}>
+      <ul className={showingIdx === idx ? "List List__Active" : "List"}>
         {items.map((item) => (
-          <li className="Item__list">{item}</li>
+          <li className="Item__list">{item} </li>
         ))}
       </ul>
     </div>
   );
 };
 
-export default BasicDropdown;
+export default Dropdown;

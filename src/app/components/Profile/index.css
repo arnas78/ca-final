@@ -19,18 +19,18 @@ label {
 
 button {
   display: block;
-  margin-top: 2rem;
+  font-family: "Poppins";
+  font-size: 1rem;
 }
 
-
-
-input, select, button {
+input,
+select,
+button {
   border: 2px solid white;
   background-color: #222338;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  margin-bottom: 1rem;
 }
 
 button {
@@ -43,7 +43,7 @@ button {
 .Section__profile {
   color: rgb(236, 235, 235);
   font-family: "Poppins";
-  margin: 2rem 0  ;
+  margin: 2rem 0;
 }
 
 .Image__profile {
@@ -56,7 +56,7 @@ button {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 3rem
+  gap: 3rem;
 }
 
 .Container__data {

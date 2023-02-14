@@ -3,12 +3,11 @@
   height: 48px;
 }
 
-.Header { 
+.Header {
   padding: 0.75rem 0;
   width: 100vw;
   background-color: #222338;
   border-bottom: #347dfd solid 2px;
-
 }
 
 .Icon__link {
@@ -20,19 +19,20 @@ nav {
   align-items: center;
   justify-content: space-between;
   gap: 64px;
-  max-width: 1070px;
+  max-width: 1300px;
   color: rgb(236, 235, 235);
-  margin:  0 auto;
+  margin: 0 auto;
 }
 
-.Inactive, .Active {
+.Inactive,
+.Active {
   padding: 0.5rem 1rem;
   margin: 0.5rem;
   border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.3s;
   text-decoration: none;
-  color: white
+  color: white;
 }
 
 .Inactive:hover {
@@ -42,10 +42,9 @@ nav {
 .Nav__list {
   font-family: "Poppins";
   padding: 1rem;
+  padding-right: 0;
 }
 
 .Active {
   background-color: #347dfd;
 }
-
-
