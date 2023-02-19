@@ -1,0 +1,46 @@
+.Section__learning {
+  max-width: 1300px;
+  margin: 2rem auto 0 auto;
+  font-family: "Poppins";
+}
+
+.Container__box {
+  border: 2px solid white;
+  border-radius: 0.25rem;
+}
+
+.Container__heading {
+  box-sizing: border-box;
+  padding: 0.5rem 1rem;
+  background: #347dfd;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 2fr;
+  align-items: center;
+  justify-items: center;
+}
+
+.Container__heading p {
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.Container__box {
+  position: relative;
+}
+
+.background-blur {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  z-index: 3;
+}
+
+.Z__invisible {
+  z-index: -5;
+}
+
+.Active__popup {
+  opacity: 0.2;
+}

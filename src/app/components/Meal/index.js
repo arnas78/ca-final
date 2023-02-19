@@ -1,16 +1,9 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEuro } from "@fortawesome/free-solid-svg-icons";
+import "./index.css";
 
-const Meal = ({
-  count,
-  price,
-  description,
-  profile,
-  isChosen,
-  onClick,
-  id,
-}) => {
+const Meal = ({ meal, profile, isChosen, onClick, id }) => {
   return (
     <div
       className={
@@ -21,13 +14,13 @@ const Meal = ({
       onClick={onClick}
     >
       <div className="Container__meal_header">
-        <img alt="profil    e" src={profile} className="Image__price"></img>
-        <p>{count}</p>
+        <img alt="profile" src={profile} className="Image__price"></img>
+        <p>{meal.count}</p>
         <FontAwesomeIcon icon={faEuro} className="Icon__price" />
-        <p>{price}</p>
+        <p>{meal.price}</p>
       </div>
       <div className="Container__meal_info">
-        <p>{description}</p>
+        <p>{meal.desc}</p>
       </div>
     </div>
   );

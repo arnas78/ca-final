@@ -24,8 +24,7 @@ nav {
   margin: 0 auto;
 }
 
-.Inactive,
-.Active {
+.Link {
   padding: 0.5rem 1rem;
   margin: 0.5rem;
   border-radius: 0.5rem;
@@ -35,7 +34,7 @@ nav {
   color: white;
 }
 
-.Inactive:hover {
+.Link:hover:not(.Active) {
   background-color: #478bff5f;
 }
 

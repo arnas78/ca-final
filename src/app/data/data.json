@@ -1,0 +1,204 @@
+{
+  "main": [
+    {
+      "id": 0,
+      "count": 5,
+      "price": 20.99,
+      "desc": "Tiramisu carrot cake"
+    },
+    {
+      "id": 1,
+      "count": 10,
+      "price": 10.99,
+      "desc": "Gummi bears croissant"
+    },
+    {
+      "id": 2,
+      "count": 500,
+      "price": 10.99,
+      "desc": "Beans chupa chups candy"
+    },
+    {
+      "id": 3,
+      "count": 20,
+      "price": 50.99,
+      "desc": "Bar cheesecake pudding"
+    },
+    {
+      "id": 4,
+      "count": 10,
+      "price": 10.99,
+      "desc": "Chocolate bar brownie pudding jelly beans topping tootsie"
+    },
+    {
+      "id": 5,
+      "count": 15,
+      "price": 10.99,
+      "desc": "Cheesecake toffee"
+    },
+    {
+      "id": 6,
+      "count": 5,
+      "price": 10.99,
+      "desc": "Cupcake cake muffin tart"
+    },
+    {
+      "id": 7,
+      "count": 2,
+      "price": 10.99,
+      "desc": "Powder cupcake donut"
+    },
+    {
+      "id": 8,
+      "count": 19,
+      "price": 10.99,
+      "desc": "Topping ice cream chocolate tiramisu shortbread sugar plum"
+    }
+  ],
+  "soups": [
+    {
+      "id": 0,
+      "count": 1,
+      "price": 5.99,
+      "desc": "Chocolate bar cake"
+    },
+    {
+      "id": 1,
+      "count": 3,
+      "price": 2.99,
+      "desc": "Liquorice tiramisu chocolate powder"
+    },
+    {
+      "id": 2,
+      "count": 3,
+      "price": 1.99,
+      "desc": "Shortbread carrot cake jujubes"
+    }
+  ],
+  "weekdays": [
+    {
+      "status": true,
+      "name": "Pirmadienis"
+    },
+    {
+      "status": true,
+      "name": "Antradienis"
+    },
+    {
+      "status": true,
+      "name": "Trečiadienis"
+    },
+    {
+      "status": true,
+      "name": "Ketvirtadienis"
+    },
+    {
+      "status": true,
+      "name": "Penktadienis"
+    }
+  ],
+  "trainings": [
+    {
+      "id": 0,
+      "name": "Bonbon jelly",
+      "lecturer": "V. Petraitis",
+      "status": "Baigėsi",
+      "startDate": "2022-05-01",
+      "endDate": "2022-06-01",
+      "description": "Bonbon jelly beans tiramisu caramels marshmallow tart. Ice cream halvah sweet chocolate pie jujubes. Candy canes candy candy canes bear claw donut liquorice toffee soufflé jelly-o."
+    },
+    {
+      "id": 1,
+      "name": "Lorem ipsum",
+      "lecturer": "V. Pavardenis",
+      "status": "Būsimas",
+      "startDate": "2023-07-01",
+      "endDate": "2023-08-01",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc non volutpat nulla, in feugiat lectus. In sed consectetur diam. Phasellus eleifend metus dolor, ut blandit metus feugiat vitae. Cras nec ante a dui tincidunt venenatis in a libero. Etiam quis commodo nulla. Nunc eleifend dolor vitae erat laoreet vehicula. Quisque. "
+    },
+    {
+      "id": 2,
+      "name": "Halvah danish",
+      "lecturer": "K. Antanaitis",
+      "status": "Baigėsi",
+      "startDate": "2022-08-01",
+      "endDate": "2022-09-01",
+      "description": "Halvah danish danish soufflé caramels ice cream jujubes. Halvah ice cream sugar plum wafer tart. Tootsie roll wafer carrot cake carrot cake gummi bears tart. Topping gummies "
+    },
+    {
+      "id": 3,
+      "name": "Marshmallow",
+      "lecturer": "J. Pavardaitis",
+      "status": "Būsimas",
+      "startDate": "2023-03-01",
+      "endDate": "2023-04-01",
+      "description": "Marshmallow chocolate. Cheesecake chocolate cake sweet roll pie sweet powder jujubes sweet roll. Gingerbread caramels gummi bears chocolate bar jujubes. Cupcake sweet sweet pie cheesecake cheesecake croissant. Cake caramels dragée sweet roll wafer jelly-o."
+    },
+    {
+      "id": 4,
+      "name": "Chocolate cake",
+      "lecturer": "A. Klimasauskas",
+      "status": "Vyksta",
+      "startDate": "2023-02-01",
+      "endDate": "2023-04-01",
+      "description": "Chocolate cake macaroon tootsie roll macaroon fruitcake liquorice. Bonbon gummi bears cotton candy jujubes lollipop danish apple pie marzipan jelly. Marshmallow bear claw sesame snaps biscuit fruitcake cupcake. Pie carrot cake sesame snaps fruitcake cheesecake dessert candy gingerbread wafer. Oat cake powder cake dragée caramels dragée "
+    },
+    {
+      "id": 5,
+      "name": "Donut cupcake",
+      "lecturer": "V. Pavardenis",
+      "status": "Būsimas",
+      "startDate": "2023-08-01",
+      "endDate": "2023-09-01",
+      "description": "Donut cupcake jujubes ice cream wafer chocolate cake sweet roll cupcake. Cake toffee gingerbread dessert lemon drops bonbon sesame snaps jelly-o cake. Sugar plum cheesecake cookie powder topping pudding. Gingerbread chocolate dessert pudding pie muffin marshmallow pastry biscuit. Jelly cake dessert bonbon chupa chups muffin marshmallow chocolate. Marshmallow sugar plum gummies gingerbread pudding."
+    }
+  ],
+  "events": [
+    {
+      "name": "Startup Grind",
+      "date": "2023-04-11",
+      "place": "San Francisco - USA",
+      "description": "Apr. 11-12—Global 2023 will bring together the world's leading founders, investors, and mentors to tackle the core challenges every startup faces: fundraising, sales, marketing, and product. Join us and thousands of early-stage startup teams to learn, grow and connect."
+    },
+    {
+      "name": "DeveloperWeek 2023",
+      "date": "2023-04-26",
+      "place": "Virtual",
+      "description": "DeveloperWeek Europe 2023 is the largest virtual software developer conference & expo dedicated to Europe's tech community. Come join 2,000+ engineering professionals and technical practitioners & leaders from across Europe as the community gathers for two days of education & networking."
+    },
+    {
+      "name": "JSHeroes",
+      "date": "2023-05-18",
+      "place": "Romania",
+      "description": "May 18 to 19—JSHeroes is a non-profit community-organized conference, held every year in Cluj, Romania. Our goal is to bring together JS and Web/Frontend development enthusiasts from all over the world, for a 2-day event with: great talks, amazing networking and tons of fun."
+    }
+  ],
+  "restaurants": ["Čili Pizza", "Grill London", "Jurgis ir Drakonas", "Jammi"],
+  "genders": [
+    {
+      "name": "Vyras"
+    },
+    {
+      "name": "Moteris"
+    },
+    {
+      "name": "Kita"
+    }
+  ],
+  "heading_home": {
+    "title": "Jūsų profilis",
+    "description": "Čia galite redaguoti, bei užpildyti informaciją apie save. Dėl sąskaitos papildymokreipkitės į Vardenis Pavardenis"
+  },
+  "heading_lunch": {
+    "title": "Pietų užsakymo sistema",
+    "description": "Čia galite užsisakyti savo dienos pietus. Užsakymus galima atlikti iki einančios dienos 10:00 valandos. Dėl sąskaitos papildymo kreipkitės į Vardenis Pavardenis"
+  },
+  "heading_learning": {
+    "title": "Darbuotojų apmokymai",
+    "description": "Čia galite matyti visus egzistuojančius apmokymus. Aplikacijos metu bus nusiųstas prašymas jūsų vadovui. Dėl kilusių klausimų kreipkitės į Vardenis Pavardenis."
+  },
+  "heading_events": {
+    "title": "Registracija į renginius",
+    "description": "Čia galite matyti ateityje vyksiančius renginius. Norėdami aplikuoti ir gauti finansavimą, aplikuokite į renginį - bus nusiųstas prašymas jūsų vadovui. Dėl kilusių klausimų kreipkitės į Vardenis Pavardenis."
+  }
+}

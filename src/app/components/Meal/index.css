@@ -1,4 +1,55 @@
+.Container__single_meal {
+  cursor: pointer;
+  width: 290px;
+  border: solid 2px #347dfd;
+  font-family: "Poppins";
+  display: flex;
+  background: #222338;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 0.5rem;
+  padding: 1rem 1rem;
+  transition: all 0.3s;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  min-height: 110px;
+}
+
+.Container__single_meal:hover {
+  border-color: white;
+}
+
+.Container__meal_header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 1rem;
+  gap: 0.5rem;
+  border-bottom: 1px #347dfd solid;
+}
+
+.Container__meal_header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 1rem;
+  gap: 0.5rem;
+  border-bottom: 1px #347dfd solid;
+}
+
 .Chosen {
   border-color: white;
   box-shadow: #347dfd 0px 7px 29px 0px;
+}
+
+.Image__price {
+  border-radius: 100px;
+  width: 32px;
+  height: 32px;
+}
+
+.Icon__price {
+  margin-left: 0.5rem;
+}
+
+.Container__meal_info {
+  padding-top: 1rem;
 }

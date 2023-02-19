@@ -1,0 +1,72 @@
+.Yellow {
+  color: yellow;
+}
+.Green {
+  color: green;
+}
+.Red {
+  color: red;
+}
+
+.Apply__disabled {
+  background: red;
+  cursor: not-allowed;
+}
+
+.Container__popup {
+  position: absolute;
+  right: 39%;
+  top: 20%;
+  width: 500px;
+  background: #222338;
+  border-radius: 0.5rem;
+  padding: 2rem 2rem;
+  z-index: 5;
+  box-shadow: white 0px 8px 24px;
+  transition: all 0.1s;
+}
+
+.Invisible {
+  opacity: 0;
+  z-index: -10;
+}
+
+.Popup__date {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.Popup__place {
+  margin-top: 1rem;
+}
+
+.Popup__place * {
+  padding: 0.5rem 0;
+}
+
+.Popup__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 3rem;
+}
+
+.Popup__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Image__popup {
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+}
+
+.Container__status {
+  margin-top: 2rem;
+  margin-right: 2rem;
+  padding: 1rem;
+}

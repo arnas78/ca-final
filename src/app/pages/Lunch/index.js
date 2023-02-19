@@ -1,132 +1,72 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import Header from "../../components/Header";
+import React, { useState, useContext } from "react";
+import Nav from "../../components/Nav";
 import "./index.css";
 import logo from "../../components/images/logo-no-background.png";
 import profile from "../../components/images/blank_profile.png";
 import Dropdown from "../../components/Dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faF, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import Meal from "../../components/Meal";
+import fakeApi from "../../data/data.json";
+import Heading from "../../components/Heading";
+import ContentContext from "../../context/Content";
 
 const Lunch = () => {
+  const allMeals = fakeApi.main;
+  const allSoups = fakeApi.soups;
+  const items = fakeApi.restaurants;
+  const allWeekdays = fakeApi.weekdays;
+
   const currentDay = new Date().getDay();
-  let currentDayId = 0;
+
+  let currentDayId = 1;
   // 6 = Saturday; 0 = Sunday
-  if (currentDay !== 6 || currentDay !== 0) {
+  if (currentDay !== 6 && currentDay !== 0) {
+    // Disables past weekdays
+    for (let i = 1; i < currentDayId; i++) {
+      allWeekdays[i - 1].status = false;
+    }
     currentDayId = currentDay;
   }
 
-  const items = ["Čili Pizza", "Grill London", "Jurgis ir Drakonas", "Jammi"];
-  const allWeekdays = [
-    "Pirmadienis",
-    "Antradienis",
-    "Trečiadienis",
-    "Ketvirtadienis",
-    "Penktadienis",
-  ];
-
-  const allSoups = [
-    {
-      count: 2,
-      price: 5.99,
-      desc: "Lorem ipsum dolor sit amet, vienas du trys Lorem",
-    },
-    {
-      count: 2,
-      price: 5.99,
-      desc: "Lorem ipsum dolor sit amet, vienas du trys Lorem",
-    },
-    {
-      count: 2,
-      price: 5.99,
-      desc: "Lorem ipsum dolor sit amet, vienas du trys Lorem",
-    },
-  ];
-
-  const allMeals = [
-    {
-      count: 5,
-      price: 10.99,
-      desc: "Lorem ipsum dolor sit amet",
-    },
-    {
-      count: 5,
-      price: 9.99,
-      desc: "Lorem ipsum dolor sit amet",
-    },
-    {
-      count: 5,
-      price: 8.99,
-      desc: "Lorem ipsum dolor sit amet, vienas du trys Lorem",
-    },
-    {
-      count: 5,
-      price: 10.99,
-      desc: "Lorem ipsum dolor sit amet",
-    },
-    {
-      count: 5,
-      price: 9.99,
-      desc: "Lorem ipsum dolor sit amet",
-    },
-    {
-      count: 5,
-      price: 8.99,
-      desc: "Lorem ipsum dolor sit amet, vienas du trys Lorem",
-    },
-    {
-      count: 5,
-      price: 10.99,
-      desc: "Lorem ipsum dolor sit amet",
-    },
-    {
-      count: 5,
-      price: 9.99,
-      desc: "Lorem ipsum dolor sit amet",
-    },
-  ];
-
   // Sets current day string value from array
+  const { soupChosen, handleChosenSoup, mainChosen, handleChosenMain } =
+    useContext(ContentContext);
+
   const [activeId, setActiveId] = useState(currentDayId - 1);
-  const [soupChosen, setSoupChosen] = useState(null);
-  const [mainChosen, setMainChosen] = useState(null);
-
-  useEffect(() => {
-    console.log(mainChosen);
-  }, [mainChosen]);
-
+  const [sampleData, setSampleData] = useState(allMeals);
+  const [soupData, setSoupData] = useState(allSoups);
+  const [isSorted, setSorted] = useState(false);
+  const [isPopularitySorted, setPopularitySorted] = useState(false);
   // Sets default day
 
   return (
     <section>
-      <Header image={logo} />
+      <Nav image={logo} />
       <div className="Section__lunch">
-        <div className="Container__header">
-          <h1>Pietų užsakymo sistema</h1>
-          <h4>
-            Čia galite užsisakyti savo dienos pietus. Užsakymus galima atlikti
-            iki einančios dienos 10:00 valandos. Dėl sąskaitos papildymo
-            kreipkitės į Vardenis Pavardenis
-          </h4>
-        </div>
+        <Heading
+          title={fakeApi.heading_lunch.title}
+          description={fakeApi.heading_lunch.description}
+        ></Heading>
         <div className="Container__content">
           <div className="Container__weekdays">
-            {allWeekdays.map((item, idx) => {
+            {allWeekdays.map((item, i) => {
               return (
                 <Dropdown
+                  key={i}
                   showingIdx={activeId}
-                  idx={idx}
+                  idx={i}
                   func={() => {
-                    if (activeId === idx) {
+                    if (activeId === i) {
                       setActiveId(null);
                     } else {
-                      setActiveId(idx);
+                      setActiveId(i);
                     }
                   }}
                   items={items}
-                  weekday={item}
+                  weekday={item.name}
+                  isActive={item.status}
                 />
               );
             })}
@@ -134,11 +74,55 @@ const Lunch = () => {
           <div className="Container__meals">
             <div className="Container__order">
               <div className="Container__sort">
-                <button className="Button__sort">
+                <button
+                  className={isSorted ? "Button__sort Active" : "Button__sort"}
+                  onClick={() => {
+                    if (isPopularitySorted) {
+                      setPopularitySorted(!isPopularitySorted);
+                    }
+
+                    if (!isSorted) {
+                      setSampleData(
+                        [...allMeals].sort((a, b) => a.price - b.price)
+                      );
+                      setSoupData(
+                        [...allSoups].sort((a, b) => a.price - b.price)
+                      );
+                    } else {
+                      setSampleData(allMeals);
+                      setSoupData(allSoups);
+                    }
+
+                    setSorted(!isSorted);
+                  }}
+                >
                   <FontAwesomeIcon icon={faFilter} className="Icon__sort" />
                   Kaina
                 </button>
-                <button className="Button__sort">
+                <button
+                  className={
+                    isPopularitySorted ? "Button__sort Active" : "Button__sort"
+                  }
+                  onClick={() => {
+                    if (isSorted) {
+                      setSorted(!isSorted);
+                    }
+
+                    if (!isPopularitySorted) {
+                      setSampleData(
+                        [...allMeals].sort((a, b) => b.count - a.count)
+                      );
+                      setSoupData(
+                        [...allSoups].sort((a, b) => b.count - a.count)
+                      );
+                    } else {
+                      setSampleData(allMeals);
+                      setSoupData(allSoups);
+                    }
+
+                    setPopularitySorted(!isPopularitySorted);
+                  }}
+                >
                   <FontAwesomeIcon icon={faFilter} className="Icon__sort" />
                   Populiarumas
                 </button>
@@ -149,7 +133,13 @@ const Lunch = () => {
                     soupChosen || soupChosen === 0 ? "Meal__chosen" : "Hidden"
                   }
                 >
-                  <FontAwesomeIcon icon={faXmark} className="Icon__sort" />
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    className="Icon__sort"
+                    onClick={() => {
+                      handleChosenSoup({}, false);
+                    }}
+                  />
                   {soupChosen || soupChosen === 0
                     ? allSoups[soupChosen].desc
                     : allSoups[0].desc}
@@ -159,54 +149,63 @@ const Lunch = () => {
                     mainChosen || mainChosen === 0 ? "Meal__chosen" : "Hidden"
                   }
                 >
-                  <FontAwesomeIcon icon={faXmark} className="Icon__sort" />
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    className="Icon__sort"
+                    onClick={() => {
+                      handleChosenMain({}, false);
+                    }}
+                  />
                   {mainChosen || mainChosen === 0
                     ? allMeals[mainChosen].desc
                     : ""}
                 </h4>
-                <button className="Button__order">Užsakyti</button>
+                <button
+                  className="Button__order"
+                  onClick={() => {
+                    // eslint-disable-next-line no-unused-expressions
+                    mainChosen ||
+                    soupChosen ||
+                    soupChosen === 0 ||
+                    mainChosen === 0
+                      ? alert("Sėkmingai užsakyta")
+                      : {};
+                  }}
+                >
+                  Užsakyti
+                </button>
               </div>
             </div>
             <h3 className="Heading__food">Sriubos</h3>
             <div className="Container__soup">
-              {allSoups.map((soup, idSoup) => {
+              {soupData.map((soup, i) => {
                 return (
                   <Meal
-                    count={soup.count}
-                    price={soup.price}
-                    description={soup.desc}
+                    key={i}
+                    meal={soup}
                     profile={profile}
                     isChosen={soupChosen}
                     onClick={() => {
-                      if (soupChosen === idSoup) {
-                        setSoupChosen(null);
-                      } else {
-                        setSoupChosen(idSoup);
-                      }
+                      handleChosenSoup(soup, true);
                     }}
-                    id={idSoup}
+                    id={soup.id}
                   />
                 );
               })}
             </div>
             <h3 className="Heading__food">Pagrindiniai patiekalai</h3>
             <div className="Container__main">
-              {allMeals.map((meal, idMeal) => {
+              {sampleData.map((meal, i) => {
                 return (
                   <Meal
-                    count={meal.count}
-                    price={meal.price}
-                    description={meal.desc}
+                    key={i}
+                    meal={meal}
                     profile={profile}
                     isChosen={mainChosen}
                     onClick={() => {
-                      if (mainChosen === idMeal) {
-                        setMainChosen(null);
-                      } else {
-                        setMainChosen(idMeal);
-                      }
+                      handleChosenMain(meal, true);
                     }}
-                    id={idMeal}
+                    id={meal.id}
                   />
                 );
               })}

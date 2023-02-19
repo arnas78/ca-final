@@ -1,0 +1,53 @@
+.Training__single {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 2fr;
+  justify-items: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.Training__single > p {
+  padding: 0.5rem 1rem;
+}
+
+.Training__single:nth-child(even) {
+  background: #478bff5f;
+}
+
+.Training__single:hover {
+  background: #347dfd;
+}
+
+.Container__presenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.Container__presenter_popup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.Image__learning {
+  height: 32px;
+  width: 32px;
+  border-radius: 100px;
+}
+
+.Training__desc {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 80%;
+  height: 1.2em;
+  white-space: nowrap;
+}
+
+#Training__active {
+  background: rgba(75, 143, 75, 0.846);
+  cursor: not-allowed;
+}
