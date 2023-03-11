@@ -10,7 +10,6 @@ import fakeApi from "../../data/data.json";
 const Home = () => {
   const genders = fakeApi.genders;
 
-  const [startDate, setStartDate] = useState(new Date());
   const [selected, setSelected] = useState(genders[0].value);
 
   return (
