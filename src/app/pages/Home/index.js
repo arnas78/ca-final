@@ -3,7 +3,6 @@ import Nav from "../../components/Nav";
 import "./index.css";
 import logo from "../../components/images/logo-no-background.png";
 import image from "../../components/images/blank_profile.png";
-import DatePicker from "react-datepicker";
 import Input from "../../components/Input";
 import Heading from "../../components/Heading";
 import fakeApi from "../../data/data.json";
@@ -44,10 +43,7 @@ const Home = () => {
             <div className="Container__row">
               <div>
                 <label>Gimimo data</label>
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                />
+                <Input type="date" placeholder="YYYY-MM-DD" />
               </div>
               <div>
                 <label>Lytis</label>
