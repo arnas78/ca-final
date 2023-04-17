@@ -1,4 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@300;400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&display=swap');
+
+:root {
+  --font-main: "Nunito";
+  --color-main: #F7F8FD;
+  --color-secondary-dark: #272848;
+  --color-secondary-light: #63759c;
+  --color-accent: #6D71F9;
+  --color-accent-shadow: #c7cef5;
+  --color-grey: #97a8d3;
+  --color-accent-secondary: #D6DCF9;
+  --color-spicy: rgb(194, 56, 56);
+}
+
 
 html {
   min-height: 100%;
@@ -7,13 +20,17 @@ html {
 }
 
 body {
-  background-color: #1b1c31;
+  background-color: var(--color-main);
   flex-grow: 1;
   color: rgb(236, 235, 235);
 }
 
 h1 {
   font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
 }
 
 .Content {

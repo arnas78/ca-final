@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Nav from "../../components/Nav";
 import "./index.css";
-import logo from "../../components/images/logo-no-background.png";
+import logo from "../../components/images/Vector.svg";
 import image from "../../components/images/blank_profile.png";
 import Input from "../../components/Input";
 import Heading from "../../components/Heading";

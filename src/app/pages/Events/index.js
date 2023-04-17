@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Nav from "../../components/Nav";
 import "./index.css";
-import logo from "../../components/images/logo-no-background.png";
+import logo from "../../components/images/Vector.svg";
 import conference_1 from "../../components/images/conference-1.jpeg";
 import Heading from "../../components/Heading";
 import Event from "../../components/Event";

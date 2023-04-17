@@ -8,17 +8,84 @@ h1 {
 
 .Heading__food {
   margin: 1rem 0;
+  color: var(--color-secondary-dark)
+}
+
+.Color__block {
+  position: absolute;
+  width: 100%;
+  height: 200px;
+  background-color: var(--color-secondary-dark);
+  z-index: -1;
 }
 
 .Section__lunch {
-  max-width: 1300px;
-  margin: 2rem auto 0 auto;
+  font-family: var(--font-main);
+  position: relative;
+  max-width: 1170px;
+  left: 75px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
-.Container__content {
+
+.Header__lunch {
+  height: 150px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Container__picker {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100px;
+  border-radius: 1rem;
+  padding: 0 2rem;
+  background: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin-bottom: 2rem;
+  color: var(--color-secondary-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Container__restaurant, .Container__calendar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+
+.Container__vegan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 2rem;
 }
+
+.Container__restaurant p {
+  font-size: 0.75rem;
+  color: var(--color-grey);
+  margin-bottom: 0.25rem;
+}
+.Container__calendar p {
+  font-size: 0.75rem;
+  color: var(--color-grey);
+  margin-bottom: 0.25rem;
+}
+
+.Icon__pick, .Icon__sort {
+  color: var(--color-grey);
+  font-size: 1.25rem;
+}
+
+
 
 .Container__order {
   display: flex;
@@ -29,7 +96,7 @@ h1 {
 }
 
 .Icon__sort {
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
 .Meal__chosen {
@@ -60,30 +127,91 @@ h1 {
 }
 
 .Button__sort {
-  border: solid 2px white;
+  border: solid 2px var(--color-grey);
+  color: var(--color-sec);
   margin-right: 1rem;
   background: transparent;
 }
 
-.Button__order {
-  background: #478bff5f;
-  border: solid 2px white;
-  transition: 0.3s all;
+.Container__checkbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-.Button__order:hover {
-  background: #347dfd;
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 5px;
 }
 
-.Container__lunch_intro {
-  flex: 3 1;
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-secondary-dark);
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: -5px;
+  bottom: -7px;
+  background-color: var(--color-accent);
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: var(--color-accent-shadow);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px white;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.container-switch {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+
 
 /*  */
 
 .Container__meals {
-  border-left: 1px solid white;
-  padding-left: 2rem;
   display: flex;
   flex-direction: column;
 }
@@ -92,4 +220,36 @@ h1 {
 .Container__main {
   display: flex;
   flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
+
+.Header__restaurant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Heading__restaurant {
+  color: var(--color-secondary-dark);
+}
+
+.Icon__search {
+  color: var(--color-secondary-dark)
+}
+
+.Container__search {
+  width: 250px;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  background-color: var(--color-accent-shadow);
+}
+
+.Container__search input {
+  margin-left: 1rem;
+  width: 210px;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+

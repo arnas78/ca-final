@@ -1,7 +1,10 @@
+.Section__Home {
+  display: flex;
+}
+
 .Container__home {
   max-width: 1300px;
   margin: 2rem auto;
-  font-family: "Poppins";
 }
 
 .Button__save {
@@ -11,7 +14,6 @@
 
 .Section__profile {
   color: rgb(236, 235, 235);
-  font-family: "Poppins";
   margin: 2rem auto;
   display: flex;
   align-items: flex-start;
@@ -67,18 +69,16 @@ input {
 
 button {
   display: block;
-  font-family: "Poppins";
   font-size: 1rem;
 }
 
-input,
-select,
+
 button {
   border: 2px solid white;
   background-color: #222338;
   color: white;
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   box-sizing: border-box;
 }
 
@@ -89,7 +89,4 @@ button {
   cursor: pointer;
 }
 
-Input,
-select {
-  min-width: 320px;
-}
+

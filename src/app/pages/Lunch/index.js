@@ -1,16 +1,21 @@
 import React, { useState, useContext } from "react";
 import Nav from "../../components/Nav";
 import "./index.css";
-import logo from "../../components/images/logo-no-background.png";
+import logo from "../../components/images/Vector.svg";
+import food from "../../components/images/food.jpg"
 import profile from "../../components/images/blank_profile.png";
 import Dropdown from "../../components/Dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Meal from "../../components/Meal";
 import fakeApi from "../../data/data.json";
 import Heading from "../../components/Heading";
 import ContentContext from "../../context/Content";
+import Countdown from 'react-countdown';
 
 const Lunch = () => {
   const allMeals = fakeApi.main;
@@ -19,6 +24,20 @@ const Lunch = () => {
   const allWeekdays = fakeApi.weekdays;
 
   const currentDay = new Date().getDay();
+  let currentDate = new Date().toJSON().slice(0, 10);
+
+  function getNextMonday(date = new Date()) {
+    const dateCopy = new Date(date.getTime());
+  
+    const nextMonday = new Date(
+      dateCopy.setDate(
+        dateCopy.getDate() + ((7 - dateCopy.getDay() + 1) % 7 || 7),
+      ),
+    );
+  
+    return nextMonday;
+  }
+
 
   let currentDayId = 1;
   // 6 = Saturday; 0 = Sunday
@@ -42,38 +61,56 @@ const Lunch = () => {
   // Sets default day
 
   return (
-    <section>
+    <div className="Container__body">
       <Nav image={logo} />
-      <div className="Section__lunch">
-        <Heading
-          title={fakeApi.heading_lunch.title}
-          description={fakeApi.heading_lunch.description}
-        ></Heading>
-        <div className="Container__content">
-          <div className="Container__weekdays">
-            {allWeekdays.map((item, i) => {
-              return (
-                <Dropdown
-                  key={i}
-                  showingIdx={activeId}
-                  idx={i}
-                  func={() => {
-                    if (activeId === i) {
-                      setActiveId(null);
-                    } else {
-                      setActiveId(i);
-                    }
-                  }}
-                  items={items}
-                  weekday={item.name}
-                  isActive={item.status}
-                />
-              );
-            })}
+        <div className="Color__block"></div>
+        <div className="Section__lunch">
+          <div className="Header__lunch">
+            <div>
+              <h1>Užsisakykite pietus!</h1>
+              <p>Čia galite užsisakyti pietus, kuriuos restoranai atveš pasirinktą dieną per pietus.</p>
+            </div>
+
+              <h4>
+                Užsakymui likęs laikas: &nbsp;
+                <Countdown date={getNextMonday()}>
+                </Countdown>
+              </h4>
           </div>
-          <div className="Container__meals">
-            <div className="Container__order">
-              <div className="Container__sort">
+          <div className="Container__picker">
+            <div className="Container__restaurant">
+              <FontAwesomeIcon icon={faCalendar} className="Icon__pick" />
+              <div>
+                <p>Restoranas</p>
+                <h4>Jammi</h4>
+              </div>
+              <FontAwesomeIcon icon={faChevronDown} />
+            </div>
+            <div className="Container__calendar">
+              <FontAwesomeIcon icon={faCalendar} className="Icon__pick"  />
+              <div>
+                <p>Data</p>
+                <h4>2023-03-24</h4>
+              </div>
+              <FontAwesomeIcon icon={faChevronDown} />
+            </div>
+            <div className="Container__vegan">
+              <div className="Container__checkbox">
+                <label class="switch">
+                  <input id="checkbox" type="checkbox" name="checkbox" />
+                  <span class="slider round"></span>
+                </label>
+                <h4>Veganiška</h4>
+              </div>
+              <div className="Container__checkbox">
+                <label class="switch">
+                  <input id="checkbox" type="checkbox" name="checkbox" />
+                  <span class="slider round"></span>
+                </label>
+                <h4>Vegetariška</h4>
+              </div>
+            </div>
+            <div className="Container__sort">
                 <button
                   className={isSorted ? "Button__sort Active" : "Button__sort"}
                   onClick={() => {
@@ -127,6 +164,22 @@ const Lunch = () => {
                   Populiarumas
                 </button>
               </div>
+          </div>
+
+        <div className="Container__content">
+          <div className="Header__restaurant">
+            <h1 className="Heading__restaurant">Restorano pavadinimas</h1>
+            <div className="Container__search">
+              <FontAwesomeIcon icon={faSearch} className="Icon__search" />
+              <input type="text" placeholder="Ieškokite restorane..." />
+            </div>
+          </div>
+          
+          <div className="Container__meals">
+
+{/* 
+            <div className="Container__order">
+
               <div className="Container__current_order">
                 <h4
                   className={
@@ -175,7 +228,7 @@ const Lunch = () => {
                   Užsakyti
                 </button>
               </div>
-            </div>
+            </div> */}
             <h3 className="Heading__food">Sriubos</h3>
             <div className="Container__soup">
               {soupData.map((soup, i) => {
@@ -185,6 +238,7 @@ const Lunch = () => {
                     meal={soup}
                     profile={profile}
                     isChosen={soupChosen}
+                    image={food}
                     onClick={() => {
                       handleChosenSoup(soup, true);
                     }}
@@ -213,7 +267,8 @@ const Lunch = () => {
           </div>
         </div>
       </div>
-    </section>
+      </div>
+
   );
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useContext } from "react";
 import Nav from "../../components/Nav";
 import "./index.css";
-import logo from "../../components/images/logo-no-background.png";
+import logo from "../../components/images/Vector.svg";
 import image from "../../components/images/blank_profile.png";
 import fakeApi from "../../data/data.json";
 import Training from "../../components/Training";
