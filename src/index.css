@@ -1,17 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&display=swap');
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400&display=swap");
 
 :root {
-  --font-main: "Nunito";
-  --color-main: #F7F8FD;
+  --font-main: "Satoshi";
+  --color-main: #f7f8fd;
   --color-secondary-dark: #272848;
   --color-secondary-light: #63759c;
-  --color-accent: #6D71F9;
+  --color-accent: #6d71f9;
   --color-accent-shadow: #c7cef5;
   --color-grey: #97a8d3;
-  --color-accent-secondary: #D6DCF9;
+  --color-accent-secondary: #d6dcf9;
   --color-spicy: rgb(194, 56, 56);
 }
-
 
 html {
   min-height: 100%;

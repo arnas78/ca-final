@@ -13,7 +13,6 @@ const Meal = ({ meal, profile, isChosen, image, onClick, id }) => {
       }
       onClick={onClick}
     >
-
       <div className="Container__meal_info">
         <div className="Container__meal_header">
           <h4>{meal.name}</h4>
@@ -21,24 +20,25 @@ const Meal = ({ meal, profile, isChosen, image, onClick, id }) => {
         </div>
         <div>
           <div className="Container__tags">
-            <p className="Tag">Populiaru</p>
             <p className="Tag Vegan">Vegan</p>
             <p className="Tag Spicy">Aštru</p>
           </div>
           <div className="Container__details">
             <div className="Container__price">
-                  <FontAwesomeIcon icon={faEuro} className="Icon__price" />
-                  <p>{meal.price}</p>
+              <FontAwesomeIcon icon={faEuro} className="Icon__price" />
+              <p>{meal.price}</p>
             </div>
             <div className="Container__count">
-                <h4>{meal.count}</h4>
-                <img alt="profile" src={profile} className="Image__price"></img>
+              <h4>{meal.count}</h4>
+              <img alt="profile" src={profile} className="Image__price"></img>
             </div>
           </div>
         </div>
-        
       </div>
       <div className="Container__meal_image">
+        <div className="Container__popular Visible">
+          <p className="Tag">Populiaru</p>
+        </div>
         <img src={image} className="Image__meal"></img>
       </div>
       {/* <div className="Container__meal_info">

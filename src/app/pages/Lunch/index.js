@@ -2,11 +2,12 @@ import React, { useState, useContext } from "react";
 import Nav from "../../components/Nav";
 import "./index.css";
 import logo from "../../components/images/Vector.svg";
-import food from "../../components/images/food.jpg"
+import food from "../../components/images/food.jpg";
 import profile from "../../components/images/blank_profile.png";
 import Dropdown from "../../components/Dropdown";
+import { faEuro } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +16,7 @@ import Meal from "../../components/Meal";
 import fakeApi from "../../data/data.json";
 import Heading from "../../components/Heading";
 import ContentContext from "../../context/Content";
-import Countdown from 'react-countdown';
+import Countdown from "react-countdown";
 
 const Lunch = () => {
   const allMeals = fakeApi.main;
@@ -28,16 +29,15 @@ const Lunch = () => {
 
   function getNextMonday(date = new Date()) {
     const dateCopy = new Date(date.getTime());
-  
+
     const nextMonday = new Date(
       dateCopy.setDate(
-        dateCopy.getDate() + ((7 - dateCopy.getDay() + 1) % 7 || 7),
-      ),
+        dateCopy.getDate() + ((7 - dateCopy.getDay() + 1) % 7 || 7)
+      )
     );
-  
+
     return nextMonday;
   }
-
 
   let currentDayId = 1;
   // 6 = Saturday; 0 = Sunday
@@ -63,108 +63,135 @@ const Lunch = () => {
   return (
     <div className="Container__body">
       <Nav image={logo} />
-        <div className="Color__block"></div>
-        <div className="Section__lunch">
-          <div className="Header__lunch">
+      <div className="Container__cart">
+        <FontAwesomeIcon icon={faCartShopping} />
+      </div>
+      <h3>Jūsų krepšelis</h3>
+
+      <div className="Container__cartbox">
+        <div className="Container__cart_items">
+          <div className="Container__single-item">
             <div>
-              <h1>Užsisakykite pietus!</h1>
-              <p>Čia galite užsisakyti pietus, kuriuos restoranai atveš pasirinktą dieną per pietus.</p>
+              <img alt="profile" src={food} className="Image__cart"></img>
             </div>
-
-              <h4>
-                Užsakymui likęs laikas: &nbsp;
-                <Countdown date={getNextMonday()}>
-                </Countdown>
-              </h4>
+            <div>
+              <h4>Cooked Orange & Mustard Boar</h4>
+              <div className="Container__price">
+                <FontAwesomeIcon icon={faEuro} className="Icon__price" />
+                <p>10.99</p>
+              </div>
+            </div>
           </div>
-          <div className="Container__picker">
-            <div className="Container__restaurant">
-              <FontAwesomeIcon icon={faCalendar} className="Icon__pick" />
-              <div>
-                <p>Restoranas</p>
-                <h4>Jammi</h4>
-              </div>
-              <FontAwesomeIcon icon={faChevronDown} />
-            </div>
-            <div className="Container__calendar">
-              <FontAwesomeIcon icon={faCalendar} className="Icon__pick"  />
-              <div>
-                <p>Data</p>
-                <h4>2023-03-24</h4>
-              </div>
-              <FontAwesomeIcon icon={faChevronDown} />
-            </div>
-            <div className="Container__vegan">
-              <div className="Container__checkbox">
-                <label class="switch">
-                  <input id="checkbox" type="checkbox" name="checkbox" />
-                  <span class="slider round"></span>
-                </label>
-                <h4>Veganiška</h4>
-              </div>
-              <div className="Container__checkbox">
-                <label class="switch">
-                  <input id="checkbox" type="checkbox" name="checkbox" />
-                  <span class="slider round"></span>
-                </label>
-                <h4>Vegetariška</h4>
-              </div>
-            </div>
-            <div className="Container__sort">
-                <button
-                  className={isSorted ? "Button__sort Active" : "Button__sort"}
-                  onClick={() => {
-                    if (isPopularitySorted) {
-                      setPopularitySorted(!isPopularitySorted);
-                    }
-
-                    if (!isSorted) {
-                      setSampleData(
-                        [...allMeals].sort((a, b) => a.price - b.price)
-                      );
-                      setSoupData(
-                        [...allSoups].sort((a, b) => a.price - b.price)
-                      );
-                    } else {
-                      setSampleData(allMeals);
-                      setSoupData(allSoups);
-                    }
-
-                    setSorted(!isSorted);
-                  }}
-                >
-                  <FontAwesomeIcon icon={faFilter} className="Icon__sort" />
-                  Kaina
-                </button>
-                <button
-                  className={
-                    isPopularitySorted ? "Button__sort Active" : "Button__sort"
-                  }
-                  onClick={() => {
-                    if (isSorted) {
-                      setSorted(!isSorted);
-                    }
-
-                    if (!isPopularitySorted) {
-                      setSampleData(
-                        [...allMeals].sort((a, b) => b.count - a.count)
-                      );
-                      setSoupData(
-                        [...allSoups].sort((a, b) => b.count - a.count)
-                      );
-                    } else {
-                      setSampleData(allMeals);
-                      setSoupData(allSoups);
-                    }
-
-                    setPopularitySorted(!isPopularitySorted);
-                  }}
-                >
-                  <FontAwesomeIcon icon={faFilter} className="Icon__sort" />
-                  Populiarumas
-                </button>
-              </div>
+        </div>
+        <div>
+          <div>
+            <h4>Bendra suma: 10.99</h4>
           </div>
+          <div>
+            <button className="Button__order">Užsakyti</button>
+          </div>
+        </div>
+      </div>
+      <div className="Color__block"></div>
+      <div className="Section__lunch">
+        <div className="Header__lunch">
+          <div>
+            <h1>Užsisakykite pietus!</h1>
+            <p>
+              Čia galite užsisakyti pietus, kuriuos restoranai atveš pasirinktą
+              dieną per pietus.
+            </p>
+          </div>
+
+          <h4>
+            Užsakymui likęs laikas: &nbsp;
+            <Countdown date={getNextMonday()}></Countdown>
+          </h4>
+        </div>
+        <div className="Container__picker">
+          <div className="Container__restaurant">
+            <FontAwesomeIcon icon={faCalendar} className="Icon__pick" />
+            <div>
+              <p>Restoranas</p>
+              <h4>Jammi</h4>
+            </div>
+            <FontAwesomeIcon icon={faChevronDown} />
+          </div>
+          <div className="Container__calendar">
+            <FontAwesomeIcon icon={faCalendar} className="Icon__pick" />
+            <div>
+              <p>Data</p>
+              <h4>2023-03-24</h4>
+            </div>
+            <FontAwesomeIcon icon={faChevronDown} />
+          </div>
+          <div className="Container__vegan">
+            <div className="Container__checkbox">
+              <label class="switch">
+                <input id="checkbox" type="checkbox" name="checkbox" />
+                <span class="slider round"></span>
+              </label>
+              <h4>Veganiška</h4>
+            </div>
+            <div className="Container__checkbox">
+              <label class="switch">
+                <input id="checkbox" type="checkbox" name="checkbox" />
+                <span class="slider round"></span>
+              </label>
+              <h4>Vegetariška</h4>
+            </div>
+          </div>
+          <div className="Container__sort">
+            <button
+              className={isSorted ? "Button__sort Active" : "Button__sort"}
+              onClick={() => {
+                if (isPopularitySorted) {
+                  setPopularitySorted(!isPopularitySorted);
+                }
+
+                if (!isSorted) {
+                  setSampleData(
+                    [...allMeals].sort((a, b) => a.price - b.price)
+                  );
+                  setSoupData([...allSoups].sort((a, b) => a.price - b.price));
+                } else {
+                  setSampleData(allMeals);
+                  setSoupData(allSoups);
+                }
+
+                setSorted(!isSorted);
+              }}
+            >
+              <FontAwesomeIcon icon={faFilter} className="Icon__sort" />
+              Kaina
+            </button>
+            <button
+              className={
+                isPopularitySorted ? "Button__sort Active" : "Button__sort"
+              }
+              onClick={() => {
+                if (isSorted) {
+                  setSorted(!isSorted);
+                }
+
+                if (!isPopularitySorted) {
+                  setSampleData(
+                    [...allMeals].sort((a, b) => b.count - a.count)
+                  );
+                  setSoupData([...allSoups].sort((a, b) => b.count - a.count));
+                } else {
+                  setSampleData(allMeals);
+                  setSoupData(allSoups);
+                }
+
+                setPopularitySorted(!isPopularitySorted);
+              }}
+            >
+              <FontAwesomeIcon icon={faFilter} className="Icon__sort" />
+              Populiarumas
+            </button>
+          </div>
+        </div>
 
         <div className="Container__content">
           <div className="Header__restaurant">
@@ -174,10 +201,9 @@ const Lunch = () => {
               <input type="text" placeholder="Ieškokite restorane..." />
             </div>
           </div>
-          
-          <div className="Container__meals">
 
-{/* 
+          <div className="Container__meals">
+            {/* 
             <div className="Container__order">
 
               <div className="Container__current_order">
@@ -256,6 +282,7 @@ const Lunch = () => {
                     meal={meal}
                     profile={profile}
                     isChosen={mainChosen}
+                    image={food}
                     onClick={() => {
                       handleChosenMain(meal, true);
                     }}
@@ -267,8 +294,7 @@ const Lunch = () => {
           </div>
         </div>
       </div>
-      </div>
-
+    </div>
   );
 };
 
