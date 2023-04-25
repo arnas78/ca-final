@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Learning from "./pages/Learning";
 import Events from "./pages/Events";
 import Lunch from "./pages/Lunch";
+import Posts from "./pages/Posts";
 import MainProvider from "./context/MainProvider";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/lunch" element={<Lunch />} />
         <Route path="/learning" element={<Learning />} />
         <Route path="/events" element={<Events />} />
+        <Route path="/posts" element={<Posts />} />
       </Routes>
     </MainProvider>
   );

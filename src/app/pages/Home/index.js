@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Nav from "../../components/Nav";
 import "./index.css";
 import logo from "../../components/images/Vector.svg";
-import image from "../../components/images/blank_profile.png";
+import image from "../../components/images/photo-1.jpg";
 import Input from "../../components/Input";
 import Heading from "../../components/Heading";
 import fakeApi from "../../data/data.json";
@@ -15,11 +15,21 @@ const Home = () => {
   return (
     <div className="Section__Home">
       <Nav image={logo} />
+      <div className="Color__block"></div>
       <div className="Container__home">
-        <Heading
+        <div className="Header__lunch">
+          <div>
+            <h1>Jūsų informacija</h1>
+            <p>
+              Čia galite matyti/redaguoti savo asmeninę informaciją, pateikti
+              atostogų prašymą
+            </p>
+          </div>
+        </div>
+        {/* <Heading
           title={fakeApi.heading_home.title}
           description={fakeApi.heading_home.description}
-        ></Heading>
+        ></Heading> */}
         <section className="Section__profile">
           <div className="Container__intro">
             <img

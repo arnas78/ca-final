@@ -39,7 +39,7 @@ const Meal = ({ meal, profile, isChosen, image, onClick, id }) => {
         <div className="Container__popular Visible">
           <p className="Tag">Populiaru</p>
         </div>
-        <img src={image} className="Image__meal"></img>
+        <img src={image} className="Image__meal" alt="asd"></img>
       </div>
       {/* <div className="Container__meal_info">
         <p>{meal.desc}</p>

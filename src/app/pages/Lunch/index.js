@@ -63,12 +63,11 @@ const Lunch = () => {
   return (
     <div className="Container__body">
       <Nav image={logo} />
-      <div className="Container__cart">
+      {/* <div className="Container__cart">
         <FontAwesomeIcon icon={faCartShopping} />
-      </div>
-      <h3>Jūsų krepšelis</h3>
-
-      <div className="Container__cartbox">
+      </div> */}
+      {/* <div className="Container__cartbox">
+        <h3>Jūsų krepšelis</h3>
         <div className="Container__cart_items">
           <div className="Container__single-item">
             <div>
@@ -91,7 +90,7 @@ const Lunch = () => {
             <button className="Button__order">Užsakyti</button>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="Color__block"></div>
       <div className="Section__lunch">
         <div className="Header__lunch">
@@ -109,7 +108,7 @@ const Lunch = () => {
           </h4>
         </div>
         <div className="Container__picker">
-          <div className="Container__restaurant">
+          <div className="Container__sorting">
             <FontAwesomeIcon icon={faCalendar} className="Icon__pick" />
             <div>
               <p>Restoranas</p>
@@ -117,7 +116,7 @@ const Lunch = () => {
             </div>
             <FontAwesomeIcon icon={faChevronDown} />
           </div>
-          <div className="Container__calendar">
+          <div className="Container__sorting">
             <FontAwesomeIcon icon={faCalendar} className="Icon__pick" />
             <div>
               <p>Data</p>

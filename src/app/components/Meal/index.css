@@ -49,9 +49,11 @@
 }
 
 .Spicy {
+  /* border: 1px solid rgba(190, 27, 27, 0.849); */
   border: 1px solid rgba(190, 27, 27, 0.849);
-  background: transparent;
-  color: rgba(190, 27, 27, 0.849);
+  background: rgba(190, 27, 27, 0.849);
+  color: white;
+  /* color: rgba(190, 27, 27, 0.849); */
 }
 
 .Vegan {
@@ -67,8 +69,8 @@
 }
 
 .Chosen {
-  box-shadow: var(--color-accent) 0px 0px 20px 0px;
   transform: scale(1.02);
+  background: var(--color-accent-shadow);
 }
 
 .Image__price {
