@@ -73,6 +73,14 @@
   font-weight: bold;
 }
 
+.Icon__header {
+  margin-left: 1rem;
+}
+
+.Header__events h4 {
+  text-decoration: underline;
+}
+
 .Container__events_header {
   display: flex;
   width: 1170px;
@@ -89,6 +97,7 @@
   border-radius: 1rem;
   background-color: white;
   color: var(--color-secondary-dark);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .Container__search_events input {
@@ -151,8 +160,14 @@ h3 {
 }
 
 .Container__event_events {
-  margin-top: 4rem;
+  margin-top: 3rem;
   border-radius: 1rem;
+}
+
+.Container__event_events h1 {
+  color: var(--color-secondary-dark);
+  margin-bottom: 1.5rem;
+  font-weight: bold;
 }
 
 .Container__image_event {
@@ -178,3 +193,11 @@ h3 {
 .Container__event_highlight h1 {
   font-size: 3rem;
 }
+
+.background {
+  position: absolute;
+  min-width: 100vw;
+  height: 100vh;
+  background-image: url("../../components/images/shape.svg");
+  z-index: -5;
+} 

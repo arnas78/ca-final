@@ -19,6 +19,7 @@ const Events = () => {
 
   return (
     <div className="Section__events">
+      <div className="background"></div>
       <Nav image={logo} />
       <div className="Container__events">
         <div className="Header__events">
@@ -26,8 +27,8 @@ const Events = () => {
             <h1>Aplikuokite į renginius, konferencijas!</h1>
             <div className="Container__events_header">
               <h4>
-                Artimiausi įvykiai &nbsp;{" "}
-                <FontAwesomeIcon icon={faArrowRight} />
+                Artimiausi įvykiai
+                <FontAwesomeIcon icon={faArrowRight} className="Icon__header"/>
               </h4>
               <div className="Container__search_events">
                 <FontAwesomeIcon icon={faSearch} className="Icon__search" />
@@ -119,6 +120,7 @@ const Events = () => {
           </div>
         </div>
         <div className="Container__event_events">
+          <h1>Populiariausi <FontAwesomeIcon icon={faArrowRight} className="Icon__header"/></h1>
           <div className="Container__image_event">
             <img src={event} alt="event" className="Image__event"></img>
             <div className="Container__event_highlight">
