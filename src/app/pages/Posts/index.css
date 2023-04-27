@@ -32,7 +32,7 @@
 }
 
 .Post__recent {
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   width: 25%;
   height: 230px;
   background: white;
@@ -72,11 +72,11 @@ h2 {
 .Btn__apply {
   color: var(--color-secondary-dark);
   background: white;
-  border: 2px solid var(--color-accent-shadow);
+  border: 2px solid var(--color-secondary-light);
   width: 100%;
   display: flex;
   justify-content: space-between;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -140,8 +140,8 @@ h2 {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  border: solid 2px var(--color-accent-shadow);
-  border-radius: 1rem;
+  border: solid 2px var(--color-accent-secondary);
+  border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   color: var(--color-secondary-dark);
 }
@@ -157,7 +157,7 @@ h2 {
   justify-content: left;
   padding-left: 1.5rem;
   align-items: center;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   background-color: white;
   color: var(--color-secondary-dark);
   border: 2px solid var(--color-secondary-light);
@@ -179,7 +179,7 @@ h2 {
 }
 
 .Container__posting_single {
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   height: 95px;
   background: white;

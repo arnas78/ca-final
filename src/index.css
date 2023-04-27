@@ -4,12 +4,15 @@
   --font-main: "Satoshi";
   --color-main: #f7f8fd;
   --color-secondary-dark: #272848;
+  --color-secondary-dark-opacity: #16172bc4;
   --color-secondary-light: #63759c;
+  --color-secondary-light-opacity: #4b5e89c4;
   --color-accent: #6d71f9;
-  --color-accent-shadow: #c7cef5;
-  --color-grey: #97a8d3;
   --color-accent-secondary: #d6dcf9;
-  --color-spicy: rgb(194, 56, 56);
+  --color-spicy: rgb(105, 8, 8);
+  --color-vegan: rgba(61, 156, 61, 0.849);
+  --color-vegan-shadow: rgba(228, 255, 228, 0.486);
+  --color-spicy-shadow: rgba(250, 221, 221, 0.379);
 }
 
 html {

@@ -6,7 +6,7 @@
   display: flex;
   background: white;
   justify-content: flex-start;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   padding: 1rem 1rem;
   transition: all 0.3s;
   gap: 1.5rem;
@@ -43,7 +43,7 @@
   box-sizing: border-box;
   padding: 0.25rem 1rem;
   display: inline;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   background: var(--color-accent);
   color: var(--color-main);
 }
@@ -51,9 +51,9 @@
 .Spicy {
   /* border: 1px solid rgba(190, 27, 27, 0.849); */
   border: 1px solid rgba(190, 27, 27, 0.849);
-  background: rgba(190, 27, 27, 0.849);
+  background: transparent;
   color: white;
-  /* color: rgba(190, 27, 27, 0.849); */
+  color: rgba(190, 27, 27, 0.849);
 }
 
 .Vegan {
@@ -68,9 +68,17 @@
   justify-content: space-between;
 }
 
+.Chosen .Spicy {
+  background: var(--color-spicy-shadow);
+}
+
+.Chosen .Vegan {
+  background: var(--color-vegan-shadow);
+}
+
 .Chosen {
   transform: scale(1.02);
-  background: var(--color-accent-shadow);
+  background: var(--color-accent-secondary);
 }
 
 .Image__price {
@@ -102,7 +110,7 @@
 }
 
 .Image__meal {
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   -o-object-fit: cover;
   object-fit: cover;
   width: 100%;
@@ -113,7 +121,7 @@
 .Container__meal_image {
   position: relative;
   overflow: hidden;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   transition: all 0.3s;
 }
 

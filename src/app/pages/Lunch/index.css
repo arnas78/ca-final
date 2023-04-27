@@ -45,7 +45,7 @@ h1 {
   box-sizing: border-box;
   width: 100%;
   height: 100px;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   padding: 0 2rem;
   background: white;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -122,7 +122,7 @@ h1 {
 }
 
 .Button__sort {
-  border: solid 2px var(--color-grey);
+  border: solid 2px var(--color-secondary-light);
   color: var(--color-sec);
   margin-right: 1rem;
   background: transparent;
@@ -174,7 +174,7 @@ h1 {
 }
 
 input:checked + .slider {
-  background-color: var(--color-accent-shadow);
+  background-color: var(--color-secondary-light);
 }
 
 input:focus + .slider {
@@ -234,8 +234,8 @@ input:checked + .slider:before {
 .Container__search {
   width: 250px;
   padding: 0.75rem 1rem;
-  border-radius: 1rem;
-  background-color: var(--color-accent-shadow);
+  border-radius: 0.5rem;
+  background-color: var(--color-accent-secondary);
 }
 
 .Container__search input {
@@ -264,7 +264,7 @@ input:checked + .slider:before {
   width: 350px;
   height: 500px;
   background: var(--color-main);
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   position: fixed;
   padding: 1rem;
   z-index: 9;
@@ -301,5 +301,5 @@ input:checked + .slider:before {
 
 .Image__cart {
   width: 100px;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
 }

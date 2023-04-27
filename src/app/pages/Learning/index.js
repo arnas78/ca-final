@@ -18,57 +18,7 @@ const Learning = () => {
 
   return (
     <div className="Section__Home">
-      <div
-        onClick={() => (selectedTraining.name ? setSelectedTraining({}) : null)}
-        className={
-          selectedTraining.name
-            ? "background-blur"
-            : "background-blur Z__invisible"
-        }
-      ></div>
       <Nav image={logo} />
-      <div className="Section__learning">
-        <Heading
-          title={fakeApi.heading_learning.title}
-          description={fakeApi.heading_learning.description}
-        ></Heading>
-        <div className="Container__box">
-          <div className="Container__heading">
-            <p>Pavadinimas</p>
-            <p>Dėstytojas(-ai)</p>
-            <p>Būsena</p>
-            <p>Pradžios data</p>
-            <p>Pabaigos data</p>
-            <p>Aprašymas</p>
-          </div>
-          <div className="Container__trainings">
-            {trainings.map((training, i) => {
-              return (
-                <Training
-                  key={i}
-                  idx={i}
-                  training={training}
-                  appliedTrainings={appliedTrainings}
-                  image={image}
-                  onClick={() => {
-                    const newTraining = trainings[i];
-                    setSelectedTraining(newTraining);
-                  }}
-                />
-              );
-            })}
-          </div>
-        </div>
-        <Popup
-          trainingObj={selectedTraining}
-          image={image}
-          onClick={() => {
-            applyTraining(selectedTraining.id);
-            // eslint-disable-next-line no-unused-expressions
-            selectedTraining.name ? setSelectedTraining({}) : null;
-          }}
-        ></Popup>
-      </div>
     </div>
   );
 };
