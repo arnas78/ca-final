@@ -1,7 +1,27 @@
 .Section__learning {
-  max-width: 1300px;
-  margin: 2rem auto 0 auto;
-  font-family: "Poppins";
+  display: flex;
+  font-family: var(--font-main);
+}
+
+.Container__learning {
+  font-family: var(--font-main);
+  position: relative;
+  width: 1170px;
+  left: 75px;
+  margin: 0 auto 3rem auto;
+}
+
+.Header__learning {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 30px;
+}
+
+.Header__learning h1 {
+  font-weight: bold;
 }
 
 .Container__box {
@@ -43,4 +63,233 @@
 
 .Active__popup {
   opacity: 0.2;
+}
+
+.Container__checkbox_learning {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: var(--color-main);
+}
+
+.Container__checkbox_learning h4 {
+  color: var(--color-secondary-dark);
+}
+
+.Container__learning_list {
+  position: relative;
+  border-radius: 0.5rem;
+  background: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.Container__learning_header {
+  height: 50px;
+  padding: 1rem;
+  font-weight: bold;
+  background: var(--color-accent-secondary);
+  border-radius: 0.5rem 0.5rem 0 0;
+  display: flex;
+  align-items: center;
+  color: var(--color-secondary-dark);
+  border-bottom: 3px solid white;
+}
+
+.Container__popup_details {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  line-height: 1.25rem;
+}
+
+.Container__popup_details p {
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+
+.Container__popup_info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Map__popup {
+  border: 2px solid var(--color-accent-secondary);
+  border-radius: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 300px;
+  height: 250px;
+}
+
+.Container__popup_details h4 {
+  margin-bottom: 1rem;
+}
+
+.Btn__popup {
+  border: 1px solid var(--color-accent);
+  padding: 1rem;
+  font-weight: bold;
+  justify-content: space-around;
+}
+
+
+#Learning__name {
+  width: 25%;
+  text-align: center;
+}
+
+#Learning__place {
+  width: 25%;
+  text-align: center;
+}
+
+#Learning__start {
+  width: 20%;
+  text-align: center;
+}
+
+#Learning__end {
+  width: 20%;
+  text-align: center;
+}
+
+.Attendee__last {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  border: var(--color-accent-secondary) 2px solid;
+  border-radius: 0.5rem;
+  padding: 0.25rem 1rem;
+  width: 26.7%;
+  cursor: pointer;
+}
+
+
+.Icon__navigation {
+  cursor: pointer;
+}
+
+.avatar__popup img{
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 40px;
+}
+
+.Container__popup_attendees {
+  margin-top: 1.5rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  max-height: 150px;
+  width: 100%;
+}
+
+.Container__popup_attendees_single {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--color-accent-secondary);
+  color: var(--color-secondary-dark);
+  padding: 0.5rem 1rem;
+  width: 27.2%;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+
+.Container__sort_learning {
+  display: flex;
+  gap: 1rem;
+}
+
+.Container__learning_navigation {
+  display: flex;
+  color: var(--color-secondary-dark);
+  justify-content: flex-end;
+  gap: 1rem;
+  font-size: 1.5rem;
+}
+
+.Container__learning_nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+
+.dropbtn {
+  background-color: transparent;
+  padding: 1rem;
+  color: var(--color-secondary-dark);
+  border: none;
+  border-bottom: 1px solid var(--color-secondary-dark);
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  color: var(--color-secondary-dark)
+}
+
+.Container__learning_popup {
+  font-family: var(--font-main);
+  z-index: 10;
+  position: fixed;
+  height: 650px;
+  width: 700px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-40%, -50%);
+  background: white;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  color: var(--color-secondary-dark);
+}
+
+.Container__learning_popup h2 {
+  font-weight: bold;
+}
+
+.Container__learning_popup_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Icon__popup {
+  font-size: 1.5rem;
+  color: red;
+  cursor: pointer;
+}
+
+.Container__learning_popup_bg {
+  z-index: 1;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(5px);
+}
+
+
+.Inactive {
+  display: none;
 }

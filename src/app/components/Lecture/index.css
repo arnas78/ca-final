@@ -1,0 +1,62 @@
+.Container__learning_single:hover {
+    background: var(--color-accent-secondary);
+}
+  
+.Container__learning_single:not(:last-child) {
+    border-bottom: 1px solid var(--color-accent-secondary);
+}
+
+.avatars {
+    display: inline-flex;
+    flex-direction: row;
+}
+
+.avatar {
+    position: relative;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 40px;
+}
+
+.avatar:not(:last-child) {
+    margin-right: -20px;
+}
+
+.avatar img {
+    width: 100%;
+    display: block;
+}
+
+.last {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-accent);
+    font-weight: bold;
+    color: white;
+}
+
+.Container__learning_single {
+    background: white;
+    padding: 1rem;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    color: var(--color-secondary-dark);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.Container__learning_single:last-child {
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.last p{
+    padding-right: 0.25rem;
+}
+
+.Container__learning_attendees {
+    width: 20%;
+    text-align: center;
+}

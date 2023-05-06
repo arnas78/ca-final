@@ -7,6 +7,7 @@ function ContentProvider({ children }) {
   const [appliedTrainings, setAppliedTrainings] = useState([]);
   const [soupChosen, setSoupChosen] = useState(null);
   const [mainChosen, setMainChosen] = useState(null);
+  const [lectureChosen, setLectureChosen] = useState(null);
 
   const applyEvent = (id) => {
     const newArr = [...appliedEvents];
@@ -50,6 +51,18 @@ function ContentProvider({ children }) {
     }
   };
 
+  const handleChosenLecture = (obj, isMap) => {
+    if (isMap) {
+      if (lectureChosen === obj.id) {
+        setLectureChosen(null);
+      } else {
+        setLectureChosen(obj.id);
+      }
+    } else {
+      setLectureChosen(null);
+    }
+  };
+
   return (
     <ContentContext.Provider
       value={{
@@ -61,6 +74,8 @@ function ContentProvider({ children }) {
         handleChosenSoup,
         mainChosen,
         handleChosenMain,
+        lectureChosen,
+        handleChosenLecture
       }}
     >
       {children}

@@ -219,17 +219,227 @@ const Events = () => {
         </div>
         <div className="Header__event_posts">
           <h1>
-            Visi renginiai{" "}
+            Visi renginiai
             <FontAwesomeIcon icon={faArrowRight} className="Icon__header" />
           </h1>
         </div>
         <div className="Container__event_posts">
           <div className="Container__event_single">
-            <div className="Container__event_image"></div>
+            <div className="Container__event_image">
+              <img src={event} alt="event" className="Image__event_single"></img>
+              <div className="Event__single_location">              
+                <p>
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    className="Icon__location"
+                  />{" "}
+                  Lanxess Arena, Cologne
+                </p>
+              </div>
+            </div>
+            <div className="Container__event_details">
+              <h3>DevOps enterprise summit</h3>
+              <div>
+                <p>
+                  <FontAwesomeIcon
+                    icon={faClock}
+                    className="Icon__location"
+                  />{" "}
+                  21 LAP 2024, 8:00
+                </p>
+              </div>
+              <div className="Container__event_single_tags">
+                <div className="Container__event_single_tag">
+                  <p>DevOps</p>
+                </div>
+                <div className="Container__event_single_tag">
+                  <p>Cloud</p>
+                </div>
+              </div>
+              <div>
+                <button className="Btn__apply Btn__event_single">
+                  Sužinoti daugiau <FontAwesomeIcon icon={faArrowRight} />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="Container__event_single">
+            <div className="Container__event_image">
+              <img src={event} alt="event" className="Image__event_single"></img>
+              <div className="Event__single_location">              
+                <p>
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    className="Icon__location"
+                  />{" "}
+                  Lanxess Arena, Cologne
+                </p>
+              </div>
+            </div>
+            <div className="Container__event_details">
+              <h3>DevOps enterprise summit</h3>
+              <div>
+                <p>
+                  <FontAwesomeIcon
+                    icon={faClock}
+                    className="Icon__location"
+                  />{" "}
+                  21 LAP 2024, 8:00
+                </p>
+              </div>
+              <div className="Container__event_single_tags">
+                <div className="Container__event_single_tag">
+                  <p>DevOps</p>
+                </div>
+                <div className="Container__event_single_tag">
+                  <p>Cloud</p>
+                </div>
+              </div>
+              <div>
+                <button className="Btn__apply Btn__event_single">
+                  Sužinoti daugiau <FontAwesomeIcon icon={faArrowRight} />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="Container__event_single">
+            <div className="Container__event_image">
+              <img src={event} alt="event" className="Image__event_single"></img>
+              <div className="Event__single_location">              
+                <p>
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    className="Icon__location"
+                  />{" "}
+                  Lanxess Arena, Cologne
+                </p>
+              </div>
+            </div>
+            <div className="Container__event_details">
+              <h3>DevOps enterprise summit</h3>
+              <div>
+                <p>
+                  <FontAwesomeIcon
+                    icon={faClock}
+                    className="Icon__location"
+                  />{" "}
+                  21 LAP 2024, 8:00
+                </p>
+              </div>
+              <div className="Container__event_single_tags">
+                <div className="Container__event_single_tag">
+                  <p>DevOps</p>
+                </div>
+                <div className="Container__event_single_tag">
+                  <p>Cloud</p>
+                </div>
+              </div>
+              <div>
+                <button className="Btn__apply Btn__event_single">
+                  Sužinoti daugiau <FontAwesomeIcon icon={faArrowRight} />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="Container__event_single">
+            <div className="Container__event_image">
+              <img src={event} alt="event" className="Image__event_single"></img>
+              <div className="Event__single_location">              
+                <p>
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    className="Icon__location"
+                  />{" "}
+                  Lanxess Arena, Cologne
+                </p>
+              </div>
+            </div>
+            <div className="Container__event_details">
+              <h3>DevOps enterprise summit</h3>
+              <div>
+                <p>
+                  <FontAwesomeIcon
+                    icon={faClock}
+                    className="Icon__location"
+                  />{" "}
+                  21 LAP 2024, 8:00
+                </p>
+              </div>
+              <div className="Container__event_single_tags">
+                <div className="Container__event_single_tag">
+                  <p>DevOps</p>
+                </div>
+                <div className="Container__event_single_tag">
+                  <p>Cloud</p>
+                </div>
+              </div>
+              <div>
+                <button className="Btn__apply Btn__event_single">
+                  Sužinoti daugiau <FontAwesomeIcon icon={faArrowRight} />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="Container__event_single">
+            <div className="Container__event_image">
+              <img src={event} alt="event" className="Image__event_single"></img>
+              <div className="Event__single_location">              
+                <p>
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    className="Icon__location"
+                  />{" "}
+                  Lanxess Arena, Cologne
+                </p>
+              </div>
+            </div>
+            <div className="Container__event_details">
+              <h3>DevOps enterprise summit</h3>
+              <div>
+                <p>
+                  <FontAwesomeIcon
+                    icon={faClock}
+                    className="Icon__location"
+                  />{" "}
+                  21 LAP 2024, 8:00
+                </p>
+              </div>
+              <div className="Container__event_single_tags">
+                <div className="Container__event_single_tag">
+                  <p>DevOps</p>
+                </div>
+                <div className="Container__event_single_tag">
+                  <p>Cloud</p>
+                </div>
+              </div>
+              <div>
+                <button className="Btn__apply Btn__event_single">
+                  Sužinoti daugiau <FontAwesomeIcon icon={faArrowRight} />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="Container__event_single"></div>
-          <div className="Container__event_single"></div>
         </div>
       </div>
     </div>

@@ -25,6 +25,7 @@
                 100%{transform: translate(0, 0)}
             }
 
+
             .triangle-float3 {
                 animation: float3 6s infinite;
             }

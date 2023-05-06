@@ -109,60 +109,49 @@
       "name": "Penktadienis"
     }
   ],
-  "trainings": [
+  "lectures": [
     {
       "id": 0,
-      "name": "Bonbon jelly",
-      "lecturer": "V. Petraitis",
-      "status": "Baigėsi",
-      "startDate": "2022-05-01",
-      "endDate": "2022-06-01",
-      "description": "Bonbon jelly beans tiramisu caramels marshmallow tart. Ice cream halvah sweet chocolate pie jujubes. Candy canes candy candy canes bear claw donut liquorice toffee soufflé jelly-o."
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-06-24",
+      "end": "2023-07-01"
     },
     {
       "id": 1,
-      "name": "Lorem ipsum",
-      "lecturer": "V. Pavardenis",
-      "status": "Būsimas",
-      "startDate": "2023-07-01",
-      "endDate": "2023-08-01",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc non volutpat nulla, in feugiat lectus. In sed consectetur diam. Phasellus eleifend metus dolor, ut blandit metus feugiat vitae. Cras nec ante a dui tincidunt venenatis in a libero. Etiam quis commodo nulla. Nunc eleifend dolor vitae erat laoreet vehicula. Quisque. "
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-06-24",
+      "end": "2023-07-01"
     },
     {
       "id": 2,
       "name": "Halvah danish",
-      "lecturer": "K. Antanaitis",
-      "status": "Baigėsi",
-      "startDate": "2022-08-01",
-      "endDate": "2022-09-01",
-      "description": "Halvah danish danish soufflé caramels ice cream jujubes. Halvah ice cream sugar plum wafer tart. Tootsie roll wafer carrot cake carrot cake gummi bears tart. Topping gummies "
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-06-24",
+      "end": "2023-07-01"
     },
     {
       "id": 3,
-      "name": "Marshmallow",
-      "lecturer": "J. Pavardaitis",
-      "status": "Būsimas",
-      "startDate": "2023-03-01",
-      "endDate": "2023-04-01",
-      "description": "Marshmallow chocolate. Cheesecake chocolate cake sweet roll pie sweet powder jujubes sweet roll. Gingerbread caramels gummi bears chocolate bar jujubes. Cupcake sweet sweet pie cheesecake cheesecake croissant. Cake caramels dragée sweet roll wafer jelly-o."
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-06-24",
+      "end": "2023-07-01"
     },
     {
       "id": 4,
-      "name": "Chocolate cake",
-      "lecturer": "A. Klimasauskas",
-      "status": "Vyksta",
-      "startDate": "2023-02-01",
-      "endDate": "2023-04-01",
-      "description": "Chocolate cake macaroon tootsie roll macaroon fruitcake liquorice. Bonbon gummi bears cotton candy jujubes lollipop danish apple pie marzipan jelly. Marshmallow bear claw sesame snaps biscuit fruitcake cupcake. Pie carrot cake sesame snaps fruitcake cheesecake dessert candy gingerbread wafer. Oat cake powder cake dragée caramels dragée "
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-06-24",
+      "end": "2023-07-01"
     },
     {
       "id": 5,
-      "name": "Donut cupcake",
-      "lecturer": "V. Pavardenis",
-      "status": "Būsimas",
-      "startDate": "2023-08-01",
-      "endDate": "2023-09-01",
-      "description": "Donut cupcake jujubes ice cream wafer chocolate cake sweet roll cupcake. Cake toffee gingerbread dessert lemon drops bonbon sesame snaps jelly-o cake. Sugar plum cheesecake cookie powder topping pudding. Gingerbread chocolate dessert pudding pie muffin marshmallow pastry biscuit. Jelly cake dessert bonbon chupa chups muffin marshmallow chocolate. Marshmallow sugar plum gummies gingerbread pudding."
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-06-24",
+      "end": "2023-07-01"
     }
   ],
   "events": [
