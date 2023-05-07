@@ -9,6 +9,7 @@ import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelopeOpenText } from "@fortawesome/free-solid-svg-icons";
 import { faSignOut } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
+import profile from "../images/photo-1.jpg";
 
 function Nav({ image }) {
   // const [number, setNumber] = useState("");
@@ -23,22 +24,6 @@ function Nav({ image }) {
             <img className="Image__logo" src={image} alt="profile"></img>
           </div>
           <ul className="Nav__list">
-            <div>
-              <Link
-                className={location === "/" ? "Link Active" : "Link"}
-                to="/"
-              >
-                <FontAwesomeIcon icon={faBriefcase} className="Icon__link" />
-              </Link>
-              <p
-                className={
-                  location === "/" ? "Link__name Link__active" : "Link__name"
-                }
-              >
-                Pagrindinis
-              </p>
-            </div>
-
             <div>
               <Link
                 className={location === "/lunch" ? "Link Active" : "Link"}
@@ -115,13 +100,32 @@ function Nav({ image }) {
             </div>
           </ul>
         </div>
-
+        
         <div>
-          <div className="Btn__logout">
-            <FontAwesomeIcon icon={faSignOut} className="Icon__link" />
+          <div>
+              <Link
+                className={location === "/profile" ? "Link Active" : "Link"}
+                to="/profile"
+              >
+              <div className="Btn__profile">
+                <img className="Img__profile" src={profile} alt="profile"></img>
+              </div>
+              </Link>
+              <p className="Link__name">Mano profilis</p>
+            </div>
+          <div>
+           
+  
+
           </div>
-          <p className="Link__name Link__active">Atsijungti</p>
+          <div>
+            <div className="Btn__logout">
+              <FontAwesomeIcon icon={faSignOut} className="Icon__link" />
+            </div>
+            <p className="Link__name Link__active">Atsijungti</p>
+          </div>
         </div>
+
       </nav>
     </header>
   );

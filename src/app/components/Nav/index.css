@@ -34,7 +34,8 @@ nav {
 }
 
 .Link,
-.Btn__logout {
+.Btn__logout,
+.Btn__profile {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,6 +73,17 @@ nav {
   border: 2px solid var(--color-accent);
   color: var(--color-accent);
   transition: all 0.2s;
+}
+
+.Btn__profile {
+  transition: all 0.2s;
+  border: none;
+}
+
+.Img__profile {
+  width: 52px;
+  height: 52px;
+  border-radius: 0.5rem;
 }
 
 .Active,

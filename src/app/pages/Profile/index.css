@@ -1,0 +1,268 @@
+.Section__profile {
+  display: flex;
+  font-family: var(--font-main);
+}
+
+.Container__profile {
+  font-family: var(--font-main);
+  position: relative;
+  width: 1170px;
+  left: 75px;
+  margin: 3rem auto;
+}
+
+.Image__profile {
+  width: 130px;
+  height: 130px;
+  border-radius: 0.5rem
+}
+
+.Header__profile {
+  width: 100%;
+  display: flex;
+  color: var(--color-secondary-dark);
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 30px;
+}
+
+.Header__profile h3 {
+  color: white;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.Header__profile h4 {
+  color: var(--color-accent-secondary);
+  cursor: pointer;
+}
+
+.Container__profile_contacts {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: 0.25rem;
+  gap: 1rem;
+}
+
+.Container__profile_contacts > div{
+  display: flex;
+  align-items: center;
+}
+
+.Container__profile_contacts h4 {
+  margin-left: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.Container__profile_intro {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-radius: 0.5rem;
+  background: white;
+  padding: 1rem 1.5rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-sizing: border-box;
+  margin-bottom: 2rem;
+}
+
+.Container__profile_details {
+  display: flex;
+  gap: 1.5rem
+}
+
+.Container__profile_intro h1 {
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: var(--color-secondary-dark);
+}
+
+.Container__profile_intro h3 {
+  color: var(--color-secondary-light);
+  margin-bottom: 1rem;
+}
+
+.Container__profile_intro h4 {
+  color: var(--color-secondary-dark-opacity);
+}
+
+.Icon__social {
+  font-size: 1rem;
+  color: var(--color-secondary-light);
+}
+
+.Container__profile_socials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.Container__profile_socials_single {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  border: 2px solid var(--color-accent-secondary);
+  cursor: pointer;
+}
+
+#linkedin {
+  color: #0072b1;
+}
+
+#twitter {
+  color: #00acee;
+}
+
+#github {
+  color: #171515;
+}
+
+.Container__profile_edit {
+  width: 100%;
+  border-radius: 0.5rem;
+  background: white;
+  padding: 1rem 1.5rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-sizing: border-box;
+  margin-bottom: 2rem;
+}
+
+
+.Container__profile_edit h2 {
+  font-weight: bold;
+}
+
+.Container__profile_edit_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Heading_1__white {
+  color: white
+}
+
+.Icon__edit {
+  font-size: 1.5rem;
+  color: var(--color-secondary-dark);
+}
+
+.Container__edit {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-secondary-dark);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-secondary-dark);
+}
+
+.Container__profile_form {
+  margin: 2rem 0;
+  display: flex;
+  gap: 1rem;
+  row-gap: 3rem;
+
+  width: 75%;
+  flex-wrap: wrap;
+}
+
+.Container__profile_form label {
+  color: var(--color-secondary-light);
+  font-weight: bold;
+}
+
+.Container__profile_form > div:not(.Container__profile_bio) {
+  width: 32%;
+}
+
+.Container__profile_bio {
+  width: 100%;
+}
+
+
+
+.Container__profile_form .Input__active, .Input__disabled, select {
+  color: var(--color-secondary-dark);
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-bottom-color: var(--color-secondary-light);
+  transition: all 0.3s;
+  width: 80%;
+}
+
+.Input__bio {
+  width: 94%;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-secondary-light);
+  height: 50px;
+  resize: vertical;
+  font-family: var(--font-main);
+  padding: 0.5rem;
+}
+
+.Container__separator {
+  width: 100%;
+  margin: 4rem 0 3rem 0;
+  border-bottom: 2px dashed var(--color-secondary-light);
+}
+
+.Container__profile_form select {
+  background: transparent;
+  width: 87.5%;
+}
+
+.Input__active:focus, select:focus, textarea:focus {
+  outline: none;
+  border: 1px solid var(--color-secondary-dark);
+  border-radius: 0.5rem;
+}
+
+.Input__disabled {
+  border-bottom-color: var(--color-accent-secondary);
+}
+
+
+h1 {
+  color: var(--color-secondary-dark);
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+input {
+  font-size: 1rem;
+}
+
+button {
+  display: block;
+  font-size: 1rem;
+}
+
+button {
+  border: 2px solid white;
+  background-color: #222338;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #347dfd;
+  color: white;
+  border: 2px solid transparent;
+  cursor: pointer;
+}

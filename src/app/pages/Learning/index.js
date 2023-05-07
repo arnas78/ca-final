@@ -42,7 +42,8 @@ const Learning = () => {
 
   return (
     <div className="Section__Learning">
-      <Nav className="asd" image={logo} />
+      <Nav image={logo} />
+      <div className="background"></div>
       <div className="Color__block"></div>
 
       <div className={ lectureChosen || lectureChosen === 0 ? "Container__learning_popup_bg" : "Container__learning_popup_bg Inactive" } onClick={() => (lectureChosen || lectureChosen === 0 ? handleChosenLecture("", false) : null)}></div>
@@ -74,7 +75,7 @@ const Learning = () => {
               2023-06-24 - 2023-07-01
             </h4>
             <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tempus sit amet orci. Curabitur aliquam, est dapibus feugiat consequat, lorem enim iaculis elit, ullamcorper consequat enim odio sit amet dui. Nam eu ipsum velit. Nulla cursus, nulla sit amet efficitur suscipit, velit justo congue. 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tempus sit amet orci. Curabitur aliquam, est dapibus feugiat consequat, lorem enim iaculis elit, ullamcorper consequat enim odio sit amet dui. Nam eu ipsum velit. Nulla cursus, nulla sit amet efficitur suscipit, velit justo congue. 
             </p>
           </div>
           <LoadScript
