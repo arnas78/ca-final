@@ -17,6 +17,7 @@
     "framer-motion": "^10.12.8",
     "google-map-react": "^2.2.0",
     "react": "^18.2.0",
+    "react-calendar": "^4.2.1",
     "react-countdown": "^2.3.5",
     "react-datepicker": "^4.10.0",
     "react-dom": "^18.2.0",
@@ -25,6 +26,7 @@
     "react-transition-group": "^4.4.5",
     "reset-css": "^5.0.1",
     "swiper": "^9.2.4",
+    "v-calendar": "^2.4.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

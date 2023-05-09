@@ -14,7 +14,7 @@
 .Image__profile {
   width: 130px;
   height: 130px;
-  border-radius: 0.5rem
+  border-radius: 0.5rem;
 }
 
 .Header__profile {
@@ -37,6 +37,17 @@
   cursor: pointer;
 }
 
+.background-3 {
+  position: fixed;
+  min-width: 100vw;
+  height: 100vh;
+  background-image: url(/src/app/components/images/background-4.svg);
+  background-size: cover;
+  -webkit-filter: blur(6px);
+  filter: blur(6px);
+  z-index: -5;
+}
+
 .Container__profile_contacts {
   display: flex;
   flex-direction: column;
@@ -45,7 +56,7 @@
   gap: 1rem;
 }
 
-.Container__profile_contacts > div{
+.Container__profile_contacts > div {
   display: flex;
   align-items: center;
 }
@@ -69,7 +80,7 @@
 
 .Container__profile_details {
   display: flex;
-  gap: 1.5rem
+  gap: 1.5rem;
 }
 
 .Container__profile_intro h1 {
@@ -118,7 +129,7 @@
 }
 
 .Container__profile_edit {
-  width: 100%;
+  width: 70%;
   border-radius: 0.5rem;
   background: white;
   padding: 1rem 1.5rem;
@@ -126,7 +137,6 @@
   box-sizing: border-box;
   margin-bottom: 2rem;
 }
-
 
 .Container__profile_edit h2 {
   font-weight: bold;
@@ -139,7 +149,7 @@
 }
 
 .Heading_1__white {
-  color: white
+  color: white;
 }
 
 .Icon__edit {
@@ -151,7 +161,7 @@
   cursor: pointer;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--color-secondary-dark);
+  border: 2px solid var(--color-secondary-dark);
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -161,10 +171,9 @@
 .Container__profile_form {
   margin: 2rem 0;
   display: flex;
-  gap: 1rem;
+  gap: 2.25rem;
   row-gap: 3rem;
-
-  width: 75%;
+  width: 100%;
   flex-wrap: wrap;
 }
 
@@ -174,27 +183,30 @@
 }
 
 .Container__profile_form > div:not(.Container__profile_bio) {
-  width: 32%;
+  width: 30.2%;
 }
 
 .Container__profile_bio {
   width: 100%;
 }
 
-
-
-.Container__profile_form .Input__active, .Input__disabled, select {
+.Container__profile_form .Input__active,
+.Input__disabled,
+select {
   color: var(--color-secondary-dark);
   font-size: 1rem;
   padding: 0.5rem;
   border: 1px solid transparent;
   border-bottom-color: var(--color-secondary-light);
   transition: all 0.3s;
-  width: 80%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .Input__bio {
-  width: 94%;
+  width: 100%;
+  box-sizing: border-box;
+  margin-right: 2rem;
   border-radius: 0.5rem;
   font-size: 1rem;
   border: 1px solid var(--color-secondary-light);
@@ -205,17 +217,19 @@
 }
 
 .Container__separator {
-  width: 100%;
+  box-sizing: border-box;
   margin: 4rem 0 3rem 0;
   border-bottom: 2px dashed var(--color-secondary-light);
 }
 
 .Container__profile_form select {
   background: transparent;
-  width: 87.5%;
+  width: 100%;
 }
 
-.Input__active:focus, select:focus, textarea:focus {
+.Input__active:focus,
+select:focus,
+textarea:focus {
   outline: none;
   border: 1px solid var(--color-secondary-dark);
   border-radius: 0.5rem;
@@ -225,6 +239,77 @@
   border-bottom-color: var(--color-accent-secondary);
 }
 
+.Container__profile_content {
+  display: flex;
+  gap: 2rem;
+}
+
+.Container__vacation {
+  width: 23.5%;
+  border-radius: 0.5rem;
+  background: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2rem;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.Container__vacation h2 {
+  font-weight: bold;
+}
+
+.Container__vacation h3 {
+  color: var(--color-secondary-light);
+  font-weight: normal;
+}
+
+.Container__vacation_chosen {
+  color: var(--color-secondary-light);
+  margin-bottom: 1rem;
+}
+
+.Container__vacation_reservation {
+  color: var(--color-secondary-dark-opacity);
+}
+
+.Container__vacation_reservation_single {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-secondary-light);
+  border-radius: 0.5rem;
+}
+
+.Container__vacation_reservation_single > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.Container__vacation_days {
+  display: flex;
+  align-items: center;
+  color: var(--color-secondary-dark-opacity);
+  font-weight: bold;
+}
+
+#vacation {
+  margin-right: 0.5rem;
+  margin-left: 1rem;
+}
+
+#Remove {
+  cursor: pointer;
+  color: red;
+}
 
 h1 {
   color: var(--color-secondary-dark);
@@ -246,23 +331,40 @@ input {
   font-size: 1rem;
 }
 
-button {
-  display: block;
-  font-size: 1rem;
-}
-
-button {
-  border: 2px solid white;
-  background-color: #222338;
-  color: white;
-  padding: 0.5rem 1rem;
+div.react-calendar-style {
   border-radius: 0.5rem;
-  box-sizing: border-box;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-main);
+  border: 1px solid var(--color-secondary-dark);
 }
 
-button {
-  background-color: #347dfd;
-  color: white;
-  border: 2px solid transparent;
+button.react-calendar__tile,
+.react-calendar__navigation > button {
+  font-family: var(--font-main);
+}
+
+.react-calendar__tile:disabled {
+  background: var(--color-accent-secondary) !important;
+}
+
+.react-calendar__tile--now {
+  background: var(--color-accent) !important;
+}
+
+.react-calendar__tile--active {
+  background: var(--color-secondary-light) !important;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  color: var(--color-secondary-light) !important;
+}
+
+.Btn__apply {
+  font-family: var(--font-main);
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  padding: 0.25rem 0.75rem;
   cursor: pointer;
+  margin-top: 1rem;
 }

@@ -7,7 +7,7 @@ import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelopeOpenText } from "@fortawesome/free-solid-svg-icons";
-import { faSignOut } from "@fortawesome/free-solid-svg-icons";
+import { faSignOut, faHome } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
 import profile from "../images/photo-1.jpg";
 
@@ -24,6 +24,23 @@ function Nav({ image }) {
             <img className="Image__logo" src={image} alt="profile"></img>
           </div>
           <ul className="Nav__list">
+            <div>
+              <Link
+                className={location === "/dashboard" ? "Link Active" : "Link"}
+                to="/dashboard"
+              >
+                <FontAwesomeIcon icon={faHome} className="Icon__link" />
+              </Link>
+              <p
+                className={
+                  location === "/dashboard"
+                    ? "Link__name Link__active"
+                    : "Link__name"
+                }
+              >
+                Pagrindinis
+              </p>
+            </div>
             <div>
               <Link
                 className={location === "/lunch" ? "Link Active" : "Link"}
@@ -100,24 +117,20 @@ function Nav({ image }) {
             </div>
           </ul>
         </div>
-        
+
         <div>
           <div>
-              <Link
-                className={location === "/profile" ? "Link Active" : "Link"}
-                to="/profile"
-              >
+            <Link
+              className={location === "/profile" ? "Link Active" : "Link"}
+              to="/profile"
+            >
               <div className="Btn__profile">
                 <img className="Img__profile" src={profile} alt="profile"></img>
               </div>
-              </Link>
-              <p className="Link__name">Mano profilis</p>
-            </div>
-          <div>
-           
-  
-
+            </Link>
+            <p className="Link__name">Mano profilis</p>
           </div>
+          <div></div>
           <div>
             <div className="Btn__logout">
               <FontAwesomeIcon icon={faSignOut} className="Icon__link" />
@@ -125,7 +138,6 @@ function Nav({ image }) {
             <p className="Link__name Link__active">Atsijungti</p>
           </div>
         </div>
-
       </nav>
     </header>
   );

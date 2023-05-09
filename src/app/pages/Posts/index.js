@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Nav from "../../components/Nav";
 import "./index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesUp } from "@fortawesome/free-solid-svg-icons";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faCircleDollarToSlot } from "@fortawesome/free-solid-svg-icons";
@@ -16,17 +16,17 @@ const Posts = () => {
   return (
     <div className="Section__Posts">
       <Nav image={logo} />
-      <div className="Color__block"></div>
+      <div className="background-1"></div>
       <div className="Container__posts">
         <div className="Header__posts">
           <div>
             <h1>Darbo skelbimai</h1>
-            <p>
+            <h4>
               Čia galite matyti bei pasiūlyti kitą žmogų į pasirinktą poziciją.
-            </p>
+            </h4>
           </div>
           <h3>
-            Naujausi skelbimai <FontAwesomeIcon icon={faArrowRight} />
+            Naujausi skelbimai <FontAwesomeIcon icon={faArrowDown} />
           </h3>
         </div>
         <div className="Container__recent">

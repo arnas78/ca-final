@@ -32,6 +32,7 @@ const Events = () => {
   return (
     <div className="Section__events">
       <div className="background"></div>
+      <div className="Color__block"></div>
       <Nav image={logo} />
 
       <div className="Container__events">
@@ -226,8 +227,12 @@ const Events = () => {
         <div className="Container__event_posts">
           <div className="Container__event_single">
             <div className="Container__event_image">
-              <img src={event} alt="event" className="Image__event_single"></img>
-              <div className="Event__single_location">              
+              <img
+                src={event}
+                alt="event"
+                className="Image__event_single"
+              ></img>
+              <div className="Event__single_location">
                 <p>
                   <FontAwesomeIcon
                     icon={faLocationDot}
@@ -241,10 +246,7 @@ const Events = () => {
               <h3>DevOps enterprise summit</h3>
               <div>
                 <p>
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className="Icon__location"
-                  />{" "}
+                  <FontAwesomeIcon icon={faClock} className="Icon__location" />{" "}
                   21 LAP 2024, 8:00
                 </p>
               </div>
@@ -269,8 +271,12 @@ const Events = () => {
           </div>
           <div className="Container__event_single">
             <div className="Container__event_image">
-              <img src={event} alt="event" className="Image__event_single"></img>
-              <div className="Event__single_location">              
+              <img
+                src={event}
+                alt="event"
+                className="Image__event_single"
+              ></img>
+              <div className="Event__single_location">
                 <p>
                   <FontAwesomeIcon
                     icon={faLocationDot}
@@ -284,10 +290,7 @@ const Events = () => {
               <h3>DevOps enterprise summit</h3>
               <div>
                 <p>
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className="Icon__location"
-                  />{" "}
+                  <FontAwesomeIcon icon={faClock} className="Icon__location" />{" "}
                   21 LAP 2024, 8:00
                 </p>
               </div>
@@ -312,8 +315,12 @@ const Events = () => {
           </div>
           <div className="Container__event_single">
             <div className="Container__event_image">
-              <img src={event} alt="event" className="Image__event_single"></img>
-              <div className="Event__single_location">              
+              <img
+                src={event}
+                alt="event"
+                className="Image__event_single"
+              ></img>
+              <div className="Event__single_location">
                 <p>
                   <FontAwesomeIcon
                     icon={faLocationDot}
@@ -327,10 +334,7 @@ const Events = () => {
               <h3>DevOps enterprise summit</h3>
               <div>
                 <p>
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className="Icon__location"
-                  />{" "}
+                  <FontAwesomeIcon icon={faClock} className="Icon__location" />{" "}
                   21 LAP 2024, 8:00
                 </p>
               </div>
@@ -355,8 +359,12 @@ const Events = () => {
           </div>
           <div className="Container__event_single">
             <div className="Container__event_image">
-              <img src={event} alt="event" className="Image__event_single"></img>
-              <div className="Event__single_location">              
+              <img
+                src={event}
+                alt="event"
+                className="Image__event_single"
+              ></img>
+              <div className="Event__single_location">
                 <p>
                   <FontAwesomeIcon
                     icon={faLocationDot}
@@ -370,10 +378,7 @@ const Events = () => {
               <h3>DevOps enterprise summit</h3>
               <div>
                 <p>
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className="Icon__location"
-                  />{" "}
+                  <FontAwesomeIcon icon={faClock} className="Icon__location" />{" "}
                   21 LAP 2024, 8:00
                 </p>
               </div>
@@ -398,8 +403,12 @@ const Events = () => {
           </div>
           <div className="Container__event_single">
             <div className="Container__event_image">
-              <img src={event} alt="event" className="Image__event_single"></img>
-              <div className="Event__single_location">              
+              <img
+                src={event}
+                alt="event"
+                className="Image__event_single"
+              ></img>
+              <div className="Event__single_location">
                 <p>
                   <FontAwesomeIcon
                     icon={faLocationDot}
@@ -413,10 +422,7 @@ const Events = () => {
               <h3>DevOps enterprise summit</h3>
               <div>
                 <p>
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className="Icon__location"
-                  />{" "}
+                  <FontAwesomeIcon icon={faClock} className="Icon__location" />{" "}
                   21 LAP 2024, 8:00
                 </p>
               </div>
@@ -439,7 +445,6 @@ const Events = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

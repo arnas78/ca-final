@@ -6,12 +6,14 @@ import Learning from "./pages/Learning";
 import Events from "./pages/Events";
 import Lunch from "./pages/Lunch";
 import Posts from "./pages/Posts";
+import Dashboard from "./pages/Dashboard";
 import MainProvider from "./context/MainProvider";
 
 function App() {
   return (
     <MainProvider>
       <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/lunch" element={<Lunch />} />
         <Route path="/learning" element={<Learning />} />
         <Route path="/events" element={<Events />} />

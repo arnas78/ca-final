@@ -152,6 +152,34 @@
       "place": "Kaunas Office, Lithuania",
       "start": "2023-06-24",
       "end": "2023-07-01"
+    },
+    {
+      "id": 6,
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-06-24",
+      "end": "2023-07-01"
+    },
+    {
+      "id": 7,
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-06-24",
+      "end": "2023-07-01"
+    },
+    {
+      "id": 8,
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-06-24",
+      "end": "2023-07-01"
+    },
+    {
+      "id": 9,
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-06-24",
+      "end": "2023-07-01"
     }
   ],
   "events": [

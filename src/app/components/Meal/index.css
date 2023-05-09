@@ -15,6 +15,24 @@
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
+.Container__single_meal_dashboard {
+  cursor: pointer;
+  width: 50%;
+  height: 160px;
+  font-family: var(--font-main);
+  display: flex;
+  background: var(--color-accent-secondary);
+  justify-content: flex-start;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: all 0.3s;
+  gap: 1.5rem;
+  color: var(--color-secondary-dark);
+  font-weight: bold;
+  position: relative;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px;
+}
+
 .Container__single_meal:hover {
   transform: scale(1.02);
 }
@@ -39,6 +57,15 @@
   gap: 0.5rem;
 }
 
+.Container__tags_dashboard {
+  position: absolute;
+  top: 60px;
+  left: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .Tag {
   box-sizing: border-box;
   padding: 0.25rem 1rem;
@@ -60,6 +87,18 @@
   border: 1px solid rgba(61, 156, 61, 0.849);
   background: transparent;
   color: rgba(61, 156, 61, 0.849);
+}
+
+.Spicy__dashboard {
+  background: rgba(190, 27, 27, 0.849);
+  color: white;
+  box-shadow: rgba(0, 0, 0, 1) 10px 15px 20px, rgba(0, 0, 0, 1) 5px 5px 15px;
+}
+
+.Vegan__dashboard {
+  background: rgba(61, 156, 61, 0.849);
+  color: white;
+  box-shadow: rgba(0, 0, 0, 1) 10px 15px 20px, rgba(0, 0, 0, 1) 5px 5px 15px;
 }
 
 .Container__details {
@@ -121,6 +160,17 @@
 .Container__meal_image {
   position: relative;
   overflow: hidden;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+
+.Container__meal_image_dashboard {
+  position: relative;
+  overflow: hidden;
+  height: 120px;
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 122%;
   border-radius: 0.5rem;
   transition: all 0.3s;
 }

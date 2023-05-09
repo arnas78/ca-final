@@ -63,6 +63,7 @@ const Lunch = () => {
   return (
     <div className="Container__body">
       <Nav image={logo} />
+      <div className="background-5"></div>
       {/* <div className="Container__cart">
         <FontAwesomeIcon icon={faCartShopping} />
       </div> */}
@@ -96,16 +97,16 @@ const Lunch = () => {
         <div className="Header__lunch">
           <div>
             <h1>Užsisakykite pietus!</h1>
-            <p>
+            <h4>
               Čia galite užsisakyti pietus, kuriuos restoranai atveš pasirinktą
               dieną per pietus.
-            </p>
+            </h4>
           </div>
 
-          <h4>
+          <h3>
             Užsakymui likęs laikas: &nbsp;
             <Countdown date={getNextMonday()}></Countdown>
-          </h4>
+          </h3>
         </div>
         <div className="Container__picker">
           <div className="Container__sorting">

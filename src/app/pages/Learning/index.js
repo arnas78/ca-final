@@ -18,24 +18,21 @@ import Training from "../../components/Training";
 import Popup from "../../components/Popup";
 import Heading from "../../components/Heading";
 import ContentContext from "../../context/Content";
-import GoogleMapReact from 'google-map-react';
+import GoogleMapReact from "google-map-react";
 import Lecture from "../../components/Lecture";
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
-
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 const center = {
   lat: 54.86463618199356,
-  lng: 23.944770457672913
+  lng: 23.944770457672913,
 };
 
 const MapOptions = {
   zoomControl: true,
   mapTypeControl: false,
-}
+};
 
 const Learning = () => {
-
-
   const AnyReactComponent = ({ text }) => <div>{text}</div>;
   const allLectures = fakeApi.lectures;
   const { lectureChosen, handleChosenLecture } = useContext(ContentContext);
@@ -43,11 +40,27 @@ const Learning = () => {
   return (
     <div className="Section__Learning">
       <Nav image={logo} />
-      <div className="background"></div>
-      <div className="Color__block"></div>
+      <div className="background-2"></div>
 
-      <div className={ lectureChosen || lectureChosen === 0 ? "Container__learning_popup_bg" : "Container__learning_popup_bg Inactive" } onClick={() => (lectureChosen || lectureChosen === 0 ? handleChosenLecture("", false) : null)}></div>
-      <div className={ lectureChosen || lectureChosen === 0 ? "Container__learning_popup" : "Container__learning_popup Inactive" }>
+      <div
+        className={
+          lectureChosen || lectureChosen === 0
+            ? "Container__learning_popup_bg"
+            : "Container__learning_popup_bg Inactive"
+        }
+        onClick={() =>
+          lectureChosen || lectureChosen === 0
+            ? handleChosenLecture("", false)
+            : null
+        }
+      ></div>
+      <div
+        className={
+          lectureChosen || lectureChosen === 0
+            ? "Container__learning_popup"
+            : "Container__learning_popup Inactive"
+        }
+      >
         <div className="Container__learning_popup_header">
           <h2>
             <FontAwesomeIcon
@@ -56,7 +69,15 @@ const Learning = () => {
             />
             Kubernetes basics
           </h2>
-          <FontAwesomeIcon icon={faX} className="Icon__popup" onClick={() => (lectureChosen || lectureChosen === 0 ? handleChosenLecture("", false) : null)} />
+          <FontAwesomeIcon
+            icon={faX}
+            className="Icon__popup"
+            onClick={() =>
+              lectureChosen || lectureChosen === 0
+                ? handleChosenLecture("", false)
+                : null
+            }
+          />
         </div>
         <div className="Container__popup_info">
           <div className="Container__popup_details">
@@ -68,19 +89,18 @@ const Learning = () => {
               Kaunas Office, Lithuania
             </h4>
             <h4>
-              <FontAwesomeIcon
-                icon={faCalendar}
-                className="Icon__location"
-              />
+              <FontAwesomeIcon icon={faCalendar} className="Icon__location" />
               2023-06-24 - 2023-07-01
             </h4>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tempus sit amet orci. Curabitur aliquam, est dapibus feugiat consequat, lorem enim iaculis elit, ullamcorper consequat enim odio sit amet dui. Nam eu ipsum velit. Nulla cursus, nulla sit amet efficitur suscipit, velit justo congue. 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tempus
+              sit amet orci. Curabitur aliquam, est dapibus feugiat consequat,
+              lorem enim iaculis elit, ullamcorper consequat enim odio sit amet
+              dui. Nam eu ipsum velit. Nulla cursus, nulla sit amet efficitur
+              suscipit, velit justo congue.
             </p>
           </div>
-          <LoadScript
-            googleMapsApiKey="AIzaSyDzILljratmTZbvzMz3ULfqfhRd7nA7LUg"
-          >
+          <LoadScript googleMapsApiKey="AIzaSyDzILljratmTZbvzMz3ULfqfhRd7nA7LUg">
             <GoogleMap
               mapContainerClassName="Map__popup"
               center={center}
@@ -92,98 +112,94 @@ const Learning = () => {
           </LoadScript>
         </div>
         <div>
-        <button className="Btn__apply Btn__popup">
-                  Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </button>
+          <button className="Btn__apply Btn__popup">
+            Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
         <div>
           <h4>
-            <FontAwesomeIcon
-              icon={faUser}
-              className="Icon__location"
-            />
+            <FontAwesomeIcon icon={faUser} className="Icon__location" />
             Dalyviai:
           </h4>
           <div className="Container__popup_attendees">
             <div className="Container__popup_attendees_single">
               <span class="avatar__popup">
-                  <img  src="https://picsum.photos/10"/>
+                <img src="https://picsum.photos/10" />
               </span>
               <h4>Vardenis P.</h4>
             </div>
             <div className="Container__popup_attendees_single">
               <span class="avatar__popup">
-                  <img  src="https://picsum.photos/100"/>
+                <img src="https://picsum.photos/100" />
               </span>
               <h4>Vardenis P.</h4>
             </div>
             <div className="Container__popup_attendees_single">
               <span class="avatar__popup">
-                  <img  src="https://picsum.photos/20"/>
+                <img src="https://picsum.photos/20" />
               </span>
               <h4>Vardenis P.</h4>
             </div>
             <div className="Container__popup_attendees_single">
               <span class="avatar__popup">
-                  <img  src="https://picsum.photos/90"/>
+                <img src="https://picsum.photos/90" />
               </span>
               <h4>Vardenis P.</h4>
             </div>
             <div className="Container__popup_attendees_single">
               <span class="avatar__popup">
-                  <img  src="https://picsum.photos/80"/>
+                <img src="https://picsum.photos/80" />
               </span>
               <h4>Vardenis P.</h4>
             </div>
             <div className="Attendee__last">
               <div class="avatars">
                 <span class="avatar">
-                    <img  src="https://picsum.photos/70"/>
+                  <img src="https://picsum.photos/70" />
                 </span>
                 <span class="avatar">
-                    <img src="https://picsum.photos/80"/>
+                  <img src="https://picsum.photos/80" />
                 </span>
                 <span class="avatar">
-                    <img src="https://picsum.photos/90"/>
+                  <img src="https://picsum.photos/90" />
                 </span>
                 <span class="avatar last">
-                    <p>+10</p>
+                  <p>+10</p>
                 </span>
               </div>
-              <div><p>Daugiau...</p></div>
+              <div>
+                <p>Daugiau...</p>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
       <div className="Container__learning">
         <div className="Header__learning">
-            <div>
-              <h1>Darbuotojų mokymai</h1>
-              <p>
-                Žemiau rasite visus mokymus, vyksiančius įmonėje. Jei kiltų klausimų, susisiekite su savo vadovu.
-              </p>
+          <div>
+            <h1>Darbuotojų mokymai</h1>
+            <h4>Žemiau rasite visus mokymus, vyksiančius įmonėje.</h4>
+          </div>
+          <div className="Container__sort_learning">
+            <div className="Container__checkbox_learning">
+              <label class="switch">
+                <input id="checkbox" type="checkbox" name="checkbox" />
+                <span class="slider round"></span>
+              </label>
+              <h4>Rodyti pasibaigusius</h4>
             </div>
-            <div className="Container__sort_learning">
-              <div className="Container__checkbox_learning">
-                <label class="switch">
-                  <input id="checkbox" type="checkbox" name="checkbox" />
-                  <span class="slider round"></span>
-                </label>
-                <h4>Rodyti pasibaigusius</h4>
-              </div>
-              <div className="Container__checkbox_learning">
-                <label class="switch">
-                  <input id="checkbox" type="checkbox" name="checkbox" />
-                  <span class="slider round"></span>
-                </label>
-                <h4>Mano mokymai</h4>
-              </div>
+            <div className="Container__checkbox_learning">
+              <label class="switch">
+                <input id="checkbox" type="checkbox" name="checkbox" />
+                <span class="slider round"></span>
+              </label>
+              <h4>Mano mokymai</h4>
             </div>
+          </div>
         </div>
         <div className="Container__learning_list">
           <div className="Container__learning_header">
@@ -202,7 +218,7 @@ const Learning = () => {
                   icon={faLocationDot}
                   className="Icon__location"
                 />
-                  Vieta, valstybė
+                Vieta, valstybė
               </h4>
             </div>
             <div className="Container__sorting" id="Learning__start">
@@ -222,10 +238,7 @@ const Learning = () => {
             </div>
             <div id="Learning__end">
               <h4>
-                <FontAwesomeIcon
-                  icon={faUser}
-                  className="Icon__location"
-                />
+                <FontAwesomeIcon icon={faUser} className="Icon__location" />
                 Dalyviai
               </h4>
             </div>
@@ -251,14 +264,20 @@ const Learning = () => {
               <h4>Kiekis per puslapį:</h4>
             </div>
             <select class="dropbtn">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
             </select>
           </div>
           <div className="Container__learning_navigation">
-            <FontAwesomeIcon icon={faChevronLeft} className="Icon__navigation"/>
-            <FontAwesomeIcon icon={faChevronRight} className="Icon__navigation"/>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className="Icon__navigation"
+            />
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className="Icon__navigation"
+            />
           </div>
         </div>
       </div>
