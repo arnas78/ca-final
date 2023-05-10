@@ -1,90 +1,393 @@
 {
   "main": [
     {
-      "id": 0,
-      "name": "Cured Mustard Venison",
-      "count": 5,
-      "price": 20.99,
-      "desc": "sit amet consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus dolor purus"
+      "restaurant": "Grill London",
+      "mains": [
+        {
+          "id": 0,
+          "isVegan": true,
+          "name": "Cured Mustard Venison",
+          "count": 5,
+          "price": 20.99,
+          "desc": "sit amet consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus dolor purus"
+        },
+        {
+          "id": 1,
+          "isVegan": false,
+          "name": "Cooked Orange & Mustard Boar",
+          "count": 10,
+          "price": 10.99,
+          "desc": "purus gravida quis blandit turpis cursus in hac habitasse platea dictumst quisque sagittis purus sit amet volutpat consequat mauris nunc"
+        },
+        {
+          "id": 2,
+          "isVegan": false,
+          "name": "Barbecued Cranberry Pigeon",
+          "count": 500,
+          "price": 10.99,
+          "desc": "odio aenean sed adipiscing diam donec adipiscing tristique risus nec feugiat in fermentum posuere urna nec tincidunt praesent semper feugiat"
+        },
+        {
+          "id": 3,
+          "isVegan": false,
+          "name": "Tea-Smoked Lemon Horse",
+          "count": 20,
+          "price": 50.99,
+          "desc": "amet porttitor eget dolor morbi non arcu risus quis varius quam quisque id diam vel quam elementum pulvinar etiam non"
+        },
+        {
+          "id": 4,
+          "isVegan": false,
+          "name": "Simmered Pepper & Garlic Rabbit",
+          "count": 10,
+          "price": 10.99,
+          "desc": "Chocolate bar brownie pudding jelly beans topping tootsie"
+        },
+        {
+          "id": 5,
+          "isVegan": false,
+          "name": "Seared Creamy Duck",
+          "count": 15,
+          "price": 10.99,
+          "desc": "ac tincidunt vitae semper quis lectus nulla at volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet"
+        },
+        {
+          "id": 6,
+          "isVegan": true,
+          "name": "Simmered Pepper & Garlic Rabbit",
+          "count": 5,
+          "price": 10.99,
+          "desc": "leo duis ut diam quam nulla porttitor massa id neque"
+        },
+        {
+          "id": 7,
+          "isVegan": false,
+          "name": "Oven-Baked Salt & Pepper Mutton",
+          "count": 2,
+          "price": 10.99,
+          "desc": "duis at consectetur lorem donec massa sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper"
+        },
+        {
+          "id": 8,
+          "isVegan": false,
+          "name": "Tea-Smoked Lemon Horse",
+          "count": 19,
+          "price": 10.99,
+          "desc": "duis ultricies lacus sed turpis tincidunt id aliquet risus feugiat in ante metus dictum at tempor commodo ullamcorper a lacus"
+        }
+      ]
     },
     {
-      "id": 1,
-      "name": "Cooked Orange & Mustard Boar",
-      "count": 10,
-      "price": 10.99,
-      "desc": "purus gravida quis blandit turpis cursus in hac habitasse platea dictumst quisque sagittis purus sit amet volutpat consequat mauris nunc"
+      "restaurant": "Čili pizza",
+      "mains": [
+        {
+          "id": 0,
+          "isVegan": true,
+          "name": "Cured Mustard Venison",
+          "count": 5,
+          "price": 20.99,
+          "desc": "sit amet consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus dolor purus"
+        },
+        {
+          "id": 1,
+          "name": "Cooked Orange & Mustard Boar",
+          "count": 10,
+          "price": 10.99,
+          "desc": "purus gravida quis blandit turpis cursus in hac habitasse platea dictumst quisque sagittis purus sit amet volutpat consequat mauris nunc"
+        },
+        {
+          "id": 2,
+          "name": "Barbecued Cranberry Pigeon",
+          "count": 500,
+          "price": 10.99,
+          "desc": "odio aenean sed adipiscing diam donec adipiscing tristique risus nec feugiat in fermentum posuere urna nec tincidunt praesent semper feugiat"
+        },
+        {
+          "id": 3,
+          "name": "Tea-Smoked Lemon Horse",
+          "count": 20,
+          "price": 50.99,
+          "desc": "amet porttitor eget dolor morbi non arcu risus quis varius quam quisque id diam vel quam elementum pulvinar etiam non"
+        },
+        {
+          "id": 4,
+          "name": "Simmered Pepper & Garlic Rabbit",
+          "count": 10,
+          "price": 10.99,
+          "desc": "Chocolate bar brownie pudding jelly beans topping tootsie"
+        },
+        {
+          "id": 5,
+          "name": "Seared Creamy Duck",
+          "count": 15,
+          "price": 10.99,
+          "desc": "ac tincidunt vitae semper quis lectus nulla at volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet"
+        },
+        {
+          "id": 6,
+          "name": "Simmered Pepper & Garlic Rabbit",
+          "count": 5,
+          "price": 10.99,
+          "desc": "leo duis ut diam quam nulla porttitor massa id neque"
+        },
+        {
+          "id": 7,
+          "name": "Oven-Baked Salt & Pepper Mutton",
+          "count": 2,
+          "price": 10.99,
+          "desc": "duis at consectetur lorem donec massa sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper"
+        },
+        {
+          "id": 8,
+          "name": "Tea-Smoked Lemon Horse",
+          "count": 19,
+          "price": 10.99,
+          "desc": "duis ultricies lacus sed turpis tincidunt id aliquet risus feugiat in ante metus dictum at tempor commodo ullamcorper a lacus"
+        }
+      ]
     },
     {
-      "id": 2,
-      "name": "Barbecued Cranberry Pigeon",
-      "count": 500,
-      "price": 10.99,
-      "desc": "odio aenean sed adipiscing diam donec adipiscing tristique risus nec feugiat in fermentum posuere urna nec tincidunt praesent semper feugiat"
+      "restaurant": "Talutti",
+      "mains": [
+        {
+          "id": 0,
+          "name": "Cured Mustard Venison",
+          "count": 5,
+          "price": 20.99,
+          "desc": "sit amet consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus dolor purus"
+        },
+        {
+          "id": 1,
+          "name": "Cooked Orange & Mustard Boar",
+          "count": 10,
+          "price": 10.99,
+          "desc": "purus gravida quis blandit turpis cursus in hac habitasse platea dictumst quisque sagittis purus sit amet volutpat consequat mauris nunc"
+        },
+        {
+          "id": 2,
+          "name": "Barbecued Cranberry Pigeon",
+          "count": 500,
+          "price": 10.99,
+          "desc": "odio aenean sed adipiscing diam donec adipiscing tristique risus nec feugiat in fermentum posuere urna nec tincidunt praesent semper feugiat"
+        },
+        {
+          "id": 3,
+          "name": "Tea-Smoked Lemon Horse",
+          "count": 20,
+          "price": 50.99,
+          "desc": "amet porttitor eget dolor morbi non arcu risus quis varius quam quisque id diam vel quam elementum pulvinar etiam non"
+        },
+        {
+          "id": 4,
+          "name": "Simmered Pepper & Garlic Rabbit",
+          "count": 10,
+          "price": 10.99,
+          "desc": "Chocolate bar brownie pudding jelly beans topping tootsie"
+        },
+        {
+          "id": 5,
+          "name": "Seared Creamy Duck",
+          "count": 15,
+          "price": 10.99,
+          "desc": "ac tincidunt vitae semper quis lectus nulla at volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet"
+        },
+        {
+          "id": 6,
+          "name": "Simmered Pepper & Garlic Rabbit",
+          "count": 5,
+          "price": 10.99,
+          "desc": "leo duis ut diam quam nulla porttitor massa id neque"
+        },
+        {
+          "id": 7,
+          "name": "Oven-Baked Salt & Pepper Mutton",
+          "count": 2,
+          "price": 10.99,
+          "desc": "duis at consectetur lorem donec massa sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper"
+        },
+        {
+          "id": 8,
+          "name": "Tea-Smoked Lemon Horse",
+          "count": 19,
+          "price": 10.99,
+          "desc": "duis ultricies lacus sed turpis tincidunt id aliquet risus feugiat in ante metus dictum at tempor commodo ullamcorper a lacus"
+        }
+      ]
     },
     {
-      "id": 3,
-      "name": "Tea-Smoked Lemon Horse",
-      "count": 20,
-      "price": 50.99,
-      "desc": "amet porttitor eget dolor morbi non arcu risus quis varius quam quisque id diam vel quam elementum pulvinar etiam non"
-    },
-    {
-      "id": 4,
-      "name": "Simmered Pepper & Garlic Rabbit",
-      "count": 10,
-      "price": 10.99,
-      "desc": "Chocolate bar brownie pudding jelly beans topping tootsie"
-    },
-    {
-      "id": 5,
-      "name": "Seared Creamy Duck",
-      "count": 15,
-      "price": 10.99,
-      "desc": "ac tincidunt vitae semper quis lectus nulla at volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet"
-    },
-    {
-      "id": 6,
-      "name": "Simmered Pepper & Garlic Rabbit",
-      "count": 5,
-      "price": 10.99,
-      "desc": "leo duis ut diam quam nulla porttitor massa id neque"
-    },
-    {
-      "id": 7,
-      "name": "Oven-Baked Salt & Pepper Mutton",
-      "count": 2,
-      "price": 10.99,
-      "desc": "duis at consectetur lorem donec massa sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper"
-    },
-    {
-      "id": 8,
-      "name": "Tea-Smoked Lemon Horse",
-      "count": 19,
-      "price": 10.99,
-      "desc": "duis ultricies lacus sed turpis tincidunt id aliquet risus feugiat in ante metus dictum at tempor commodo ullamcorper a lacus"
+      "restaurant": "Katpedėlė",
+      "mains": [
+        {
+          "id": 0,
+          "name": "Cured Mustard Venison",
+          "count": 5,
+          "price": 20.99,
+          "desc": "sit amet consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus dolor purus"
+        },
+        {
+          "id": 1,
+          "name": "Cooked Orange & Mustard Boar",
+          "count": 10,
+          "price": 10.99,
+          "desc": "purus gravida quis blandit turpis cursus in hac habitasse platea dictumst quisque sagittis purus sit amet volutpat consequat mauris nunc"
+        },
+        {
+          "id": 2,
+          "name": "Barbecued Cranberry Pigeon",
+          "count": 500,
+          "price": 10.99,
+          "desc": "odio aenean sed adipiscing diam donec adipiscing tristique risus nec feugiat in fermentum posuere urna nec tincidunt praesent semper feugiat"
+        },
+        {
+          "id": 3,
+          "name": "Tea-Smoked Lemon Horse",
+          "count": 20,
+          "price": 50.99,
+          "desc": "amet porttitor eget dolor morbi non arcu risus quis varius quam quisque id diam vel quam elementum pulvinar etiam non"
+        },
+        {
+          "id": 4,
+          "name": "Simmered Pepper & Garlic Rabbit",
+          "count": 10,
+          "price": 10.99,
+          "desc": "Chocolate bar brownie pudding jelly beans topping tootsie"
+        },
+        {
+          "id": 5,
+          "name": "Seared Creamy Duck",
+          "count": 15,
+          "price": 10.99,
+          "desc": "ac tincidunt vitae semper quis lectus nulla at volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet"
+        },
+        {
+          "id": 6,
+          "name": "Simmered Pepper & Garlic Rabbit",
+          "count": 5,
+          "price": 10.99,
+          "desc": "leo duis ut diam quam nulla porttitor massa id neque"
+        },
+        {
+          "id": 7,
+          "name": "Oven-Baked Salt & Pepper Mutton",
+          "count": 2,
+          "price": 10.99,
+          "desc": "duis at consectetur lorem donec massa sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper"
+        },
+        {
+          "id": 8,
+          "name": "Tea-Smoked Lemon Horse",
+          "count": 19,
+          "price": 10.99,
+          "desc": "duis ultricies lacus sed turpis tincidunt id aliquet risus feugiat in ante metus dictum at tempor commodo ullamcorper a lacus"
+        }
+      ]
     }
   ],
   "soups": [
     {
-      "id": 0,
-      "name": "Basted Garlic Boar",
-      "count": 1,
-      "price": 5.99,
-      "desc": "vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat"
+      "restaurant": "Grill London",
+      "soups": [
+        {
+          "id": 0,
+          "name": "a",
+          "count": 1,
+          "price": 5.99,
+          "desc": "vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat"
+        },
+        {
+          "id": 1,
+          "isVegan": true,
+          "name": "Braised Olive Pork",
+          "count": 3,
+          "price": 2.99,
+          "desc": "semper quis lectus nulla at volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin fermentum leo"
+        },
+        {
+          "id": 2,
+          "name": "Oven-Grilled Chestnuts & Duck",
+          "count": 3,
+          "price": 1.99,
+          "desc": "nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae"
+        }
+      ]
     },
     {
-      "id": 1,
-      "name": "Braised Olive Pork",
-      "count": 3,
-      "price": 2.99,
-      "desc": "semper quis lectus nulla at volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin fermentum leo"
+      "restaurant": "Čili pizza",
+      "soups": [
+        {
+          "id": 0,
+          "name": "b",
+          "count": 1,
+          "price": 5.99,
+          "desc": "vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat"
+        },
+        {
+          "id": 1,
+          "name": "Braised Olive Pork",
+          "count": 3,
+          "price": 2.99,
+          "desc": "semper quis lectus nulla at volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin fermentum leo"
+        },
+        {
+          "id": 2,
+          "name": "Oven-Grilled Chestnuts & Duck",
+          "count": 3,
+          "price": 1.99,
+          "desc": "nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae"
+        }
+      ]
     },
     {
-      "id": 2,
-      "name": "Oven-Grilled Chestnuts & Duck",
-      "count": 3,
-      "price": 1.99,
-      "desc": "nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae"
+      "restaurant": "Talutti",
+      "soups": [
+        {
+          "id": 0,
+          "name": "c",
+          "count": 1,
+          "price": 5.99,
+          "desc": "vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat"
+        },
+        {
+          "id": 1,
+          "name": "Braised Olive Pork",
+          "count": 3,
+          "price": 2.99,
+          "desc": "semper quis lectus nulla at volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin fermentum leo"
+        },
+        {
+          "id": 2,
+          "name": "Oven-Grilled Chestnuts & Duck",
+          "count": 3,
+          "price": 1.99,
+          "desc": "nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae"
+        }
+      ]
+    },
+    {
+      "restaurant": "Katpedėlė",
+      "soups": [
+        {
+          "id": 0,
+          "name": "d",
+          "count": 1,
+          "price": 5.99,
+          "desc": "vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat"
+        },
+        {
+          "id": 1,
+          "name": "Braised Olive Pork",
+          "count": 3,
+          "price": 2.99,
+          "desc": "semper quis lectus nulla at volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin fermentum leo"
+        },
+        {
+          "id": 2,
+          "name": "Oven-Grilled Chestnuts & Duck",
+          "count": 3,
+          "price": 1.99,
+          "desc": "nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae"
+        }
+      ]
     }
   ],
   "weekdays": [
@@ -201,33 +504,5 @@
       "place": "Romania",
       "description": "May 18 to 19—JSHeroes is a non-profit community-organized conference, held every year in Cluj, Romania. Our goal is to bring together JS and Web/Frontend development enthusiasts from all over the world, for a 2-day event with: great talks, amazing networking and tons of fun."
     }
-  ],
-  "restaurants": ["Čili Pizza", "Grill London", "Jurgis ir Drakonas", "Jammi"],
-  "genders": [
-    {
-      "name": "Vyras"
-    },
-    {
-      "name": "Moteris"
-    },
-    {
-      "name": "Kita"
-    }
-  ],
-  "heading_home": {
-    "title": "Jūsų profilis",
-    "description": "Čia galite redaguoti, bei užpildyti informaciją apie save. Dėl sąskaitos papildymokreipkitės į Vardenis Pavardenis"
-  },
-  "heading_lunch": {
-    "title": "Pietų užsakymo sistema",
-    "description": "Čia galite užsisakyti savo dienos pietus. Užsakymus galima atlikti iki einančios dienos 10:00 valandos. Dėl sąskaitos papildymo kreipkitės į Vardenis Pavardenis"
-  },
-  "heading_learning": {
-    "title": "Darbuotojų apmokymai",
-    "description": "Čia galite matyti visus egzistuojančius apmokymus. Aplikacijos metu bus nusiųstas prašymas jūsų vadovui. Dėl kilusių klausimų kreipkitės į Vardenis Pavardenis."
-  },
-  "heading_events": {
-    "title": "Registracija į renginius",
-    "description": "Čia galite matyti ateityje vyksiančius renginius. Norėdami aplikuoti ir gauti finansavimą, aplikuokite į renginį - bus nusiųstas prašymas jūsų vadovui. Dėl kilusių klausimų kreipkitės į Vardenis Pavardenis."
-  }
+  ]
 }

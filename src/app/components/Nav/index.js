@@ -61,8 +61,8 @@ function Nav({ image }) {
 
             <div>
               <Link
-                className={location === "/learning" ? "Link Active" : "Link"}
-                to="/learning"
+                className={location === "/lectures" ? "Link Active" : "Link"}
+                to="/lectures"
               >
                 <FontAwesomeIcon icon={faBook} className="Icon__link" />
               </Link>

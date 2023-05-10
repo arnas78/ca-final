@@ -87,6 +87,7 @@ h1 {
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  padding: 1rem;
 }
 
 .Container__vegan {
@@ -148,15 +149,20 @@ h1 {
 }
 
 .Button__sort {
-  border: solid 2px var(--color-secondary-light);
+  border: solid 1px var(--color-secondary-light);
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.75rem;
   font-family: var(--font-main);
   font-size: 1rem;
   color: var(--color-sec);
   margin-right: 1rem;
   background: transparent;
   cursor: pointer;
+  transition: all 0.3s;
+}
+
+.Button__sort_active {
+  background: var(--color-accent-secondary);
 }
 
 .Container__checkbox {
@@ -278,60 +284,119 @@ input:checked + .slider:before {
   outline: none;
 }
 
-.Container__cart {
-  position: fixed;
-  background: var(--color-accent);
-  padding: 1.25rem;
-  border-radius: 100px;
-  bottom: 0;
-  right: 0;
-  margin: 0 2rem 2rem 0;
-  z-index: 10;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
-  cursor: pointer;
-  font-size: 1.5rem;
+.Select__restaurant,
+.Select__date {
+  background: none;
+  overflow: hidden;
+  font-family: var(--font-main);
 }
 
-.Container__cartbox {
-  width: 350px;
-  height: 500px;
+.Select__restaurant option {
   background: var(--color-main);
+}
+
+.Select__date option {
+  background: var(--color-main);
+}
+
+.Container__cart {
+  display: flex;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border: 1px solid transparent;
   border-radius: 0.5rem;
-  position: fixed;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.Container__cart:hover {
+  border-color: var(--color-secondary-light);
+}
+
+.Container__cart_opened {
+  top: -120px;
+  right: -175px;
+  transform: scale(0);
+  position: absolute;
+  min-height: 100px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 500px;
+  background: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
   padding: 1rem;
-  z-index: 9;
-  bottom: 0;
-  right: 0;
-  margin-right: 3.5rem;
-  margin-bottom: 3.5rem;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
-  color: var(--color-secondary-dark);
+  z-index: -10;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-}
-
-.Container__cartbox {
-}
-
-.Container__cart_items {
-  margin: 1rem 0;
-}
-
-.Container__single-item {
-  display: flex;
   gap: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--color-secondary-dark);
 }
 
-.Button__order {
-  width: 100%;
-  margin-top: 1rem;
-  background: var(--color-accent);
+.Container__cart_opened h4 {
+  font-weight: bold;
+}
+
+.Container__cart_opened_items p {
+  display: flex;
+  margin-bottom: 0.5rem;
+  color: var(--color-secondary-light);
+}
+
+.Container__cart_price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.Container__cart_opened_active {
+  right: -2rem;
+  top: 5.5rem;
+  transform: scale(1);
+  transform-origin: bottom;
+}
+
+.Container__cart_opened_item_single {
+  height: 100px;
+  /* border: 1px solid var(--color-secondary-light); */
+  border-radius: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.Container__cart_opened_item_single p {
+  color: var(--color-secondary-light);
+  padding: 0.125rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.Container__cart_opened_item_single > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .Image__cart {
-  width: 100px;
+  min-width: 35%;
+  height: 100%;
   border-radius: 0.5rem;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.Btn__cart {
+  margin: 0;
+}
+
+.Cart__item_invisible {
+  display: none;
+}
+
+.Cart__empty {
+  margin-bottom: 1rem;
 }

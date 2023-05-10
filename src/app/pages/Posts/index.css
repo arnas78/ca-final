@@ -100,11 +100,17 @@ h2 {
   overflow: hidden;
   z-index: 1;
   transition: 0.3s;
+  box-sizing: border-box;
 }
 
 .Btn__apply:hover {
   color: white;
   border-color: var(--color-accent);
+}
+
+a.Btn__apply {
+  height: 34px;
+  text-decoration: none;
 }
 
 .Btn__apply:hover span {
