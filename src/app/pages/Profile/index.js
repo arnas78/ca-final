@@ -21,8 +21,6 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 const Profile = () => {
-  const genders = fakeApi.genders;
-  const [selected, setSelected] = useState(genders[0].value);
   const [value, onChange] = useState(new Date());
 
   const tileDisabled = ({ activeStartDate, date, view }) => {
@@ -30,12 +28,6 @@ const Profile = () => {
     d.setDate(d.getDate() - 1);
     return date < d;
   };
-
-  function isWeekend(date = new Date()) {
-    var d = new Date();
-    d.setDate(d.getDate() - 1);
-    return date.getDay() % 6 === 0;
-  }
 
   return (
     <div className="Section__profile">

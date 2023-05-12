@@ -48,6 +48,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { useLocation } from "react-router-dom";
+import { render } from "@testing-library/react";
 
 const Dashboard = () => {
   const allMeals = fakeApi.main;
@@ -68,8 +69,60 @@ const Dashboard = () => {
     return date <= d;
   };
 
-  const { soupChosen, handleChosenSoup, mainChosen, handleChosenMain } =
-    useContext(ContentContext);
+  const { soupChosen, mainChosen, weekdayChosen } = useContext(ContentContext);
+
+  const renderMeals = () => {
+    if (soupChosen || mainChosen) {
+      if (soupChosen && mainChosen < 0) {
+        return (
+          <Meal
+            meal={allSoups[weekdayChosen].soups[soupChosen]}
+            isChosen={soupChosen}
+            image={food}
+            profile={profile}
+            dashboard={true}
+          />
+        );
+      } else if (mainChosen && soupChosen < 0) {
+        return (
+          <Meal
+            meal={allMeals[weekdayChosen].mains[mainChosen]}
+            isChosen={mainChosen}
+            image={food}
+            profile={profile}
+            dashboard={true}
+          />
+        );
+      } else if (mainChosen >= 0 && soupChosen >= 0) {
+        return (
+          <div>
+            <Meal
+              meal={allSoups[weekdayChosen].soups[soupChosen]}
+              isChosen={soupChosen}
+              image={food}
+              profile={profile}
+              dashboard={true}
+            />
+            ;
+            <Meal
+              meal={allMeals[weekdayChosen].mains[mainChosen]}
+              isChosen={mainChosen}
+              image={food}
+              profile={profile}
+              dashboard={true}
+            />
+          </div>
+        );
+      }
+    } else {
+      return (
+        <h3 className="Heading__lunch_empty">
+          Šią dieną jūs nieko neužsisakėte! Norėdami užsisakyti pietus,
+          spauskite PIETŲ SISTEMA...
+        </h3>
+      );
+    }
+  };
 
   return (
     <div className="Section__dashboard">
@@ -170,7 +223,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <Link className="Btn__apply Btn__lectures" to="/lectures">
-                Sužinoti daugiau... <FontAwesomeIcon icon={faArrowRight} />
+                Visi mokymai... <FontAwesomeIcon icon={faArrowRight} />
                 <span></span>
                 <span></span>
                 <span></span>
@@ -195,32 +248,24 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="Container__dashboard_lunch_content">
-                <Meal
-                  meal={allMeals[mainChosen]}
-                  isChosen={soupChosen}
-                  image={food}
-                  profile={profile}
-                  dashboard={true}
-                />
-
-                <Meal
-                  meal={allMeals[mainChosen]}
-                  isChosen={soupChosen}
-                  image={food}
-                  profile={profile}
-                  dashboard={true}
-                />
+                {renderMeals()}
               </div>
               <div className="Container__dashboard_lunch_footer">
                 <div>
                   <h4>
-                    Viso: {allMeals[mainChosen].price} &nbsp;
+                    Viso:{" "}
+                    {(mainChosen || soupChosen
+                      ? allMeals[weekdayChosen].mains[mainChosen].price +
+                        allSoups[weekdayChosen].soups[soupChosen].price
+                      : 0
+                    ).toFixed(2)}
+                    &nbsp;
                     <FontAwesomeIcon icon={faEuro} />
                   </h4>
                 </div>
                 <div>
                   <Link className="Btn__apply Btn__apply_lunch" to="/lunch">
-                    Sužinoti daugiau... <FontAwesomeIcon icon={faArrowRight} />
+                    Pietų sistema... <FontAwesomeIcon icon={faArrowRight} />
                     <span></span>
                     <span></span>
                     <span></span>

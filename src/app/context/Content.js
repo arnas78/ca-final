@@ -8,6 +8,7 @@ function ContentProvider({ children }) {
   const [soupChosen, setSoupChosen] = useState(null);
   const [mainChosen, setMainChosen] = useState(null);
   const [lectureChosen, setLectureChosen] = useState(null);
+  const [weekdayChosen, setWeekdayChosen] = useState(0);
 
   const applyEvent = (id) => {
     const newArr = [...appliedEvents];
@@ -63,6 +64,10 @@ function ContentProvider({ children }) {
     }
   };
 
+  const handleChosenWeekday = (weekdayId) => {
+    setWeekdayChosen = weekdayId;
+  };
+
   return (
     <ContentContext.Provider
       value={{
@@ -75,7 +80,9 @@ function ContentProvider({ children }) {
         mainChosen,
         handleChosenMain,
         lectureChosen,
-        handleChosenLecture
+        handleChosenLecture,
+        weekdayChosen,
+        handleChosenWeekday,
       }}
     >
       {children}

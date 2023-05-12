@@ -4,7 +4,11 @@ import Nav from "../../components/Nav";
 import "./index.css";
 import logo from "../../components/images/Vector.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faX } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faChevronDown,
+  faX,
+} from "@fortawesome/free-solid-svg-icons";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
@@ -34,8 +38,19 @@ const MapOptions = {
 
 const Learning = () => {
   const AnyReactComponent = ({ text }) => <div>{text}</div>;
-  const allLectures = fakeApi.lectures;
+  const allLectures = fakeApi.lectures.sort(function (a, b) {
+    let firstDate = new Date(a.start);
+    let secondDate = new Date(b.start);
+    // Turn your strings into dates, and then subtract them
+    // to get a value that is either negative, positive, or zero.
+    return firstDate - secondDate;
+  });
+
   const { lectureChosen, handleChosenLecture } = useContext(ContentContext);
+  const [attendeesOpen, setAttendeesOpen] = useState(false);
+  const [lectureSelected, setLectureSelected] = useState(null);
+
+  const [showEnded, setShowEnded] = useState(false);
 
   return (
     <div className="Section__Learning">
@@ -61,6 +76,108 @@ const Learning = () => {
             : "Container__learning_popup Inactive"
         }
       >
+        <div
+          className={
+            attendeesOpen
+              ? "Container__learning_popup_all_atendees Attendees__all_active"
+              : "Container__learning_popup_all_atendees"
+          }
+        >
+          <div className="Container__learning_popup_all_atendees_header">
+            <h3>Visi dalyviai</h3>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className="Icon__popup"
+              onClick={() => {
+                setAttendeesOpen((current) => !current);
+              }}
+            />
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Konstantinasasas P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+          <div className="Container__popup_attendees_single_all">
+            <span class="avatar__popup">
+              <img src="https://picsum.photos/10" />
+            </span>
+            <h4>Vardenis P.</h4>
+          </div>
+        </div>
         <div className="Container__learning_popup_header">
           <h2>
             <FontAwesomeIcon
@@ -86,19 +203,15 @@ const Learning = () => {
                 icon={faLocationDot}
                 className="Icon__location"
               />
-              Kaunas Office, Lithuania
+              {lectureSelected ? lectureSelected.place : ""}
             </h4>
             <h4>
               <FontAwesomeIcon icon={faCalendar} className="Icon__location" />
-              2023-06-24 - 2023-07-01
+              {lectureSelected
+                ? lectureSelected.start + ` - ` + lectureSelected.end
+                : ""}
             </h4>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tempus
-              sit amet orci. Curabitur aliquam, est dapibus feugiat consequat,
-              lorem enim iaculis elit, ullamcorper consequat enim odio sit amet
-              dui. Nam eu ipsum velit. Nulla cursus, nulla sit amet efficitur
-              suscipit, velit justo congue.
-            </p>
+            <p>{lectureSelected ? lectureSelected.desc : ""}</p>
           </div>
           <LoadScript googleMapsApiKey="AIzaSyDzILljratmTZbvzMz3ULfqfhRd7nA7LUg">
             <GoogleMap
@@ -112,7 +225,17 @@ const Learning = () => {
           </LoadScript>
         </div>
         <div>
-          <button className="Btn__apply Btn__popup">
+          <button
+            className="Btn__apply Btn__popup"
+            onClick={() => {
+              if (lectureSelected) {
+                alert(
+                  `Jūs sėkmingai aplikavote į renginį ${lectureSelected.title}!`
+                );
+                window.location.reload(false);
+              }
+            }}
+          >
             Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
             <span></span>
             <span></span>
@@ -156,7 +279,12 @@ const Learning = () => {
               </span>
               <h4>Vardenis P.</h4>
             </div>
-            <div className="Attendee__last">
+            <div
+              className="Attendee__last"
+              onClick={() => {
+                setAttendeesOpen((current) => !current);
+              }}
+            >
               <div class="avatars">
                 <span class="avatar">
                   <img src="https://picsum.photos/70" />
@@ -171,9 +299,7 @@ const Learning = () => {
                   <p>+10</p>
                 </span>
               </div>
-              <div>
-                <p>Daugiau...</p>
-              </div>
+              <p>Daugiau...</p>
             </div>
           </div>
         </div>
@@ -187,7 +313,14 @@ const Learning = () => {
           <div className="Container__sort_learning">
             <div className="Container__checkbox_learning">
               <label class="switch">
-                <input id="checkbox" type="checkbox" name="checkbox" />
+                <input
+                  id="checkbox"
+                  type="checkbox"
+                  name="checkbox"
+                  onChange={() => {
+                    setShowEnded((current) => !current);
+                  }}
+                />
                 <span class="slider round"></span>
               </label>
               <h4>Rodyti pasibaigusius</h4>
@@ -245,24 +378,45 @@ const Learning = () => {
           </div>
           <div className="Container__learnings">
             {allLectures.map((lecture, i) => {
-              return (
-                <Lecture
-                  key={i}
-                  lecture={lecture}
-                  onClick={() => {
-                    handleChosenLecture(lecture, true);
-                  }}
-                  id={lecture.id}
-                />
-              );
+              if (showEnded) {
+                return (
+                  <Lecture
+                    key={i}
+                    lecture={lecture}
+                    onClick={() => {
+                      handleChosenLecture(lecture, true);
+                      setLectureSelected(lecture);
+                      console.log(lectureSelected);
+                    }}
+                    id={lecture.id}
+                  />
+                );
+              } else if (!showEnded) {
+                let isEnded = false;
+                if (new Date() - new Date(lecture.end) > 0) {
+                  isEnded = true;
+                }
+                if (!isEnded) {
+                  return (
+                    <Lecture
+                      key={i}
+                      lecture={lecture}
+                      onClick={() => {
+                        handleChosenLecture(lecture, true);
+                        setLectureSelected(lecture);
+                        console.log(lectureSelected);
+                      }}
+                      id={lecture.id}
+                    />
+                  );
+                }
+              }
             })}
           </div>
         </div>
         <div className="Container__learning_nav">
           <div class="dropdown">
-            <div>
-              <h4>Kiekis per puslapį:</h4>
-            </div>
+            <h4>Kiekis per puslapį:</h4>
             <select class="dropbtn">
               <option value="10">10</option>
               <option value="20">20</option>

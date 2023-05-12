@@ -32,10 +32,7 @@ const Lunch = () => {
         dateCopy.getDate() + ((7 - dateCopy.getDay() + dayID) % 7 || 7)
       )
     );
-
     let nextDay = new Date(nextMonday.setHours(12, 0, 0, 0));
-
-    console.log(nextDay - new Date());
 
     if (nextDay - new Date() > 604800000) {
       return new Date().setHours(12, 0, 0, 0);
@@ -68,8 +65,13 @@ const Lunch = () => {
   };
 
   // Sets current day string value from array
-  const { soupChosen, handleChosenSoup, mainChosen, handleChosenMain } =
-    useContext(ContentContext);
+  const {
+    soupChosen,
+    handleChosenSoup,
+    mainChosen,
+    handleChosenMain,
+    handleChosenWeekday,
+  } = useContext(ContentContext);
   const [soupData, setSoupData] = useState(fakeApi.soups[0].soups);
   const [sampleData, setSampleData] = useState(fakeApi.main[0].mains);
 
@@ -87,6 +89,7 @@ const Lunch = () => {
   const handleChange = (e) => {
     setSampleData(fakeApi.main[e.target.value].mains);
     setSoupData(fakeApi.soups[e.target.value].soups);
+    handleChosenWeekday(Number(e.target.value));
   };
 
   const handleDay = (e) => {
@@ -98,8 +101,6 @@ const Lunch = () => {
   };
 
   let currentDay = new Date().getDay();
-
-  // console.log(weekday);
 
   return (
     <div className="Container__body">
@@ -139,19 +140,19 @@ const Lunch = () => {
             <div>
               <p>Data</p>
               <select className="Select__date" onChange={handleDay}>
-                <option disabled={currentDay - 1 > 0 ? "true" : null} value="1">
+                <option disabled={currentDay - 1 > 0 ? true : false} value="1">
                   Pirmadienis
                 </option>
-                <option disabled={currentDay - 2 > 0 ? "true" : null} value="2">
+                <option disabled={currentDay - 2 > 0 ? true : false} value="2">
                   Antradienis
                 </option>
-                <option disabled={currentDay - 3 > 0 ? "true" : null} value="3">
+                <option disabled={currentDay - 3 > 0 ? true : false} value="3">
                   Treciadienis
                 </option>
-                <option disabled={currentDay - 4 > 0 ? "true" : null} value="4">
+                <option disabled={currentDay - 4 > 0 ? true : false} value="4">
                   Ketvirtadienis
                 </option>
-                <option disabled={currentDay - 5 > 0 ? "true" : null} value="5">
+                <option disabled={currentDay - 5 > 0 ? true : false} value="5">
                   Penktadienis
                 </option>
               </select>
@@ -275,11 +276,17 @@ const Lunch = () => {
                     <p>
                       {soupChosen || soupChosen === 0
                         ? soupData[soupChosen].desc
-                        : ""}
+                        : "0.00"}{" "}
                     </p>
+                    <h4>
+                      {soupChosen || soupChosen === 0
+                        ? soupData[soupChosen].price
+                        : ""}
+                      <FontAwesomeIcon icon={faEuro} className="Icon__cart" />{" "}
+                    </h4>
                   </div>
                 </div>
-                <p>
+                <p className="Paragraph__cart">
                   <FontAwesomeIcon icon={faUtensils} className="Icon__sort" />{" "}
                   Pagrindinis
                 </p>
@@ -311,6 +318,12 @@ const Lunch = () => {
                         ? sampleData[mainChosen].desc
                         : ""}
                     </p>
+                    <h4>
+                      {mainChosen || mainChosen === 0
+                        ? sampleData[mainChosen].price
+                        : ""}
+                      <FontAwesomeIcon icon={faEuro} className="Icon__cart" />{" "}
+                    </h4>
                   </div>
                 </div>
               </div>

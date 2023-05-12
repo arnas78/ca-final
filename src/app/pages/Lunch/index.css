@@ -400,3 +400,13 @@ input:checked + .slider:before {
 .Cart__empty {
   margin-bottom: 1rem;
 }
+
+.Icon__cart {
+  margin-left: 0.5rem;
+  font-size: 1rem;
+}
+
+.Paragraph__cart {
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-secondary-light);
+}

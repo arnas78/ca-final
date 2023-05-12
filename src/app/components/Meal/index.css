@@ -18,21 +18,29 @@
 .Container__single_meal_dashboard {
   cursor: pointer;
   width: 50%;
-  height: 170px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   font-family: var(--font-main);
   display: flex;
+  flex-direction: column;
   background: var(--color-accent-secondary);
   justify-content: flex-start;
   border-radius: 0.5rem;
   padding: 1rem;
   transition: all 0.3s;
-  gap: 1.5rem;
+  gap: 1rem;
   color: var(--color-secondary-dark);
   font-weight: bold;
   position: relative;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px;
   border: 1px solid transparent;
   transition: all 0.3s;
+}
+
+.Container__single_meal_dashboard_price {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .Tag__invisible {
