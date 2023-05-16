@@ -19,8 +19,6 @@ import { faHand } from "@fortawesome/free-solid-svg-icons";
 import image from "../../components/images/blank_profile.png";
 import fakeApi from "../../data/data.json";
 import Training from "../../components/Training";
-import Popup from "../../components/Popup";
-import Heading from "../../components/Heading";
 import ContentContext from "../../context/Content";
 import GoogleMapReact from "google-map-react";
 import Lecture from "../../components/Lecture";

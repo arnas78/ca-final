@@ -7,6 +7,7 @@ import conference from "../../components/images/conference-1.jpeg";
 import conference_2 from "../../components/images/conference-2.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowDown,
   faArrowLeft,
   faArrowRight,
   faGraduationCap,
@@ -75,13 +76,14 @@ const Events = () => {
             <h1>Aplikuokite į renginius, konferencijas!</h1>
             <div className="Container__events_header">
               <h4>
-                Naujausiai pridėti
-                <FontAwesomeIcon icon={faArrowRight} className="Icon__header" />
+                Pateikite prašymus į renginius/konferencijas! Pateikus prašymą,
+                su jumis susisieks jūsų komandos ar bendrinis vadovas dėl
+                tolimesnės informacijos.
               </h4>
-              <div className="Container__search_events">
-                <FontAwesomeIcon icon={faSearch} className="Icon__search" />
-                <input type="text" placeholder="Ieškokite tarp įvykių..." />
-              </div>
+              <p>
+                Naujausiai pridėti
+                <FontAwesomeIcon icon={faArrowDown} className="Icon__header" />
+              </p>
             </div>
           </div>
         </div>
@@ -120,6 +122,17 @@ const Events = () => {
               />
               {selectedEvent ? selectedEvent.title : ""}
             </h2>
+            <div className="Container__events_popup_tags">
+              {selectedEvent && selectedEvent.tags
+                ? selectedEvent.tags.map((tag, i) => {
+                    return (
+                      <div className="Container__event_single_tag">
+                        <p>{tag}</p>
+                      </div>
+                    );
+                  })
+                : ""}
+            </div>
             <FontAwesomeIcon
               icon={faX}
               className="Icon__popup Icon__popup_events"
@@ -191,86 +204,6 @@ const Events = () => {
               />
             );
           })}
-          {/* <div className="Container__event_upcoming_single">
-            <div>
-              <div className="Event__upcoming_date">
-                <h4>20</h4>
-                <p>NOV</p>
-              </div>
-              <div>
-                <h3>All American Reject EU Tour</h3>
-              </div>
-            </div>
-            <div className="Event__upcoming_place">
-              <p>
-                <FontAwesomeIcon
-                  icon={faLocationDot}
-                  className="Icon__location"
-                />{" "}
-                Lanxess Arena, Cologne
-              </p>
-            </div>
-          </div> */}
-          {/* <div className="Container__event_upcoming_single">
-            <div>
-              <div className="Event__upcoming_date">
-                <h4>20</h4>
-                <p>NOV</p>
-              </div>
-              <div>
-                <h3>All American Reject EU Tour</h3>
-              </div>
-            </div>
-            <div className="Event__upcoming_place">
-              <p>
-                <FontAwesomeIcon
-                  icon={faLocationDot}
-                  className="Icon__location"
-                />{" "}
-                Lanxess Arena, Cologne
-              </p>
-            </div>
-          </div>
-          <div className="Container__event_upcoming_single">
-            <div>
-              <div className="Event__upcoming_date">
-                <h4>20</h4>
-                <p>NOV</p>
-              </div>
-              <div>
-                <h3>All American Reject EU Tour</h3>
-              </div>
-            </div>
-            <div className="Event__upcoming_place">
-              <p>
-                <FontAwesomeIcon
-                  icon={faLocationDot}
-                  className="Icon__location"
-                />{" "}
-                Lanxess Arena, Cologne
-              </p>
-            </div>
-          </div>
-          <div className="Container__event_upcoming_single">
-            <div>
-              <div className="Event__upcoming_date">
-                <h4>20</h4>
-                <p>NOV</p>
-              </div>
-              <div>
-                <h3>All American Reject EU Tour</h3>
-              </div>
-            </div>
-            <div className="Event__upcoming_place">
-              <p>
-                <FontAwesomeIcon
-                  icon={faLocationDot}
-                  className="Icon__location"
-                />{" "}
-                Lanxess Arena, Cologne
-              </p>
-            </div>
-          </div> */}
         </div>
 
         <div className="Container__event_events">
@@ -343,6 +276,10 @@ const Events = () => {
             Visi renginiai
             <FontAwesomeIcon icon={faArrowRight} className="Icon__header" />
           </h1>
+          <div className="Container__search_events">
+            <FontAwesomeIcon icon={faSearch} className="Icon__search" />
+            <input type="text" placeholder="Ieškokite tarp įvykių..." />
+          </div>
         </div>
         <div className="Container__event_posts">
           {eventData.map((event, i) => {

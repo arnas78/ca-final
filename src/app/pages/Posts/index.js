@@ -54,6 +54,11 @@ const Posts = () => {
     setSortLevel(e.target.value);
   };
 
+  const [searchValue, setSearchValue] = useState(null);
+  const handleSearch = (e) => {
+    setSearchValue(e.target.value);
+  };
+
   return (
     <div className="Section__Posts">
       <Nav image={logo} />
@@ -92,7 +97,7 @@ const Posts = () => {
                 icon={faEnvelopeOpenText}
                 className="Icon__location"
               />
-              DevOps programuotojas
+              {chosenPost ? chosenPost.title : ""}
             </h2>
             <FontAwesomeIcon
               icon={faX}
@@ -110,14 +115,14 @@ const Posts = () => {
                     icon={faAnglesUp}
                     className="Icon__location"
                   />
-                  Regular/Mid
+                  {chosenPost ? chosenPost.level : ""}
                 </h4>
                 <h4>
                   <FontAwesomeIcon
                     icon={faLocationDot}
                     className="Icon__location"
                   />
-                  Vilnius, Lietuva
+                  {chosenPost ? chosenPost.location : ""}
                 </h4>
 
                 <h4>
@@ -125,14 +130,18 @@ const Posts = () => {
                     icon={faCircleDollarToSlot}
                     className="Icon__location"
                   />
-                  1750$ - 3000$
+                  {chosenPost ? chosenPost.payrange : ""}
                 </h4>
               </div>
 
               <div className="Container__popup_posts_tags">
-                <div className="Tag__popup_post_single">DevOps</div>
-                <div className="Tag__popup_post_single">Kubernetes</div>
-                <div className="Tag__popup_post_single">Cloud</div>
+                {chosenPost
+                  ? chosenPost.tags.map((tag, i) => {
+                      return (
+                        <div className="Tag__popup_post_single">{tag}</div>
+                      );
+                    })
+                  : ""}
               </div>
             </div>
             <LoadScript googleMapsApiKey="AIzaSyDzILljratmTZbvzMz3ULfqfhRd7nA7LUg">
@@ -149,27 +158,16 @@ const Posts = () => {
           <div className="Container__post_popup_details">
             <div>
               <h4>Aprašymas</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Urna
-                nec tincidunt praesent semper feugiat nibh sed. Sed egestas
-                egestas fringilla phasellus faucibus scelerisque eleifend. Ut
-                ornare lectus sit amet est. Phasellus vestibulum lorem sed risus
-                ultricies. Ut eu sem integer vitae justo eget magna fermentum.
-                Felis eget velit aliquet sagittis id. Odio aenean sed adipiscing
-                diam donec. Ipsum consequat nisl vel pretium lectus. Et netus et
-                malesuada fames ac. Nisi porta lorem mollis aliquam.
-              </p>
+              <p>{chosenPost ? chosenPost.description : ""}</p>
             </div>
             <div>
               <h4>Reikalavimai</h4>
               <ul>
-                <li>mod tempor incididunt ut labore</li>
-                <li>ex ea commodo consequat</li>
-                <li>xcepteur sint occaecat cupidatat</li>
-                <li>officia deserunt mollit</li>
-                <li>t dolore magna aliqua</li>
-                <li>orem ipsum dolor sit amet</li>
+                {chosenPost
+                  ? chosenPost.requirements.map((requirement, i) => {
+                      return <li key={i}>{requirement}</li>;
+                    })
+                  : ""}
               </ul>
             </div>
           </div>
@@ -290,258 +288,138 @@ const Posts = () => {
 
             <div className="Container__search_posts">
               <FontAwesomeIcon icon={faSearch} className="Icon__search" />
-              <input type="text" placeholder="Ieškokite tarp skelbimų..." />
+              <input
+                type="text"
+                placeholder="Ieškokite tarp skelbimų..."
+                onChange={handleSearch}
+              />
             </div>
           </div>
         </div>
 
         <div className="Container__postings">
           {postData.map((post, i) => {
-            if (sortLocation === "All" && sortLevel === "Any") {
-              console.log("xddd");
-              return (
-                <Post
-                  key={i}
-                  post={post}
-                  onClick={() => {
-                    setChosenPost(post);
-                    setPostChosen(true);
-                  }}
-                  isRecent={false}
-                />
-              );
-            } else if (
-              sortLocation === post.location ||
-              sortLevel === post.level
-            ) {
-              return (
-                <Post
-                  key={i}
-                  post={post}
-                  onClick={() => {
-                    setChosenPost(post);
-                    setPostChosen(true);
-                  }}
-                  isRecent={false}
-                />
-              );
-            } else if (
-              sortLocation === post.location &&
-              sortLevel === post.level
-            ) {
-              return (
-                <Post
-                  key={i}
-                  post={post}
-                  onClick={() => {
-                    setChosenPost(post);
-                    setPostChosen(true);
-                  }}
-                  isRecent={false}
-                />
-              );
+            if (searchValue) {
+              if (
+                post.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+                post.description
+                  .toLowerCase()
+                  .includes(searchValue.toLowerCase())
+              ) {
+                if (sortLocation === "All" && sortLevel === "Any") {
+                  return (
+                    <Post
+                      key={i}
+                      post={post}
+                      onClick={() => {
+                        setChosenPost(post);
+                        setPostChosen(true);
+                      }}
+                      isRecent={false}
+                    />
+                  );
+                } else if (
+                  sortLocation === post.location &&
+                  sortLevel === "Any"
+                ) {
+                  return (
+                    <Post
+                      key={i}
+                      post={post}
+                      onClick={() => {
+                        setChosenPost(post);
+                        setPostChosen(true);
+                      }}
+                      isRecent={false}
+                    />
+                  );
+                } else if (sortLevel === post.level && sortLocation === "All") {
+                  return (
+                    <Post
+                      key={i}
+                      post={post}
+                      onClick={() => {
+                        setChosenPost(post);
+                        setPostChosen(true);
+                      }}
+                      isRecent={false}
+                    />
+                  );
+                } else if (
+                  sortLocation === post.location &&
+                  sortLevel === post.level
+                ) {
+                  return (
+                    <Post
+                      key={i}
+                      post={post}
+                      onClick={() => {
+                        setChosenPost(post);
+                        setPostChosen(true);
+                      }}
+                      isRecent={false}
+                    />
+                  );
+                }
+              }
+            } else {
+              if (sortLocation === "All" && sortLevel === "Any") {
+                return (
+                  <Post
+                    key={i}
+                    post={post}
+                    onClick={() => {
+                      setChosenPost(post);
+                      setPostChosen(true);
+                    }}
+                    isRecent={false}
+                  />
+                );
+              } else if (
+                sortLocation === post.location &&
+                sortLevel === "Any"
+              ) {
+                return (
+                  <Post
+                    key={i}
+                    post={post}
+                    onClick={() => {
+                      setChosenPost(post);
+                      setPostChosen(true);
+                    }}
+                    isRecent={false}
+                  />
+                );
+              } else if (sortLevel === post.level && sortLocation === "All") {
+                return (
+                  <Post
+                    key={i}
+                    post={post}
+                    onClick={() => {
+                      setChosenPost(post);
+                      setPostChosen(true);
+                    }}
+                    isRecent={false}
+                  />
+                );
+              } else if (
+                sortLocation === post.location &&
+                sortLevel === post.level
+              ) {
+                return (
+                  <Post
+                    key={i}
+                    post={post}
+                    onClick={() => {
+                      setChosenPost(post);
+                      setPostChosen(true);
+                    }}
+                    isRecent={false}
+                  />
+                );
+              }
             }
           })}
-          {/* <div className="Container__posting_single">
-            <div className="Container__posting_intro">
-              <h3>Frontend Engineer</h3>
-              <div className="Container__posting_details">
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faAnglesUp} />
-                  </div>
-                  <p>Junior</p>
-                </div>
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faLocationDot} />
-                  </div>
-                  <p>Kaunas, Lietuva</p>
-                </div>
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faCircleDollarToSlot} />
-                  </div>
-                  <p>1750$ - 3000$</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="Container__posting_desc">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur quis ex a nisl fermentum tincidunt quis quis nisi.
-                Morbi convallis scelerisque malesuada. Aenean sit amet lectus ac
-                nulla porta euismod. Phasellus eget nulla ut elit aliquam
-                rutrum. Donec faucibus velit nibh, sit amet elementum purus
-                faucibus sit amet. In lorem eros, dignissim hendrerit auctor
-                sed, fringilla sit amet tortor. Donec gravida, dolor non ornare
-                ultricies, felis urna tristique neque, eu condimentum elit arcu
-                at nisi. Nunc sit amet diam in purus dignissim congue a non
-                turpis. Mauris at sollicitudin lectus, a ultricies velit.
-                Quisque eu magna sagittis, pharetra risus vitae.
-              </p>
-            </div>
-          </div>
-          <div className="Container__posting_single">
-            <div className="Container__posting_intro">
-              <h3>Frontend Engineer</h3>
-              <div className="Container__posting_details">
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faAnglesUp} />
-                  </div>
-                  <p>Junior</p>
-                </div>
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faLocationDot} />
-                  </div>
-                  <p>Kaunas, Lietuva</p>
-                </div>
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faCircleDollarToSlot} />
-                  </div>
-                  <p>1750$ - 3000$</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="Container__posting_desc">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur quis ex a nisl fermentum tincidunt quis quis nisi.
-                Morbi convallis scelerisque malesuada. Aenean sit amet lectus ac
-                nulla porta euismod. Phasellus eget nulla ut elit aliquam
-                rutrum. Donec faucibus velit nibh, sit amet elementum purus
-                faucibus sit amet. In lorem eros, dignissim hendrerit auctor
-                sed, fringilla sit amet tortor. Donec gravida, dolor non ornare
-                ultricies, felis urna tristique neque, eu condimentum elit arcu
-                at nisi. Nunc sit amet diam in purus dignissim congue a non
-                turpis. Mauris at sollicitudin lectus, a ultricies velit.
-                Quisque eu magna sagittis, pharetra risus vitae.
-              </p>
-            </div>
-          </div>
-          <div className="Container__posting_single">
-            <div className="Container__posting_intro">
-              <h3>Frontend Engineer</h3>
-              <div className="Container__posting_details">
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faAnglesUp} />
-                  </div>
-                  <p>Junior</p>
-                </div>
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faLocationDot} />
-                  </div>
-                  <p>Kaunas, Lietuva</p>
-                </div>
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faCircleDollarToSlot} />
-                  </div>
-                  <p>1750$ - 3000$</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="Container__posting_desc">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur quis ex a nisl fermentum tincidunt quis quis nisi.
-                Morbi convallis scelerisque malesuada. Aenean sit amet lectus ac
-                nulla porta euismod. Phasellus eget nulla ut elit aliquam
-                rutrum. Donec faucibus velit nibh, sit amet elementum purus
-                faucibus sit amet. In lorem eros, dignissim hendrerit auctor
-                sed, fringilla sit amet tortor. Donec gravida, dolor non ornare
-                ultricies, felis urna tristique neque, eu condimentum elit arcu
-                at nisi. Nunc sit amet diam in purus dignissim congue a non
-                turpis. Mauris at sollicitudin lectus, a ultricies velit.
-                Quisque eu magna sagittis, pharetra risus vitae.
-              </p>
-            </div>
-          </div>
-          <div className="Container__posting_single">
-            <div className="Container__posting_intro">
-              <h3>Frontend Engineer</h3>
-              <div className="Container__posting_details">
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faAnglesUp} />
-                  </div>
-                  <p>Junior</p>
-                </div>
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faLocationDot} />
-                  </div>
-                  <p>Kaunas, Lietuva</p>
-                </div>
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faCircleDollarToSlot} />
-                  </div>
-                  <p>1750$ - 3000$</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="Container__posting_desc">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur quis ex a nisl fermentum tincidunt quis quis nisi.
-                Morbi convallis scelerisque malesuada. Aenean sit amet lectus ac
-                nulla porta euismod. Phasellus eget nulla ut elit aliquam
-                rutrum. Donec faucibus velit nibh, sit amet elementum purus
-                faucibus sit amet. In lorem eros, dignissim hendrerit auctor
-                sed, fringilla sit amet tortor. Donec gravida, dolor non ornare
-                ultricies, felis urna tristique neque, eu condimentum elit arcu
-                at nisi. Nunc sit amet diam in purus dignissim congue a non
-                turpis. Mauris at sollicitudin lectus, a ultricies velit.
-                Quisque eu magna sagittis, pharetra risus vitae.
-              </p>
-            </div>
-          </div>
-          <div className="Container__posting_single">
-            <div className="Container__posting_intro">
-              <h3>Frontend Engineer</h3>
-              <div className="Container__posting_details">
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faAnglesUp} />
-                  </div>
-                  <p>Junior</p>
-                </div>
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faLocationDot} />
-                  </div>
-                  <p>Kaunas, Lietuva</p>
-                </div>
-                <div className="Container__details_single">
-                  <div>
-                    <FontAwesomeIcon icon={faCircleDollarToSlot} />
-                  </div>
-                  <p>1750$ - 3000$</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="Container__posting_desc">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur quis ex a nisl fermentum tincidunt quis quis nisi.
-                Morbi convallis scelerisque malesuada. Aenean sit amet lectus ac
-                nulla porta euismod. Phasellus eget nulla ut elit aliquam
-                rutrum. Donec faucibus velit nibh, sit amet elementum purus
-                faucibus sit amet. In lorem eros, dignissim hendrerit auctor
-                sed, fringilla sit amet tortor. Donec gravida, dolor non ornare
-                ultricies, felis urna tristique neque, eu condimentum elit arcu
-                at nisi. Nunc sit amet diam in purus dignissim congue a non
-                turpis. Mauris at sollicitudin lectus, a ultricies velit.
-                Quisque eu magna sagittis, pharetra risus vitae.
-              </p>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

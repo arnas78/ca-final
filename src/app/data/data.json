@@ -434,15 +434,15 @@
       "id": 1,
       "title": "Second",
       "place": "Kaunas Office, Lithuania",
-      "start": "2023-09-24",
-      "end": "2023-07-01",
+      "start": "2022-09-24",
+      "end": "2023-04-01",
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
     },
     {
       "id": 2,
       "title": "Third",
       "place": "Kaunas Office, Lithuania",
-      "start": "2022-06-24",
+      "start": "2022-010-24",
       "end": "2023-03-01",
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
     },
@@ -450,7 +450,7 @@
       "id": 3,
       "title": "Kubernetes basics",
       "place": "Kaunas Office, Lithuania",
-      "start": "2023-06-24",
+      "start": "2023-08-24",
       "end": "2023-07-01",
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
     },
@@ -466,7 +466,7 @@
       "id": 5,
       "title": "Kubernetes basics",
       "place": "Kaunas Office, Lithuania",
-      "start": "2023-06-24",
+      "start": "2023-10-24",
       "end": "2023-07-01",
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
     },
@@ -474,7 +474,7 @@
       "id": 6,
       "title": "Kubernetes basics",
       "place": "Kaunas Office, Lithuania",
-      "start": "2023-06-24",
+      "start": "2023-03-24",
       "end": "2023-07-01",
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
     },
@@ -482,7 +482,7 @@
       "id": 7,
       "title": "Kubernetes basics",
       "place": "Kaunas Office, Lithuania",
-      "start": "2023-06-24",
+      "start": "2023-08-24",
       "end": "2023-07-01",
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
     },
@@ -490,7 +490,7 @@
       "id": 8,
       "title": "Kubernetes basics",
       "place": "Kaunas Office, Lithuania",
-      "start": "2023-06-24",
+      "start": "2023-03-24",
       "end": "2023-07-01",
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
     },
@@ -498,7 +498,39 @@
       "id": 9,
       "title": "Kubernetes basics",
       "place": "Kaunas Office, Lithuania",
-      "start": "2023-06-24",
+      "start": "2023-07-24",
+      "end": "2023-07-01",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
+    },
+    {
+      "id": 9,
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-03-24",
+      "end": "2023-07-01",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
+    },
+    {
+      "id": 9,
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-07-24",
+      "end": "2023-07-01",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
+    },
+    {
+      "id": 9,
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-07-24",
+      "end": "2023-07-01",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
+    },
+    {
+      "id": 9,
+      "title": "Kubernetes basics",
+      "place": "Kaunas Office, Lithuania",
+      "start": "2023-03-24",
       "end": "2023-07-01",
       "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
     }
@@ -543,6 +575,7 @@
       "title": "Frontend Programuotojas",
       "level": "Junior",
       "location": "Vilnius, Lietuva",
+      "tags": ["React", "Angular"],
       "requirements": [
         "mod tempor incididunt ut labore",
         "ex ea commodo consequat",
@@ -559,6 +592,7 @@
       "title": "DevOps Programuotojas",
       "level": "Regular/Mid",
       "location": "Vilnius, Lietuva",
+      "tags": ["Cloud", "Kubernetes", "DevOps"],
       "requirements": [
         "mod tempor incididunt ut labore",
         "ex ea commodo consequat",
@@ -569,12 +603,13 @@
       ],
       "description": "Lorem ipsum dolor sit amet, conseolore magna aliqua. Urna nec tincidunt praesent semper feugiat nibh sed. Sed egestas egestas fringilla phasellus faucibus scelerisque eleifend. Ut ornare lectus sit amet est. Phasellus vestibulum lorem sed risus ultricies. Ut eu sem integer vitae justo eget magna fermentum. Felis eget velit aliquet sagittis id. Odio aenean sed adipiscing diam donec. Ipsum consequat nisl vel pretium lectus. Et netus et malesuada fames ac. Nisi porta lorem mollis aliquam.",
       "posted": "2023-05-09",
-      "payrange": "1750$ - 3000$"
+      "payrange": "3000$ - 5000$"
     },
     {
       "title": "Frontend Programuotojas",
       "level": "Junior",
       "location": "Kaunas, Lietuva",
+      "tags": ["React", "Angular", "MUI"],
       "requirements": [
         "mod tempor incididunt ut labore",
         "ex ea commodo consequat",
@@ -588,9 +623,10 @@
       "payrange": "1750$ - 3000$"
     },
     {
-      "title": "Frontend Programuotojas",
+      "title": "UI/UX Dizaineris",
       "level": "Regular/Mid",
       "location": "Kaunas, Lietuva",
+      "tags": ["Figma", "Photoshop"],
       "requirements": [
         "mod tempor incididunt ut labore",
         "ex ea commodo consequat",
@@ -602,12 +638,13 @@
 
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedtus. Et netus et malesuada fames ac. Nisi porta lorem mollis aliquam.",
       "posted": "2023-05-09",
-      "payrange": "1750$ - 3000$"
+      "payrange": "3250$ - 5000$"
     },
     {
-      "title": "Frontend Programuotojas",
+      "title": "Java Programuotojas",
       "level": "Senior",
       "location": "Kaunas, Lietuva",
+      "tags": ["Java", "OOP"],
       "requirements": [
         "mod tempor incididunt ut labore",
         "ex ea commodo consequat",
@@ -616,10 +653,9 @@
         "t dolore magna aliqua",
         "orem ipsum dolor sit amet"
       ],
-
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sedtus. Et netus et malesuada fames ac. Nisi porta lorem mollis aliquam.",
-      "posted": "2023-05-09",
-      "payrange": "1750$ - 3000$"
+      "description": "Lorem ipsum dolor or sit amet, consectetur adipiscing elit, sedtus. Et ne sit amet, consectetur adipiscing elit, sedtus. Et netus et malesuada fames ac. Nisi porta lorem mollis aliquam.",
+      "posted": "2023-05-11",
+      "payrange": "4500$ - 6000$"
     }
   ]
 }

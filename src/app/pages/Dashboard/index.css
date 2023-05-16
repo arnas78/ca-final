@@ -227,7 +227,7 @@
 
 .Heading__swiper {
   background: rgba(255, 255, 255, 0.85);
-  z-index: 20;
+  z-index: 5;
   padding: 1rem;
   margin-top: 1.5rem;
   margin-left: 1.5rem;
@@ -237,7 +237,7 @@
 
 .Btn__swiper_dashboard {
   position: absolute;
-  z-index: 20;
+  z-index: 5;
   gap: 1rem;
   background: rgba(255, 255, 255, 0.85);
   color: var(--color-secondary-dark);
@@ -285,7 +285,7 @@
   border-radius: 0.5rem;
   border: 1px solid var(--color-secondary-dark);
   color: var(--color-secondary-dark);
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   cursor: pointer;
   transition: all 0.3s;
 }
@@ -303,7 +303,7 @@
   gap: 0.5rem;
 }
 
-.Lecture__active {
+.Lecture__active_dashboard {
   border-color: var(--color-vegan);
   background: var(--color-vegan-shadow);
 }

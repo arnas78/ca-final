@@ -65,7 +65,7 @@ function ContentProvider({ children }) {
   };
 
   const handleChosenWeekday = (weekdayId) => {
-    setWeekdayChosen = weekdayId;
+    setWeekdayChosen(weekdayId);
   };
 
   return (

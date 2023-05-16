@@ -19,7 +19,6 @@ import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Meal from "../../components/Meal";
 import fakeApi from "../../data/data.json";
-import Heading from "../../components/Heading";
 import ContentContext from "../../context/Content";
 import Countdown from "react-countdown";
 
@@ -70,6 +69,7 @@ const Lunch = () => {
     handleChosenSoup,
     mainChosen,
     handleChosenMain,
+    weekdayChosen,
     handleChosenWeekday,
   } = useContext(ContentContext);
   const [soupData, setSoupData] = useState(fakeApi.soups[0].soups);
@@ -98,6 +98,27 @@ const Lunch = () => {
 
   const handleVegan = (event) => {
     setVegan((current) => !current);
+  };
+
+  const handleCartCount = () => {
+    console.log(soupChosen, mainChosen);
+    if ((soupChosen || soupChosen === 0) && mainChosen === null) {
+      return <p>1</p>;
+    } else if ((mainChosen || mainChosen === 0) && soupChosen === null) {
+      return <p>1</p>;
+    } else if (
+      (mainChosen || mainChosen === 0) &&
+      (soupChosen || soupChosen === 0)
+    ) {
+      return <p>2</p>;
+    } else {
+      return <p>0</p>;
+    }
+  };
+
+  const [searchValue, setSearchValue] = useState(null);
+  const handleSearch = (e) => {
+    setSearchValue(e.target.value);
   };
 
   let currentDay = new Date().getDay();
@@ -350,17 +371,35 @@ const Lunch = () => {
                 <span></span>
               </button>
             </div>
-            <FontAwesomeIcon icon={faCartShopping} className="Icon__sort" />
+            <FontAwesomeIcon
+              icon={faCartShopping}
+              className="Icon__sort Icon__carts"
+            />
             <h4>Krepšelis</h4>
+            <div
+              className={
+                soupChosen || soupChosen === 0 || mainChosen || mainChosen === 0
+                  ? "Container__cart_counter Container__cart_counter_active"
+                  : "Container__cart_counter"
+              }
+            >
+              <p>{handleCartCount()}</p>
+            </div>
           </div>
         </div>
 
         <div className="Container__content">
           <div className="Header__restaurant">
-            <h1 className="Heading__restaurant">Restorano pavadinimas</h1>
+            <h1 className="Heading__restaurant">
+              {fakeApi.main[weekdayChosen].restaurant}
+            </h1>
             <div className="Container__search">
               <FontAwesomeIcon icon={faSearch} className="Icon__search" />
-              <input type="text" placeholder="Ieškokite restorane..." />
+              <input
+                type="text"
+                placeholder="Ieškokite restorane..."
+                onChange={handleSearch}
+              />
             </div>
           </div>
 
@@ -368,39 +407,87 @@ const Lunch = () => {
             <h3 className="Heading__food">Sriubos</h3>
             <div className="Container__soup">
               {soupData.map((soup, i) => {
-                return (
-                  <Meal
-                    key={i}
-                    meal={soup}
-                    profile={profile}
-                    isChosen={soupChosen}
-                    image={imageSoup}
-                    onClick={() => {
-                      handleChosenSoup(soup, true);
-                    }}
-                    id={soup.id}
-                    vegan={isVegan}
-                  />
-                );
+                if (searchValue) {
+                  if (
+                    soup.name
+                      .toLowerCase()
+                      .includes(searchValue.toLowerCase()) ||
+                    soup.desc.toLowerCase().includes(searchValue.toLowerCase())
+                  ) {
+                    return (
+                      <Meal
+                        key={i}
+                        meal={soup}
+                        profile={profile}
+                        isChosen={soupChosen}
+                        image={imageSoup}
+                        onClick={() => {
+                          handleChosenSoup(soup, true);
+                        }}
+                        id={soup.id}
+                        vegan={isVegan}
+                      />
+                    );
+                  }
+                } else {
+                  return (
+                    <Meal
+                      key={i}
+                      meal={soup}
+                      profile={profile}
+                      isChosen={soupChosen}
+                      image={imageSoup}
+                      onClick={() => {
+                        handleChosenSoup(soup, true);
+                      }}
+                      id={soup.id}
+                      vegan={isVegan}
+                    />
+                  );
+                }
               })}
             </div>
             <h3 className="Heading__food">Pagrindiniai patiekalai</h3>
             <div className="Container__main">
               {sampleData.map((meal, i) => {
-                return (
-                  <Meal
-                    key={i}
-                    meal={meal}
-                    profile={profile}
-                    isChosen={mainChosen}
-                    image={food}
-                    onClick={() => {
-                      handleChosenMain(meal, true);
-                    }}
-                    id={meal.id}
-                    vegan={isVegan}
-                  />
-                );
+                if (searchValue) {
+                  if (
+                    meal.name
+                      .toLowerCase()
+                      .includes(searchValue.toLowerCase()) ||
+                    meal.desc.toLowerCase().includes(searchValue.toLowerCase())
+                  ) {
+                    return (
+                      <Meal
+                        key={i}
+                        meal={meal}
+                        profile={profile}
+                        isChosen={mainChosen}
+                        image={food}
+                        onClick={() => {
+                          handleChosenMain(meal, true);
+                        }}
+                        id={meal.id}
+                        vegan={isVegan}
+                      />
+                    );
+                  }
+                } else {
+                  return (
+                    <Meal
+                      key={i}
+                      meal={meal}
+                      profile={profile}
+                      isChosen={mainChosen}
+                      image={food}
+                      onClick={() => {
+                        handleChosenMain(meal, true);
+                      }}
+                      id={meal.id}
+                      vegan={isVegan}
+                    />
+                  );
+                }
               })}
             </div>
           </div>

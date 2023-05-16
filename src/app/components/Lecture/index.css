@@ -62,9 +62,9 @@
 }
 
 .Lecture__active {
-  background: var(--color-vegan-shadow);
+  border-left: 8px solid var(--color-vegan);
 }
 
 .Lecture__ended {
-  background: var(--color-spicy-shadow);
+  border-left: 8px solid var(--color-spicy);
 }

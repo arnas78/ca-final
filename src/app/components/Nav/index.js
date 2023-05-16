@@ -2,7 +2,11 @@ import React from "react";
 import "./index.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBriefcase,
+  faSignIn,
+  faUserGear,
+} from "@fortawesome/free-solid-svg-icons";
 import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
@@ -24,6 +28,15 @@ function Nav({ image }) {
             <img className="Image__logo" src={image} alt="profile"></img>
           </div>
           <ul className="Nav__list">
+            <div>
+              <Link
+                className={location === "/admin" ? "Link Active" : "Link"}
+                to="/admin"
+              >
+                <FontAwesomeIcon icon={faUserGear} className="Icon__link" />
+              </Link>
+              <p className="Link__name">Administratorius</p>
+            </div>
             <div>
               <Link
                 className={location === "/dashboard" ? "Link Active" : "Link"}
@@ -130,7 +143,21 @@ function Nav({ image }) {
             </Link>
             <p className="Link__name">Mano profilis</p>
           </div>
-          <div></div>
+          <div>
+            <Link
+              className={location === "/login" ? "Link Active" : "Link"}
+              to="/login"
+            >
+              <FontAwesomeIcon icon={faSignIn} className="Icon__link" />
+            </Link>
+            <p
+              className={
+                location === "/login" ? "Link__name Link__active" : "Link__name"
+              }
+            >
+              Prisijungti
+            </p>
+          </div>
           <div>
             <div className="Btn__logout">
               <FontAwesomeIcon icon={faSignOut} className="Icon__link" />

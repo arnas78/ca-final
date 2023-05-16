@@ -35,6 +35,10 @@ import {
   faAnglesUp,
   faCircleDollarToSlot,
   faArrowDown,
+  faGraduationCap,
+  faHand,
+  faUser,
+  faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -49,6 +53,20 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { useLocation } from "react-router-dom";
 import { render } from "@testing-library/react";
+import GoogleMapReact from "google-map-react";
+import Lecture from "../../components/Lecture";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import Post from "../../components/Post";
+
+const center = {
+  lat: 54.86463618199356,
+  lng: 23.944770457672913,
+};
+
+const MapOptions = {
+  zoomControl: true,
+  mapTypeControl: false,
+};
 
 const Dashboard = () => {
   const allMeals = fakeApi.main;
@@ -69,7 +87,26 @@ const Dashboard = () => {
     return date <= d;
   };
 
+  let eventDataUpcoming = fakeApi.events;
+  if (eventDataUpcoming.length >= 4) {
+    eventDataUpcoming = eventDataUpcoming.slice(-4);
+  }
+
+  const [attendeesOpen, setAttendeesOpen] = useState(false);
+  const [lectureSelected, setLectureSelected] = useState(null);
+  const allLectures = fakeApi.lectures.slice(-2);
+  const [chosenPost, setChosenPost] = useState(null);
+  const [isPostChosen, setPostChosen] = useState(false);
+  const [isEventChosen, setIsEventChosen] = useState(false);
+
+  const [selectedEvent, setEventSelected] = useState(null);
+
   const { soupChosen, mainChosen, weekdayChosen } = useContext(ContentContext);
+
+  let postDataRecent = fakeApi.posts;
+  if (postDataRecent.length >= 3) {
+    postDataRecent = postDataRecent.slice(-3);
+  }
 
   const renderMeals = () => {
     if (soupChosen || mainChosen) {
@@ -154,7 +191,7 @@ const Dashboard = () => {
           <div className="Container__dashboard_content_left">
             <div className="Container__dashboard_vacation">
               <h2>
-                <FontAwesomeIcon icon={faPlane} /> Mano atostogos
+                <FontAwesomeIcon icon={faPlane} /> Atostogos
               </h2>
               <div>
                 <div className="Container__vacation_days_dashboard">
@@ -187,40 +224,284 @@ const Dashboard = () => {
               </Link>
             </div>
             <div className="Container__dashboard_lectures">
-              <h2>
-                <FontAwesomeIcon icon={faBook} /> Mano mokymai
-              </h2>
-              <h4>Vyksta: </h4>
-              <div className="Container__dashboard_lecture_list">
-                <div className="Container__dashboard_lecture_single Lecture__active">
-                  <h3>Kubernetes basics</h3>
-                  <div>
-                    <div className="Container__date_dashboard">
-                      <FontAwesomeIcon icon={faLocationDot} />
-                      <p>Kaunas office, Lithuania</p>
+              <div
+                className={
+                  lectureSelected
+                    ? "Container__learning_popup_bg"
+                    : "Container__learning_popup_bg Inactive"
+                }
+                onClick={() =>
+                  lectureSelected ? setLectureSelected(null) : null
+                }
+              ></div>
+              <div
+                className={
+                  lectureSelected
+                    ? "Container__learning_popup"
+                    : "Container__learning_popup Inactive"
+                }
+              >
+                <div
+                  className={
+                    attendeesOpen
+                      ? "Container__learning_popup_all_atendees Attendees__all_active"
+                      : "Container__learning_popup_all_atendees"
+                  }
+                >
+                  <div className="Container__learning_popup_all_atendees_header">
+                    <h3>Visi dalyviai</h3>
+                    <FontAwesomeIcon
+                      icon={faArrowLeft}
+                      className="Icon__popup"
+                      onClick={() => {
+                        setAttendeesOpen((current) => !current);
+                      }}
+                    />
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Konstantinasasas P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                  <div className="Container__popup_attendees_single_all">
+                    <span class="avatar__popup">
+                      <img src="https://picsum.photos/10" />
+                    </span>
+                    <h4>Vardenis P.</h4>
+                  </div>
+                </div>
+                <div className="Container__learning_popup_header">
+                  <h2>
+                    <FontAwesomeIcon
+                      icon={faGraduationCap}
+                      className="Icon__location"
+                    />
+                    {lectureSelected ? lectureSelected.title : ""}
+                  </h2>
+                  <FontAwesomeIcon
+                    icon={faX}
+                    className="Icon__popup"
+                    onClick={() =>
+                      lectureSelected ? setLectureSelected(null) : null
+                    }
+                  />
+                </div>
+                <div className="Container__popup_info">
+                  <div className="Container__popup_details">
+                    <h4>
+                      <FontAwesomeIcon
+                        icon={faLocationDot}
+                        className="Icon__location"
+                      />
+                      {lectureSelected ? lectureSelected.place : ""}
+                    </h4>
+                    <h4>
+                      <FontAwesomeIcon
+                        icon={faCalendar}
+                        className="Icon__location"
+                      />
+                      {lectureSelected
+                        ? lectureSelected.start + ` - ` + lectureSelected.end
+                        : ""}
+                    </h4>
+                    <p>{lectureSelected ? lectureSelected.desc : ""}</p>
+                  </div>
+                  <LoadScript googleMapsApiKey="AIzaSyDzILljratmTZbvzMz3ULfqfhRd7nA7LUg">
+                    <GoogleMap
+                      mapContainerClassName="Map__popup"
+                      center={center}
+                      zoom={17}
+                      options={MapOptions}
+                    >
+                      <></>
+                    </GoogleMap>
+                  </LoadScript>
+                </div>
+                <div>
+                  <button
+                    className="Btn__apply Btn__popup"
+                    onClick={() => {
+                      if (lectureSelected) {
+                        alert(
+                          `Jūs sėkmingai aplikavote į renginį ${lectureSelected.title}!`
+                        );
+                        window.location.reload(false);
+                      }
+                    }}
+                  >
+                    Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </button>
+                </div>
+                <div>
+                  <h4>
+                    <FontAwesomeIcon icon={faUser} className="Icon__location" />
+                    Dalyviai:
+                  </h4>
+                  <div className="Container__popup_attendees">
+                    <div className="Container__popup_attendees_single">
+                      <span class="avatar__popup">
+                        <img src="https://picsum.photos/10" />
+                      </span>
+                      <h4>Vardenis P.</h4>
                     </div>
-                    <div className="Container__date_dashboard">
-                      <FontAwesomeIcon icon={faCalendar} />{" "}
-                      <p>2023-05-01 - 2023-07-01</p>
+                    <div className="Container__popup_attendees_single">
+                      <span class="avatar__popup">
+                        <img src="https://picsum.photos/100" />
+                      </span>
+                      <h4>Vardenis P.</h4>
+                    </div>
+                    <div className="Container__popup_attendees_single">
+                      <span class="avatar__popup">
+                        <img src="https://picsum.photos/20" />
+                      </span>
+                      <h4>Vardenis P.</h4>
+                    </div>
+                    <div className="Container__popup_attendees_single">
+                      <span class="avatar__popup">
+                        <img src="https://picsum.photos/90" />
+                      </span>
+                      <h4>Vardenis P.</h4>
+                    </div>
+                    <div className="Container__popup_attendees_single">
+                      <span class="avatar__popup">
+                        <img src="https://picsum.photos/80" />
+                      </span>
+                      <h4>Vardenis P.</h4>
+                    </div>
+                    <div
+                      className="Attendee__last"
+                      onClick={() => {
+                        setAttendeesOpen((current) => !current);
+                      }}
+                    >
+                      <div class="avatars">
+                        <span class="avatar">
+                          <img src="https://picsum.photos/70" />
+                        </span>
+                        <span class="avatar">
+                          <img src="https://picsum.photos/80" />
+                        </span>
+                        <span class="avatar">
+                          <img src="https://picsum.photos/90" />
+                        </span>
+                        <span class="avatar last">
+                          <p>+10</p>
+                        </span>
+                      </div>
+                      <p>Daugiau...</p>
                     </div>
                   </div>
                 </div>
               </div>
+              <h2>
+                <FontAwesomeIcon icon={faBook} /> Mokymai
+              </h2>
+              <h4>Vyksta: </h4>
+              <div className="Container__dashboard_lecture_list">
+                {allLectures.map((lecture, i) => {
+                  return (
+                    <Lecture
+                      key={i}
+                      lecture={lecture}
+                      onClick={() => {
+                        setLectureSelected(lecture);
+                      }}
+                      dashboard={true}
+                    />
+                  );
+                })}
+              </div>
               <h4>Būsimi:</h4>
               <div className="Container__dashboard_lecture_list">
-                <div className="Container__dashboard_lecture_single">
-                  <h3>Kubernetes basics</h3>
-                  <div>
-                    <div className="Container__date_dashboard">
-                      <FontAwesomeIcon icon={faLocationDot} />
-                      <p>Vilnius office, Lithuania</p>
-                    </div>
-                    <div className="Container__date_dashboard">
-                      <FontAwesomeIcon icon={faCalendar} />{" "}
-                      <p>2023-09-01 - 2023-10-01</p>
-                    </div>
-                  </div>
-                </div>
+                {allLectures.map((lecture, i) => {
+                  return (
+                    <Lecture
+                      key={i}
+                      lecture={lecture}
+                      onClick={() => {
+                        setLectureSelected(lecture);
+                      }}
+                      dashboard={true}
+                    />
+                  );
+                })}
               </div>
               <Link className="Btn__apply Btn__lectures" to="/lectures">
                 Visi mokymai... <FontAwesomeIcon icon={faArrowRight} />
@@ -235,7 +516,7 @@ const Dashboard = () => {
             <div className="Container__dashboard_lunch">
               <div className="Container__dashboard_lunch_header">
                 <h2>
-                  <FontAwesomeIcon icon={faCutlery} /> Mano pietūs
+                  <FontAwesomeIcon icon={faCutlery} /> Pietūs ofise
                 </h2>
                 <div className="Container__dashboard_lunch_date">
                   <FontAwesomeIcon icon={faArrowLeft} />
@@ -275,6 +556,110 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="Container__dashboard_events">
+              <div
+                className={
+                  isEventChosen
+                    ? "Container__learning_popup_bg"
+                    : "Container__learning_popup_bg Hidden"
+                }
+                onClick={() =>
+                  isEventChosen || isEventChosen === 0
+                    ? setIsEventChosen(false)
+                    : null
+                }
+              ></div>
+              <div
+                className={
+                  isEventChosen
+                    ? "Container__events_popup"
+                    : "Container__events_popup Hidden"
+                }
+              >
+                <div className="Container__learning_popup_header">
+                  <div className="Container__events_popup_image">
+                    <img
+                      src={conference}
+                      alt="event"
+                      className="Image__events_popup"
+                    ></img>
+                  </div>
+                  <h2 className="Heading__events_popup_header">
+                    <FontAwesomeIcon
+                      icon={faGraduationCap}
+                      className="Icon__location"
+                    />
+                    {selectedEvent ? selectedEvent.title : ""}
+                  </h2>
+                  <div className="Container__events_popup_tags">
+                    {selectedEvent && selectedEvent.tags
+                      ? selectedEvent.tags.map((tag, i) => {
+                          return (
+                            <div className="Container__event_single_tag">
+                              <p>{tag}</p>
+                            </div>
+                          );
+                        })
+                      : ""}
+                  </div>
+                  <FontAwesomeIcon
+                    icon={faX}
+                    className="Icon__popup Icon__popup_events"
+                    onClick={() =>
+                      isEventChosen || isEventChosen === 0
+                        ? setIsEventChosen(false)
+                        : null
+                    }
+                  />
+                </div>
+                <div className="Container__popup_info Container__popup_info_events">
+                  <div className="Container__popup_details">
+                    <h4>
+                      <FontAwesomeIcon
+                        icon={faLocationDot}
+                        className="Icon__location"
+                      />
+                      {selectedEvent ? selectedEvent.place : ""}
+                    </h4>
+                    <h4>
+                      <FontAwesomeIcon
+                        icon={faCalendar}
+                        className="Icon__location"
+                      />
+                      {selectedEvent ? selectedEvent.date : ""}
+                    </h4>
+                    <p>{selectedEvent ? selectedEvent.description : ""}</p>
+                  </div>
+                  <LoadScript googleMapsApiKey="AIzaSyDzILljratmTZbvzMz3ULfqfhRd7nA7LUg">
+                    <GoogleMap
+                      mapContainerClassName="Map__popup_events"
+                      center={center}
+                      zoom={17}
+                      options={MapOptions}
+                    >
+                      <></>
+                    </GoogleMap>
+                  </LoadScript>
+                </div>
+                <div>
+                  <button
+                    className="Btn__apply Btn__popup"
+                    onClick={() => {
+                      if (selectedEvent) {
+                        alert(
+                          `Jūs sėkmingai aplikavote į renginį ${selectedEvent.title}!`
+                        );
+                        window.location.reload(false);
+                      }
+                    }}
+                  >
+                    Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </button>
+                </div>
+              </div>
               <h2 className="Heading__swiper">
                 <FontAwesomeIcon icon={faCalendarDay} /> Renginiai
               </h2>
@@ -300,80 +685,41 @@ const Dashboard = () => {
                 onAutoplayTimeLeft={onAutoplayTimeLeft}
                 className="mySwiper swiper__dashboard"
               >
-                <SwiperSlide>
-                  <img src={event} alt="event" className="Image__event"></img>
-                  <div className="Container__event_highlight">
-                    <h1>DevOps Enterprise Summit</h1>
-                    <div>
-                      <h4>
-                        <FontAwesomeIcon
-                          icon={faLocationDot}
-                          className="Icon__location"
-                        />{" "}
-                        Warsaw, Poland
-                      </h4>
-                      <h3>
-                        <FontAwesomeIcon
-                          icon={faClock}
-                          className="Icon__location"
-                        />{" "}
-                        21 LAP 2024, 8:00
-                      </h3>
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <img
-                    src={conference}
-                    alt="event"
-                    className="Image__event"
-                  ></img>
-                  <div className="Container__event_highlight">
-                    <h1>DevOps Enterprise Summit</h1>
-                    <div>
-                      <h4>
-                        <FontAwesomeIcon
-                          icon={faLocationDot}
-                          className="Icon__location"
-                        />{" "}
-                        Manchester, London
-                      </h4>
-                      <h3>
-                        <FontAwesomeIcon
-                          icon={faClock}
-                          className="Icon__location"
-                        />{" "}
-                        21 LAP 2024, 8:00
-                      </h3>
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <img
-                    src={conference_2}
-                    alt="event"
-                    className="Image__event"
-                  ></img>
-                  <div className="Container__event_highlight">
-                    <h1>DevOps Enterprise Summit</h1>
-                    <div>
-                      <h4>
-                        <FontAwesomeIcon
-                          icon={faLocationDot}
-                          className="Icon__location"
-                        />{" "}
-                        02 Arena, Prague
-                      </h4>
-                      <h3>
-                        <FontAwesomeIcon
-                          icon={faClock}
-                          className="Icon__location"
-                        />{" "}
-                        21 LAP 2024, 8:00
-                      </h3>
-                    </div>
-                  </div>
-                </SwiperSlide>
+                {eventDataUpcoming.map((event, i) => {
+                  return (
+                    <SwiperSlide
+                      onClick={() => {
+                        setEventSelected(event);
+                        setIsEventChosen(true);
+                      }}
+                    >
+                      <img
+                        src={conference_2}
+                        alt="event"
+                        className="Image__event"
+                      ></img>
+                      <div className="Container__event_highlight">
+                        <h1>{event.title}</h1>
+                        <div>
+                          <h4>
+                            <FontAwesomeIcon
+                              icon={faLocationDot}
+                              className="Icon__location"
+                            />
+                            {event.place}
+                          </h4>
+                          <h3>
+                            <FontAwesomeIcon
+                              icon={faClock}
+                              className="Icon__location"
+                            />
+                            {event.date}
+                          </h3>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
 
                 <div className="autoplay-progress" slot="container-end">
                   <svg viewBox="0 0 48 48" ref={progressCircle}>
@@ -394,120 +740,183 @@ const Dashboard = () => {
                   </h3>
                 </div>
               </div>
+              <div
+                className={
+                  isPostChosen
+                    ? "Container__learning_popup_bg"
+                    : "Container__learning_popup_bg Opacity"
+                }
+                onClick={() => (isPostChosen ? setPostChosen(false) : null)}
+              ></div>
+              <div
+                className={
+                  isPostChosen
+                    ? "Container__posts_popup"
+                    : "Container__posts_popup Opacity"
+                }
+              >
+                <div className="Container__learning_popup_header">
+                  <h2>
+                    <FontAwesomeIcon
+                      icon={faEnvelopeOpenText}
+                      className="Icon__location"
+                    />
+                    {chosenPost ? chosenPost.title : ""}
+                  </h2>
+                  <FontAwesomeIcon
+                    icon={faX}
+                    className="Icon__popup"
+                    onClick={() =>
+                      isPostChosen || chosenPost === 0
+                        ? setPostChosen(false)
+                        : null
+                    }
+                  />
+                </div>
+                <div className="Container__popup_info">
+                  <div className="Container__popup_details Container__popup_details_posts">
+                    <div>
+                      <h4>
+                        <FontAwesomeIcon
+                          icon={faAnglesUp}
+                          className="Icon__location"
+                        />
+                        {chosenPost ? chosenPost.level : ""}
+                      </h4>
+                      <h4>
+                        <FontAwesomeIcon
+                          icon={faLocationDot}
+                          className="Icon__location"
+                        />
+                        {chosenPost ? chosenPost.location : ""}
+                      </h4>
+
+                      <h4>
+                        <FontAwesomeIcon
+                          icon={faCircleDollarToSlot}
+                          className="Icon__location"
+                        />
+                        {chosenPost ? chosenPost.payrange : ""}
+                      </h4>
+                    </div>
+
+                    <div className="Container__popup_posts_tags">
+                      {chosenPost
+                        ? chosenPost.tags.map((tag, i) => {
+                            return (
+                              <div className="Tag__popup_post_single">
+                                {tag}
+                              </div>
+                            );
+                          })
+                        : ""}
+                    </div>
+                  </div>
+                  <LoadScript googleMapsApiKey="AIzaSyDzILljratmTZbvzMz3ULfqfhRd7nA7LUg">
+                    <GoogleMap
+                      mapContainerClassName="Map__popup_posts"
+                      center={center}
+                      zoom={17}
+                      options={MapOptions}
+                    >
+                      <></>
+                    </GoogleMap>
+                  </LoadScript>
+                </div>
+                <div className="Container__post_popup_details">
+                  <div>
+                    <h4>Aprašymas</h4>
+                    <p>{chosenPost ? chosenPost.description : ""}</p>
+                  </div>
+                  <div>
+                    <h4>Reikalavimai</h4>
+                    <ul>
+                      {chosenPost
+                        ? chosenPost.requirements.map((requirement, i) => {
+                            return <li key={i}>{requirement}</li>;
+                          })
+                        : ""}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="Container__post_popup_apply">
+                  <h4>Informacija</h4>
+                  <div className="Container__post_popup_inputs">
+                    <div className="Container__post_popup_inputs_single">
+                      <label>Vardas</label>
+                      <input
+                        type="text"
+                        className="Input__post"
+                        placeholder="Vardenis"
+                      />
+                    </div>
+                    <div className="Container__post_popup_inputs_single">
+                      <label>Pavardė</label>
+                      <input
+                        type="text"
+                        className="Input__post"
+                        placeholder="Pavardenis"
+                      />
+                    </div>
+                    <div className="Container__post_popup_inputs_single">
+                      <label>El. paštas</label>
+                      <input
+                        type="text"
+                        className="Input__post"
+                        placeholder="v.pavardenis@email.com"
+                      />
+                    </div>
+                    <div className="Container__post_popup_inputs_single">
+                      <label>Telefono nr.</label>
+                      <input
+                        type="text"
+                        className="Input__post"
+                        placeholder="+37061234567"
+                      />
+                    </div>
+                  </div>
+                  <div className="Container__post_popup_cv">
+                    <p>Įkelkite aplikanto CV (gyvenimo aprašymą)!</p>
+                  </div>
+                </div>
+
+                <div>
+                  <button
+                    className="Btn__apply Btn__popup"
+                    onClick={() => {
+                      if (isPostChosen) {
+                        alert(
+                          `Jūs sėkmingai aplikavote į renginį ${chosenPost.title}!`
+                        );
+                        window.location.reload(false);
+                      }
+                    }}
+                  >
+                    Siųsti aplikaciją <FontAwesomeIcon icon={faPaperPlane} />
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </button>
+                </div>
+              </div>
 
               <div className="Container__recent">
                 <div className="Container__posts_recent">
-                  <div className="Post__recent_dashboard">
-                    <div>
-                      <h4>Frontend Engineer</h4>
-                      <div className="Container__recent_details">
-                        <div>
-                          <FontAwesomeIcon icon={faAnglesUp} />
-                        </div>
-                        <p>Junior</p>
-                      </div>
-                      <div className="Container__recent_details">
-                        <div>
-                          <FontAwesomeIcon icon={faLocationDot} />
-                        </div>
-                        <p>Kaunas, Lietuva</p>
-                      </div>
-
-                      <div className="Container__recent_details">
-                        <div>
-                          <FontAwesomeIcon icon={faCircleDollarToSlot} />
-                        </div>
-                        <p>1750$ - 3000$</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="Paragraph__time">Paskelbta prieš: 2d.</p>
-                    </div>
-                    <div>
-                      <button className="Btn__apply">
-                        Pasiūlyti draugą <FontAwesomeIcon icon={faArrowRight} />
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="Post__recent_dashboard">
-                    <div>
-                      <h4>Frontend Engineer</h4>
-
-                      <div className="Container__recent_details">
-                        <div>
-                          <FontAwesomeIcon icon={faAnglesUp} />
-                        </div>
-                        <p>Junior</p>
-                      </div>
-                      <div className="Container__recent_details">
-                        <div>
-                          <FontAwesomeIcon icon={faLocationDot} />
-                        </div>
-                        <p>Kaunas, Lietuva</p>
-                      </div>
-
-                      <div className="Container__recent_details">
-                        <div>
-                          <FontAwesomeIcon icon={faCircleDollarToSlot} />
-                        </div>
-                        <p>1750$ - 3000$</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="Paragraph__time">Paskelbta prieš: 2d.</p>
-                    </div>
-                    <div>
-                      <button className="Btn__apply">
-                        Pasiūlyti draugą <FontAwesomeIcon icon={faArrowRight} />
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="Post__recent_dashboard">
-                    <div>
-                      <h4>Frontend Engineer</h4>
-
-                      <div className="Container__recent_details">
-                        <div>
-                          <FontAwesomeIcon icon={faAnglesUp} />
-                        </div>
-                        <p>Junior</p>
-                      </div>
-                      <div className="Container__recent_details">
-                        <div>
-                          <FontAwesomeIcon icon={faLocationDot} />
-                        </div>
-                        <p>Kaunas, Lietuva</p>
-                      </div>
-
-                      <div className="Container__recent_details">
-                        <div>
-                          <FontAwesomeIcon icon={faCircleDollarToSlot} />
-                        </div>
-                        <p>1750$ - 3000$</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="Paragraph__time">Paskelbta prieš: 2d.</p>
-                    </div>
-                    <div>
-                      <button className="Btn__apply">
-                        Pasiūlyti draugą
-                        <FontAwesomeIcon icon={faArrowRight} />
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </button>
-                    </div>
-                  </div>
+                  {postDataRecent.map((post, i) => {
+                    return (
+                      <Post
+                        key={i}
+                        post={post}
+                        onClick={() => {
+                          setChosenPost(post);
+                          setPostChosen(true);
+                        }}
+                        isRecent={true}
+                      />
+                    );
+                  })}
                 </div>
               </div>
               <Link className="Btn__apply Btn__lectures" to="/posts">
