@@ -161,7 +161,7 @@ const Lunch = () => {
             <div>
               <p>Data</p>
               <select className="Select__date" onChange={handleDay}>
-                <option disabled={currentDay - 1 > 0 ? true : false} value="1">
+                <option disabled={currentDay - 1 > 0 ? true : true} value="1">
                   Pirmadienis
                 </option>
                 <option disabled={currentDay - 2 > 0 ? true : false} value="2">

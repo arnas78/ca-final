@@ -68,7 +68,8 @@ const Posts = () => {
           <div>
             <h1>Darbo skelbimai</h1>
             <h4>
-              Čia galite matyti bei pasiūlyti kitą žmogų į pasirinktą poziciją.
+              Čia galite matyti darbo skelbimus bei pasiūlyti kitą žmogų į
+              pasirinktą poziciją.
             </h4>
           </div>
           <h3>

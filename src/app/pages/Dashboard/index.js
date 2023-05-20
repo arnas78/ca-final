@@ -153,10 +153,10 @@ const Dashboard = () => {
       }
     } else {
       return (
-        <h3 className="Heading__lunch_empty">
+        <h4 className="Heading__lunch_empty">
           Šią dieną jūs nieko neužsisakėte! Norėdami užsisakyti pietus,
           spauskite PIETŲ SISTEMA...
-        </h3>
+        </h4>
       );
     }
   };
@@ -519,13 +519,9 @@ const Dashboard = () => {
                   <FontAwesomeIcon icon={faCutlery} /> Pietūs ofise
                 </h2>
                 <div className="Container__dashboard_lunch_date">
-                  <FontAwesomeIcon icon={faArrowLeft} />
-                  <div>
-                    <h4>
-                      <FontAwesomeIcon icon={faCalendar} /> Pirmadienis
-                    </h4>
-                  </div>
-                  <FontAwesomeIcon icon={faArrowRight} />
+                  <h4>
+                    <FontAwesomeIcon icon={faCalendar} /> Pirmadienis
+                  </h4>
                 </div>
               </div>
               <div className="Container__dashboard_lunch_content">
@@ -546,7 +542,7 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <Link className="Btn__apply Btn__apply_lunch" to="/lunch">
-                    Pietų sistema... <FontAwesomeIcon icon={faArrowRight} />
+                    Pietų sistema <FontAwesomeIcon icon={faArrowRight} />
                     <span></span>
                     <span></span>
                     <span></span>

@@ -28,7 +28,7 @@ function Nav({ image }) {
             <img className="Image__logo" src={image} alt="profile"></img>
           </div>
           <ul className="Nav__list">
-            <div>
+            {/* <div>
               <Link
                 className={location === "/admin" ? "Link Active" : "Link"}
                 to="/admin"
@@ -36,7 +36,7 @@ function Nav({ image }) {
                 <FontAwesomeIcon icon={faUserGear} className="Icon__link" />
               </Link>
               <p className="Link__name">Administratorius</p>
-            </div>
+            </div> */}
             <div>
               <Link
                 className={location === "/dashboard" ? "Link Active" : "Link"}
@@ -143,7 +143,7 @@ function Nav({ image }) {
             </Link>
             <p className="Link__name">Mano profilis</p>
           </div>
-          <div>
+          {/* <div>
             <Link
               className={location === "/login" ? "Link Active" : "Link"}
               to="/login"
@@ -157,7 +157,7 @@ function Nav({ image }) {
             >
               Prisijungti
             </p>
-          </div>
+          </div> */}
           <div>
             <div className="Btn__logout">
               <FontAwesomeIcon icon={faSignOut} className="Icon__link" />
