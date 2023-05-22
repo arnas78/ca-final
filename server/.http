@@ -1,0 +1,219 @@
+###
+GET http://localhost:5000/api/users
+
+###
+POST http://localhost:5000/api/users/signup
+content-type: application/json
+
+{
+    "name": "Vardenis",
+    "surname": "Pavardenis",
+    "work_email": "vardenis@pavardenis.com",
+    "position": "DevOps Programuotojas",
+    "location": "Vilnius, Lietuva",
+    "password": "vardenis",
+    "phone": "+37061234567",
+    "birthdate": "1997-01-15",
+    "sex": "Vyras",
+    "personal_number": "5XXXXXX1234",
+    "level": 1
+}
+
+###
+POST http://localhost:5000/api/user/extra
+content-type: application/json
+
+{
+    "user_id": "646a4910cc114a5a37df1014",
+    "vacation_days": 3,
+    "bio": "Sveiki, esu testinė paskyra!",
+    "personal_email": "arnas1234567@gmail.com",
+    "github": "https://github.com/arnas78",
+    "bank_name": "SwedBank",
+    "bank_number": "XX1234YYYY4567XXXX89"
+}
+
+###
+PUT http://localhost:5000/api/user/extra/646a4910cc114a5a37df1014
+content-type: application/json
+
+{
+    "bio": "test"
+}
+
+# EVENTS
+
+
+###
+POST http://localhost:5000/api/events
+content-type: application/json
+
+{
+    "title": "JSHeroes",
+    "date": "24 NOV 2023, 11:00",
+    "place": "Bucharest Arena, Romania",
+    "description": "May 18 to 19—JSHeroes is a non-profit community-organized conference, held every year in Cluj, Romania. Our goal is to bring together JS and Web/Frontend development enthusiasts from all over the world, for a 2-day event with: great talks, amazing networking and tons of fun.",
+    "image": "https://res.cloudinary.com/dqcj3vyhm/image/upload/v1684690229/conf-1_ary4pb.jpg"
+}
+
+###
+GET http://localhost:5000/api/events
+
+
+# POSTS
+
+
+###
+POST http://localhost:5000/api/posts
+content-type: application/json
+
+{
+      "title": "Java Programuotojas",
+      "level": "Senior",
+      "location": "Kaunas, Lietuva",
+      "tags": ["Java", "OOP"],
+      "requirements": [
+        "mod tempor incididunt ut labore",
+        "ex ea commodo consequat",
+        "xcepteur sint occaecat cupidatat",
+        "officia deserunt mollit",
+        "t dolore magna aliqua",
+        "orem ipsum dolor sit amet"
+      ],
+      "description": "Lorem ipsum dolor or sit amet, consectetur adipiscing elit, sedtus. Et ne sit amet, consectetur adipiscing elit, sedtus. Et netus et malesuada fames ac. Nisi porta lorem mollis aliquam.",
+      "posted": "2023-05-11",
+      "payrange": "4500$ - 6000$"
+}
+
+###
+GET http://localhost:5000/api/posts
+
+
+# LECTURES
+
+
+###
+POST http://localhost:5000/api/lectures
+content-type: application/json
+
+{
+    "title": "Testinis",
+    "place": "Vilnius Office, Lithuania",
+    "start": "2023-10-24",
+    "end": "2023-07-01",
+    "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
+}
+
+###
+GET http://localhost:5000/api/lectures
+
+###
+DELETE http://localhost:5000/api/lectures/646ad747dc23a23920eeceb5
+
+###
+PUT http://localhost:5000/api/lectures/646a685d1587ab513ebdfe43
+content-type: application/json
+
+{
+    "place": "Kaunas Office, Lithuania",
+    "title": "Atnaujinti mokymai"
+}
+
+# MEALS
+
+
+###
+POST http://localhost:5000/api/meals
+content-type: application/json
+
+{
+      "type": "soup",
+      "title": "Pumpkin Soup",
+      "desc": "nec sendum arcu vitae elementum curabitur vitae",
+      "price": 3.99,
+      "count": 0,
+      "isVegan": false,
+      "isPopular": false,
+      "image": "https://res.cloudinary.com/dqcj3vyhm/image/upload/v1684695670/25097_www7bw.jpg",
+      "id": 2
+}
+
+###
+GET http://localhost:5000/api/orders
+
+
+# ORDERS
+
+
+###
+POST http://localhost:5000/api/orders
+content-type: application/json
+
+{
+    "user_id": "646a4910cc114a5a37df1014",
+    "type": "refers",
+    "obj_id": "646aad8da2eb158ba1bf4b47"
+}
+
+###
+GET http://localhost:5000/api/meals
+
+
+
+# REFERS
+
+
+###
+POST http://localhost:5000/api/refers
+content-type: application/json
+
+{
+    "user_id": "646a4910cc114a5a37df1014",
+    "title": "Frontend Programuotojas",
+    "name": "Petras",
+    "surname": "Petraitis",
+    "email": "a.test@email.com",
+    "phone": "+37062232145"
+}
+
+###
+GET http://localhost:5000/api/refers
+
+
+
+# VACATIONS
+
+
+###
+POST http://localhost:5000/api/vacations
+content-type: application/json
+
+{
+    "user_id": "646a4910cc114a5a37df1014",
+    "start_date": "2023-09-15",
+    "end_date": "2023-09-18"
+}
+
+###
+GET http://localhost:5000/api/vacations
+
+
+###
+GET http://localhost:5000/api/users/646a4910cc114a5a37df1014
+
+###
+GET http://localhost:5000/api/users/extra/646a4910cc114a5a37df1014
+
+
+###
+PUT http://localhost:5000/api/movies/6356c6b0ba9c3ddd7d151fc8
+content-type: application/json
+
+{
+    "name": "Spiderman",
+    "category": "Fantasy",
+    "rentPrice": 5
+}
+
+###
+DELETE http://localhost:5000/api/orders/646a9536a050f77af21be7a8
