@@ -96,3 +96,63 @@ nav {
 .Link:hover + .Link__name {
   color: var(--color-accent);
 }
+
+.Container__confirm {
+  position: absolute;
+  width: 350px;
+  height: fit-content;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  left: 50vw;
+  top: 50vh;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.Button__confirm {
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid;
+  width: 50%;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.Button__confirm:hover { 
+  background: var(--color-accent-secondary);
+  border-color: var(--color-accent-secondary);
+}
+
+.Container__confirm_buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.Logout  {
+  border-color: red;
+  color: red;
+  font-weight: bold;
+}
+
+.Logout:hover {
+  background: red;
+  color: white;
+}
+
+.Container__confirm_popup_bg {
+  z-index: 6;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.15);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}

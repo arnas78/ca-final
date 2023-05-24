@@ -374,5 +374,5 @@
 }
 
 .Inactive {
-  display: none;
+  display: none !important;
 }

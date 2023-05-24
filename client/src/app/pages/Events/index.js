@@ -1,4 +1,5 @@
 import React, { useRef, useState, useContext } from "react";
+import { Navigate } from "react-router-dom";
 import Nav from "../../components/Nav";
 import Event from "../../components/Event";
 import logo from "../../components/images/Vector.svg";
@@ -32,6 +33,8 @@ import Lecture from "../../components/Lecture";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 const Events = () => {
+
+  const [authenticated, setauthenticated] = useState(localStorage.getItem("user"));
   // const events = fakeApi.events;
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
@@ -102,232 +105,238 @@ const Events = () => {
     }
   }
 
-  return (
-    <div className="Section__events">
-      <div className="background"></div>
-      <div className="Color__block"></div>
-      <Nav image={logo} />
-
-      <div className="Container__events">
-        <div className="Header__events">
-          <div>
-            <h1>Aplikuokite į renginius, konferencijas!</h1>
-            <div className="Container__events_header">
-              <h4>
-                Pateikite prašymus į renginius/konferencijas! Pateikus prašymą,
-                su jumis susisieks jūsų komandos ar bendrinis vadovas dėl
-                tolimesnės informacijos.
-              </h4>
-              <p>
-                Naujausiai pridėti
-                <FontAwesomeIcon icon={faArrowDown} className="Icon__header" />
-              </p>
+  if (!authenticated){
+    return <Navigate replace to="/login" />;
+  }
+  else {
+    return (
+      <div className="Section__events">
+        <div className="background"></div>
+        <div className="Color__block"></div>
+        <Nav image={logo} />
+  
+        <div className="Container__events">
+          <div className="Header__events">
+            <div>
+              <h1>Aplikuokite į renginius, konferencijas!</h1>
+              <div className="Container__events_header">
+                <h4>
+                  Pateikite prašymus į renginius/konferencijas! Pateikus prašymą,
+                  su jumis susisieks jūsų komandos ar bendrinis vadovas dėl
+                  tolimesnės informacijos.
+                </h4>
+                <p>
+                  Naujausiai pridėti
+                  <FontAwesomeIcon icon={faArrowDown} className="Icon__header" />
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div
-          className={
-            isEventChosen
-              ? "Container__learning_popup_bg"
-              : "Container__learning_popup_bg Hidden"
-          }
-          onClick={() =>
-            isEventChosen || isEventChosen === 0
-              ? setIsEventChosen(false)
-              : null
-          }
-        ></div>
-        <div
-          className={
-            isEventChosen
-              ? "Container__events_popup"
-              : "Container__events_popup Hidden"
-          }
-        >
-          <div className="Container__learning_popup_header">
-            <div className="Container__events_popup_image">
-              <img
-                src={selectedEvent ? selectedEvent.image : ""}
-                alt="event"
-                className="Image__events_popup"
-              ></img>
-            </div>
-            <h2 className="Heading__events_popup_header">
-              <FontAwesomeIcon
-                icon={faGraduationCap}
-                className="Icon__location"
-              />
-              {selectedEvent ? selectedEvent.title : ""}
-            </h2>
-            <div className="Container__events_popup_tags">
-              {selectedEvent && selectedEvent.tags
-                ? selectedEvent.tags.map((tag, i) => {
-                    return (
-                      <div className="Container__event_single_tag">
-                        <p>{tag}</p>
-                      </div>
-                    );
-                  })
-                : ""}
-            </div>
-            <FontAwesomeIcon
-              icon={faX}
-              className="Icon__popup Icon__popup_events"
-              onClick={() =>
-                isEventChosen || isEventChosen === 0
-                  ? setIsEventChosen(false)
-                  : null
-              }
-            />
-          </div>
-          <div className="Container__popup_info Container__popup_info_events">
-            <div className="Container__popup_details">
-              <h4>
+  
+          <div
+            className={
+              isEventChosen
+                ? "Container__learning_popup_bg"
+                : "Container__learning_popup_bg Hidden"
+            }
+            onClick={() =>
+              isEventChosen || isEventChosen === 0
+                ? setIsEventChosen(false)
+                : null
+            }
+          ></div>
+          <div
+            className={
+              isEventChosen
+                ? "Container__events_popup"
+                : "Container__events_popup Hidden"
+            }
+          >
+            <div className="Container__learning_popup_header">
+              <div className="Container__events_popup_image">
+                <img
+                  src={selectedEvent ? selectedEvent.image : ""}
+                  alt="event"
+                  className="Image__events_popup"
+                ></img>
+              </div>
+              <h2 className="Heading__events_popup_header">
                 <FontAwesomeIcon
-                  icon={faLocationDot}
+                  icon={faGraduationCap}
                   className="Icon__location"
                 />
-                {selectedEvent ? selectedEvent.place : ""}
-              </h4>
-              <h4>
-                <FontAwesomeIcon icon={faCalendar} className="Icon__location" />
-                {selectedEvent ? selectedEvent.date : ""}
-              </h4>
-              <p>{selectedEvent ? selectedEvent.description : ""}</p>
-            </div>
-            <LoadScript googleMapsApiKey="AIzaSyDzILljratmTZbvzMz3ULfqfhRd7nA7LUg">
-              <GoogleMap
-                mapContainerClassName="Map__popup_events"
-                center={center}
-                zoom={17}
-                options={MapOptions}
-              >
-                <></>
-              </GoogleMap>
-            </LoadScript>
-          </div>
-          <div>
-            <button className="Btn__apply Btn__popup" onClick={handleClick}>
-              Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-          </div>
-        </div>
-        <div className="Container__events_upcoming">
-          {eventDataUpcoming.map((event, i) => {
-            return (
-              <Event
-                key={i}
-                event={event}
-                image={event.image}
-                onClick={() => {
-                  setEventSelected(event);
-                  setIsEventChosen(true);
-                }}
-                isRecent={true}
-              />
-            );
-          })}
-        </div>
-
-        <div className="Container__event_events">
-          <h1>
-            Populiariausi{" "}
-            <FontAwesomeIcon icon={faArrowRight} className="Icon__header" />
-          </h1>
-          <div className="Container__image_event">
-            <Swiper
-              spaceBetween={30}
-              centeredSlides={true}
-              autoplay={{
-                delay: 10000,
-                disableOnInteraction: false,
-              }}
-              pagination={{
-                clickable: true,
-              }}
-              navigation={true}
-              modules={[Autoplay, Pagination, Navigation]}
-              onAutoplayTimeLeft={onAutoplayTimeLeft}
-              className="mySwiper"
-            >
-              {eventDataUpcoming.map((event, i) => {
-                return (
-                  <SwiperSlide
-                    onClick={() => {
-                      setEventSelected(event);
-                      setIsEventChosen(true);
-                    }}
-                  >
-                    <img
-                      src={event.image}
-                      alt="event"
-                      className="Image__event"
-                    ></img>
-                    <div className="Container__event_highlight">
-                      <h1>{event.title}</h1>
-                      <div>
-                        <h4>
-                          <FontAwesomeIcon
-                            icon={faLocationDot}
-                            className="Icon__location"
-                          />
-                          {event.place}
-                        </h4>
-                        <h3>
-                          <FontAwesomeIcon
-                            icon={faClock}
-                            className="Icon__location"
-                          />
-                          {event.date}
-                        </h3>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
-              <div className="autoplay-progress" slot="container-end">
-                <svg viewBox="0 0 48 48" ref={progressCircle}>
-                  <circle cx="24" cy="24" r="20"></circle>
-                </svg>
-                <span ref={progressContent}></span>
+                {selectedEvent ? selectedEvent.title : ""}
+              </h2>
+              <div className="Container__events_popup_tags">
+                {selectedEvent && selectedEvent.tags
+                  ? selectedEvent.tags.map((tag, i) => {
+                      return (
+                        <div className="Container__event_single_tag">
+                          <p>{tag}</p>
+                        </div>
+                      );
+                    })
+                  : ""}
               </div>
-            </Swiper>
-          </div>
-        </div>
-        <div className="Header__event_posts">
-          <h1>
-            Visi renginiai
-            <FontAwesomeIcon icon={faArrowRight} className="Icon__header" />
-          </h1>
-          <div className="Container__search_events">
-            <FontAwesomeIcon icon={faSearch} className="Icon__search" />
-            <input type="text" placeholder="Ieškokite tarp įvykių..." />
-          </div>
-        </div>
-        <div className="Container__event_posts">
-          {eventData.map((event, i) => {
-            return (
-              <Event
-                key={i}
-                event={event}
-                image={event.image}
-                onClick={() => {
-                  setEventSelected(event);
-                  setIsEventChosen(true);
-                }}
-                isRecent={false}
+              <FontAwesomeIcon
+                icon={faX}
+                className="Icon__popup Icon__popup_events"
+                onClick={() =>
+                  isEventChosen || isEventChosen === 0
+                    ? setIsEventChosen(false)
+                    : null
+                }
               />
-            );
-          })}
+            </div>
+            <div className="Container__popup_info Container__popup_info_events">
+              <div className="Container__popup_details">
+                <h4>
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    className="Icon__location"
+                  />
+                  {selectedEvent ? selectedEvent.place : ""}
+                </h4>
+                <h4>
+                  <FontAwesomeIcon icon={faCalendar} className="Icon__location" />
+                  {selectedEvent ? selectedEvent.date : ""}
+                </h4>
+                <p>{selectedEvent ? selectedEvent.description : ""}</p>
+              </div>
+              <LoadScript googleMapsApiKey="AIzaSyDzILljratmTZbvzMz3ULfqfhRd7nA7LUg">
+                <GoogleMap
+                  mapContainerClassName="Map__popup_events"
+                  center={center}
+                  zoom={17}
+                  options={MapOptions}
+                >
+                  <></>
+                </GoogleMap>
+              </LoadScript>
+            </div>
+            <div>
+              <button className="Btn__apply Btn__popup" onClick={handleClick}>
+                Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+          </div>
+          <div className="Container__events_upcoming">
+            {eventDataUpcoming.map((event, i) => {
+              return (
+                <Event
+                  key={i}
+                  event={event}
+                  image={event.image}
+                  onClick={() => {
+                    setEventSelected(event);
+                    setIsEventChosen(true);
+                  }}
+                  isRecent={true}
+                />
+              );
+            })}
+          </div>
+  
+          <div className="Container__event_events">
+            <h1>
+              Populiariausi{" "}
+              <FontAwesomeIcon icon={faArrowRight} className="Icon__header" />
+            </h1>
+            <div className="Container__image_event">
+              <Swiper
+                spaceBetween={30}
+                centeredSlides={true}
+                autoplay={{
+                  delay: 10000,
+                  disableOnInteraction: false,
+                }}
+                pagination={{
+                  clickable: true,
+                }}
+                navigation={true}
+                modules={[Autoplay, Pagination, Navigation]}
+                onAutoplayTimeLeft={onAutoplayTimeLeft}
+                className="mySwiper"
+              >
+                {eventDataUpcoming.map((event, i) => {
+                  return (
+                    <SwiperSlide
+                      onClick={() => {
+                        setEventSelected(event);
+                        setIsEventChosen(true);
+                      }}
+                    >
+                      <img
+                        src={event.image}
+                        alt="event"
+                        className="Image__event"
+                      ></img>
+                      <div className="Container__event_highlight">
+                        <h1>{event.title}</h1>
+                        <div>
+                          <h4>
+                            <FontAwesomeIcon
+                              icon={faLocationDot}
+                              className="Icon__location"
+                            />
+                            {event.place}
+                          </h4>
+                          <h3>
+                            <FontAwesomeIcon
+                              icon={faClock}
+                              className="Icon__location"
+                            />
+                            {event.date}
+                          </h3>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
+                <div className="autoplay-progress" slot="container-end">
+                  <svg viewBox="0 0 48 48" ref={progressCircle}>
+                    <circle cx="24" cy="24" r="20"></circle>
+                  </svg>
+                  <span ref={progressContent}></span>
+                </div>
+              </Swiper>
+            </div>
+          </div>
+          <div className="Header__event_posts">
+            <h1>
+              Visi renginiai
+              <FontAwesomeIcon icon={faArrowRight} className="Icon__header" />
+            </h1>
+            <div className="Container__search_events">
+              <FontAwesomeIcon icon={faSearch} className="Icon__search" />
+              <input type="text" placeholder="Ieškokite tarp įvykių..." />
+            </div>
+          </div>
+          <div className="Container__event_posts">
+            {eventData.map((event, i) => {
+              return (
+                <Event
+                  key={i}
+                  event={event}
+                  image={event.image}
+                  onClick={() => {
+                    setEventSelected(event);
+                    setIsEventChosen(true);
+                  }}
+                  isRecent={false}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
 };
 
 export default Events;

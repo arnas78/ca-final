@@ -58,6 +58,46 @@ app.get("/api/users", async (req, res) => {
   }
 });
 
+// -- POST /api/users/signup    |   User signup (creates new user)
+app.post("/api/users/signup", async (req, res) => {
+  const newUserData = req.body;
+  try {
+    const isUserExist = await User.findOne({ email: newUserData.email });
+
+    if (!isUserExist) {
+      const newUser = new User(newUserData);
+
+      const createdUser = await newUser.save();
+
+      res.json({
+        message: "User created",
+        user: createdUser,
+      });
+    } else {
+      res.json({ message: "User with given email already exists" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// -- POST /api/users/login     |   User login (connects existing user)
+app.post("/api/users/login", async (req, res) => {
+  const userData = req.body;
+
+  try {
+    const user = await User.findOne(userData);
+
+    if (user) {
+      res.json({ message: "Vartotojas rastas", user });
+    } else {
+      res.json({ message: "Vartotojo el. paštas arba slaptažodis neteisingi!" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.get("/api/users/:id", async (req, res) => {
   const userId = req.params.id;
   try {

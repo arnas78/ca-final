@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import Nav from "../../components/Nav";
+import { Navigate } from "react-router-dom";
 import "./index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,6 +27,7 @@ import ContentContext from "../../context/Content";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 const Posts = () => {
+  const [authenticated, setauthenticated] = useState(localStorage.getItem("user"));
   const center = {
     lat: 54.86463618199356,
     lng: 23.944770457672913,

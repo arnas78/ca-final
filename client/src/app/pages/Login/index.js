@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import Nav from "../../components/Nav";
 import "./index.css";
 import logo from "../../components/images/Vector.svg";
@@ -7,6 +8,56 @@ import "react-calendar/dist/Calendar.css";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
+
+  const navigate = useNavigate();
+  const [loginEmail, setLoginEmail] = useState("")
+  const [loginPassword, setLoginPassword] = useState("")
+
+  const handleLogin = (event) => {
+    setLoginEmail(event.target.value);
+  }
+
+  const handlePassword = (event) => {
+    setLoginPassword(event.target.value);
+  }
+
+  const loginUser = async (e) => {
+    e.preventDefault();
+  
+    if (loginEmail.length === 0 || loginPassword.length === 0) {
+      alert("Please provide needed information");
+      return;
+    }
+
+    const user = {
+      work_email: loginEmail,
+      password: loginPassword
+    };
+  
+    try {
+      const data = await (
+        await fetch("http://localhost:5000/api" + "/users/login", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(user),
+        })
+      ).json();
+  
+      console.log(data);
+  
+      if (data.message === "Vartotojas rastas") {
+        localStorage.setItem("user", data.user._id);
+        navigate('/dashboard');
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="Section__login">
       <div className="background-3"></div>
@@ -29,17 +80,17 @@ const Login = () => {
           </div>
         </div>
 
-        <div className="Container__login_form">
+        <form id="Login__form" className="Container__login_form">
           <div>
-            <label>Vardas / el. paštas</label>
-            <input type="text" className="" placeholder="Prisijungimo vardas" />
+            <label>El. paštas</label>
+            <input onChange={handleLogin} type="mail"  placeholder="Prisijungimo vardas" />
           </div>
           <div>
             <label>Slaptažodis</label>
-            <input type="text" className="" placeholder="Slaptažodis" />
+            <input onChange={handlePassword} id="Login__password" type="password" placeholder="Slaptažodis" />
           </div>
-        </div>
-        <button className="Btn__apply">
+        </form>
+        <button className="Btn__apply" onClick={loginUser}>
           Prisijungti <FontAwesomeIcon icon={faArrowRight} />
           <span></span>
           <span></span>
