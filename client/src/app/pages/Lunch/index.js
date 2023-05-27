@@ -24,7 +24,7 @@ import ContentContext from "../../context/Content";
 import Countdown from "react-countdown";
 
 const Lunch = () => {
-  const [authenticated, setauthenticated] = useState(localStorage.getItem("user"));
+  const [authenticated, setauthenticated] = useState(JSON.parse(localStorage.getItem("userData")));
   function getNextWeekDay(dayID) {
     const dateCopy = new Date();
 
@@ -76,12 +76,15 @@ const Lunch = () => {
     mealData,
     orderData,
     setOrderData,
+    setMainChosen,
+    setSoupChosen
   } = useContext(ContentContext);
 
   const [isSorted, setSorted] = useState(false);
   const [isPopularitySorted, setPopularitySorted] = useState(false);
   const [cartActive, setCartActive] = useState(false);
   const [isVegan, setVegan] = useState(false);
+  const [restaurant, setRestaurant] = useState("Grill London");
   // 1 is Monday
   const [weekday, setWeekday] = useState(new Date().getDay());
 
@@ -91,16 +94,16 @@ const Lunch = () => {
 
   let soupArr =
     typeof mealData.meals === "undefined"
-      ? fakeApi.soups[0].soups
+      ? null
       : mealData.meals.filter((obj) => {
-          return obj.type === "soup";
+          return obj.type === "soup" && obj.restaurant === "grill"
         });
 
   let mainArr =
     typeof mealData.meals === "undefined"
-      ? fakeApi.main[0].mains
+      ? null
       : mealData.meals.filter((obj) => {
-          return obj.type === "main";
+          return obj.type === "main" && obj.restaurant === "grill";
         });
 
   const [soupData, setSoupData] = useState(soupArr);
@@ -127,6 +130,18 @@ const Lunch = () => {
   const handleDay = (e) => {
     setWeekday(Number(e.target.value));
   };
+
+  const handleRestaurant = (e) => {
+    setSoupData( mealData.meals.filter((obj) => {
+      return obj.type === "soup" && obj.restaurant === e.target.value;
+    }))
+    setSampleData( mealData.meals.filter((obj) => {
+      return obj.type === "main" && obj.restaurant === e.target.value;
+    }))
+    setMainChosen(null)
+    setSoupChosen(null)
+    setRestaurant(e.target.selectedOptions[0].innerText);
+  }
 
   const handleVegan = (event) => {
     setVegan((current) => !current);
@@ -155,8 +170,6 @@ const Lunch = () => {
 
   let currentDay = new Date().getDay();
 
-  console.log(mainChosen);
-
   function handleClick() {
     if (typeof orderData !== "undefined") {
       let obj = {};
@@ -169,13 +182,13 @@ const Lunch = () => {
 
       const myOrders = orderData.orders.filter((obj) => {
         return (
-          obj.type === "lunch" && obj.user_id === "646a4910cc114a5a37df1014"
+          obj.type === "lunch" && obj.user_id === authenticated._id
         );
       });
 
       if (myOrders.length < 2) {
         obj = {
-          user_id: "646a4910cc114a5a37df1014",
+          user_id: authenticated._id,
           type: "lunch",
           obj_id: sampleData[mainChosen]._id,
         };
@@ -189,7 +202,7 @@ const Lunch = () => {
         });
 
         obj = {
-          user_id: "646a4910cc114a5a37df1014",
+          user_id: authenticated._id,
           type: "lunch",
           obj_id: soupData[soupChosen]._id,
         };
@@ -204,7 +217,7 @@ const Lunch = () => {
         });
 
         alert(`Jūs sėkmingai atlikote užsakymą!`);
-        window.location.reload(false);
+        // window.location.reload(false);
       } else {
         console.log(myOrders.length);
         alert(`Pietų užsakymą šiandien jau atlikote!`);
@@ -241,18 +254,17 @@ const Lunch = () => {
               <FontAwesomeIcon icon={faUtensils} className="Icon__pick" />
               <div>
                 <p>Restoranas</p>
-                <select className="Select__restaurant">
-                  <option value="0">Grill London</option>
-                  <option value="1">Čili pizza</option>
-                  <option value="2">Talutti</option>
-                  <option value="3">Katpedėlė</option>
+                <select className="Select__restaurant" onChange={handleRestaurant}>
+                  <option value="grill">Grill London</option>
+                  <option value="cili">Čili pizza</option>
+                  <option value="talutti">Talutti</option>
                 </select>
               </div>
             </div>
             <div className="Container__sorting">
               <FontAwesomeIcon icon={faCalendar} className="Icon__pick" />
               <div>
-                <p>Data</p>
+                <p>Savaitės diena</p>
                 <select className="Select__date" onChange={handleDay}>
                   <option disabled={currentDay - 1 > 0 ? true : false} value="1">
                     Pirmadienis
@@ -305,10 +317,7 @@ const Lunch = () => {
                     setSampleData(sampleData);
                     setSoupData(soupData);
                   }
-
                   setSorted(!isSorted);
-
-                  console.log(sampleData);
                 }}
               >
                 <FontAwesomeIcon icon={faFilter} className="Icon__sort" />
@@ -385,7 +394,7 @@ const Lunch = () => {
                     <img
                       src={
                         soupChosen || soupChosen === 0
-                          ? soupArr[soupChosen].image
+                          ? soupData[soupChosen].image
                           : imageSoup
                       }
                       className="Image__cart"
@@ -433,7 +442,7 @@ const Lunch = () => {
                     <img
                       src={
                         mainChosen || mainChosen === 0
-                          ? mainArr[mainChosen].image
+                          ? sampleData[mainChosen].image
                           : mainChosen
                       }
                       className="Image__cart"
@@ -503,7 +512,7 @@ const Lunch = () => {
           <div className="Container__content">
             <div className="Header__restaurant">
               <h1 className="Heading__restaurant">
-                {fakeApi.main[weekdayChosen].restaurant}
+                {typeof mealData === "undefined" ? "Loading..." : restaurant }
               </h1>
               <div className="Container__search">
                 <FontAwesomeIcon icon={faSearch} className="Icon__search" />
@@ -518,7 +527,7 @@ const Lunch = () => {
             <div className="Container__meals">
               <h3 className="Heading__food">Sriubos</h3>
               <div className="Container__soup">
-                {soupArr.map((soup, i) => {
+                {!soupData ? (<h1>Loading...</h1>) : (soupData.map((soup, i) => {
                   if (searchValue) {
                     if (
                       soup.title
@@ -557,11 +566,11 @@ const Lunch = () => {
                       />
                     );
                   }
-                })}
+                }))}
               </div>
               <h3 className="Heading__food">Pagrindiniai patiekalai</h3>
               <div className="Container__main">
-                {mainArr.map((meal, i) => {
+                { !sampleData ? (<h1>Loading...</h1>) : (sampleData.map((meal, i) => {
                   if (searchValue) {
                     if (
                       meal.title
@@ -600,7 +609,7 @@ const Lunch = () => {
                       />
                     );
                   }
-                })}
+                }))}
               </div>
             </div>
           </div>

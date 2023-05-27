@@ -83,17 +83,20 @@ function ContentProvider({ children }) {
   };
 
   useEffect(() => {
-    fetch("/api/users/646a4910cc114a5a37df1014")
+    let user = JSON.parse(localStorage.getItem("userData"))
+    if (user) {
+      fetch("/api/users/" + user._id)
       .then((response) => response.json())
       .then((data) => {
         setBackendData(data);
       });
 
-    fetch("/api/users/extra/646a4910cc114a5a37df1014")
+    fetch("/api/users/extra/" + user._id)
       .then((response) => response.json())
       .then((data) => {
         setUserExtra(data);
       });
+    }
 
     fetch("/api/events")
       .then((response) => response.json())
@@ -146,8 +149,10 @@ function ContentProvider({ children }) {
         appliedTrainings,
         applyTraining,
         soupChosen,
+        setSoupChosen,
         handleChosenSoup,
         mainChosen,
+        setMainChosen,
         handleChosenMain,
         lectureChosen,
         handleChosenLecture,
@@ -156,6 +161,7 @@ function ContentProvider({ children }) {
         backendData,
         setBackendData,
         userExtra,
+        setUserExtra,
         eventsData,
         postData,
         lectureData,

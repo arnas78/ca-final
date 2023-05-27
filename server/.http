@@ -6,17 +6,17 @@ POST http://localhost:5000/api/users/signup
 content-type: application/json
 
 {
-    "name": "Vardenis",
-    "surname": "Pavardenis",
-    "work_email": "vardenis@pavardenis.com",
-    "position": "DevOps Programuotojas",
-    "location": "Vilnius, Lietuva",
-    "password": "vardenis",
+    "name": "Admin",
+    "surname": "Admin",
+    "work_email": "admin@admin.com",
+    "position": "Admin",
+    "location": "Admin",
+    "password": "admin",
     "phone": "+37061234567",
-    "birthdate": "1997-01-15",
-    "sex": "Vyras",
-    "personal_number": "5XXXXXX1234",
-    "level": 1
+    "birthdate": "Admin",
+    "sex": "Admin",
+    "personal_number": "Admin",
+    "level": 9
 }
 
 ###
@@ -24,12 +24,12 @@ POST http://localhost:5000/api/user/extra
 content-type: application/json
 
 {
-    "user_id": "646a4910cc114a5a37df1014",
-    "vacation_days": 3,
-    "bio": "Sveiki, esu testinė paskyra!",
-    "personal_email": "arnas1234567@gmail.com",
+    "user_id": "646ad39cf62527cc02027e9d",
+    "vacation_days": 10,
+    "bio": "Sveiki, esu vardenis!",
+    "personal_email": "vardenis@gmail.com",
     "github": "https://github.com/arnas78",
-    "bank_name": "SwedBank",
+    "bank_name": "SEB",
     "bank_number": "XX1234YYYY4567XXXX89"
 }
 
@@ -127,20 +127,30 @@ POST http://localhost:5000/api/meals
 content-type: application/json
 
 {
-      "type": "soup",
-      "title": "Pumpkin Soup",
-      "desc": "nec sendum arcu vitae elementum curabitur vitae",
-      "price": 3.99,
-      "count": 0,
+      "type": "main",
+      "title": "Mexican Salad",
+      "restaurant": "talutti",
+      "desc": "suspendisse sed nisi lacus sed viverra tellus in hac habitasse platea dictumst vestibulum rhoncus est",
+      "price": 7.49,
+      "count": 1,
       "isVegan": false,
       "isPopular": false,
-      "image": "https://res.cloudinary.com/dqcj3vyhm/image/upload/v1684695670/25097_www7bw.jpg",
-      "id": 2
+      "image": "https://res.cloudinary.com/dqcj3vyhm/image/upload/v1685192068/Mexican-Salad-9_d5uxbn.jpg",
+      "id": 4
 }
 
 ###
-GET http://localhost:5000/api/orders
+GET http://localhost:5000/api/meals
 
+###
+PUT http://localhost:5000/api/meals/6356c6b0ba9c3ddd7d151fc8
+content-type: application/json
+
+{
+    "_id": "Spiderman",
+    "category": "Fantasy",
+    "rentPrice": 5
+}
 
 # ORDERS
 

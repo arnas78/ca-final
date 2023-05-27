@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,8 +15,12 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import ContentContext from "../../context/Content";
 
 const Order = ({ obj, order, type, currentDays }) => {
+
+  const { backendData } = useContext(ContentContext);
+
   const diffDays = (a, b) => {
     const oneDay = 24 * 60 * 60 * 1000;
     let allDayscount = Math.round(Math.abs((b - a) / oneDay));
@@ -43,7 +47,7 @@ const Order = ({ obj, order, type, currentDays }) => {
         1;
 
       fetch(
-        `http://localhost:5000/api/user/extra/` + "646a4910cc114a5a37df1014",
+        `http://localhost:5000/api/user/extra/` + backendData._id,
         {
           method: "PUT",
           headers: {

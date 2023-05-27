@@ -37,7 +37,7 @@ const MapOptions = {
 
 const Learning = () => {
   const [authenticated, setauthenticated] = useState(localStorage.getItem("user"));
-  const { lectureChosen, handleChosenLecture, lectureData, orderData } =
+  const { lectureChosen, handleChosenLecture, lectureData, orderData, backendData } =
     useContext(ContentContext);
   const [attendeesOpen, setAttendeesOpen] = useState(false);
   const [lectureSelected, setLectureSelected] = useState(null);
@@ -59,16 +59,17 @@ const Learning = () => {
       let obj = {};
 
       const arrLength = orderData.orders.filter((obj) => {
-        return obj.obj_id === lectureSelected._id;
+        return obj.obj_id === lectureSelected._id && backendData._id === obj.user_id;
       }).length;
 
       if (new Date() - new Date(lectureSelected.end) < 0) {
         if (arrLength === 0) {
           obj = {
-            user_id: "646a4910cc114a5a37df1014",
+            user_id: backendData._id,
             type: "events",
             obj_id: lectureSelected._id,
           };
+
 
           // Send data to the backend via POST
           fetch("http://localhost:5000/api/orders", {

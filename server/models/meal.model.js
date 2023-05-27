@@ -6,6 +6,11 @@ const mealSchema = mongoose.Schema({
     required: true,
     default: "",
   },
+  restaurant: {
+    type: String,
+    required: true,
+    default: "",
+  },
   desc: {
     type: String,
     required: true,

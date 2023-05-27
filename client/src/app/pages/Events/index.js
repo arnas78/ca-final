@@ -47,7 +47,7 @@ const Events = () => {
 
   const [selectedEvent, setEventSelected] = useState(null);
 
-  const { eventsData, orderData } = useContext(ContentContext);
+  const { eventsData, orderData, backendData } = useContext(ContentContext);
 
   const center = {
     lat: 54.86463618199356,
@@ -76,14 +76,12 @@ const Events = () => {
       let obj = {};
 
       const arrLength = orderData.orders.filter((obj) => {
-        return obj.obj_id === selectedEvent._id;
+        return obj.obj_id === selectedEvent._id && backendData._id === obj.user_id;
       }).length;
-
-      console.log(arrLength);
 
       if (arrLength === 0) {
         obj = {
-          user_id: "646a4910cc114a5a37df1014",
+          user_id: backendData._id,
           type: "events",
           obj_id: selectedEvent._id,
         };

@@ -62,7 +62,7 @@ app.get("/api/users", async (req, res) => {
 app.post("/api/users/signup", async (req, res) => {
   const newUserData = req.body;
   try {
-    const isUserExist = await User.findOne({ email: newUserData.email });
+    const isUserExist = await User.findOne({ work_email: newUserData.work_email });
 
     if (!isUserExist) {
       const newUser = new User(newUserData);
@@ -358,12 +358,13 @@ app.get("/api/meals", async (req, res) => {
 });
 // -- POST /api/movies          |   Movie creation (creates new movie)
 app.post("/api/meals", async (req, res) => {
-  const { type, title, desc, price, count, isVegan, isPopular, image, id } =
+  const { type, title, restaurant, desc, price, count, isVegan, isPopular, image, id } =
     req.body;
 
   const newMeal = {
     type,
     title,
+    restaurant,
     desc,
     price,
     count,
