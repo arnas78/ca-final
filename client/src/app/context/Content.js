@@ -5,8 +5,6 @@ const ContentContext = React.createContext();
 function ContentProvider({ children }) {
   const [appliedEvents, setSelectedTraining] = useState([]);
   const [appliedTrainings, setAppliedTrainings] = useState([]);
-  const [soupChosen, setSoupChosen] = useState(null);
-  const [mainChosen, setMainChosen] = useState(null);
   const [lectureChosen, setLectureChosen] = useState(null);
   const [weekdayChosen, setWeekdayChosen] = useState(0);
   const [backendData, setBackendData] = useState([{}]);
@@ -18,7 +16,6 @@ function ContentProvider({ children }) {
   const [orderData, setOrderData] = useState([{}]);
   const [referData, setReferData] = useState([{}]);
   const [vacationData, setVacationData] = useState([{}]);
-  const [handleRender, setHandleRender] = useState(false);
 
   const applyEvent = (id) => {
     const newArr = [...appliedEvents];
@@ -38,30 +35,6 @@ function ContentProvider({ children }) {
     alert("Sėkmingai aplikavote!");
   };
 
-  const handleChosenSoup = (obj, isMap) => {
-    if (isMap) {
-      if (soupChosen === obj.id) {
-        setSoupChosen(null);
-      } else {
-        setSoupChosen(obj.id);
-      }
-    } else {
-      setSoupChosen(null);
-    }
-  };
-
-  const handleChosenMain = (obj, isMap) => {
-    if (isMap) {
-      if (mainChosen === obj.id) {
-        setMainChosen(null);
-      } else {
-        setMainChosen(obj.id);
-      }
-    } else {
-      setMainChosen(null);
-    }
-  };
-
   const handleChosenLecture = (obj, isMap) => {
     if (isMap) {
       if (lectureChosen === obj.id) {
@@ -76,10 +49,6 @@ function ContentProvider({ children }) {
 
   const handleChosenWeekday = (weekdayId) => {
     setWeekdayChosen(weekdayId);
-  };
-
-  const handleSomeChange = () => {
-    setHandleRender((prevCheck) => !prevCheck);
   };
 
   useEffect(() => {
@@ -148,12 +117,6 @@ function ContentProvider({ children }) {
         applyEvent,
         appliedTrainings,
         applyTraining,
-        soupChosen,
-        setSoupChosen,
-        handleChosenSoup,
-        mainChosen,
-        setMainChosen,
-        handleChosenMain,
         lectureChosen,
         handleChosenLecture,
         weekdayChosen,
@@ -167,7 +130,6 @@ function ContentProvider({ children }) {
         lectureData,
         mealData,
         orderData,
-        handleSomeChange,
         referData,
         vacationData,
         setOrderData,

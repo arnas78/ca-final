@@ -46,10 +46,6 @@ const mealSchema = mongoose.Schema({
     required: true,
     default: "main",
   },
-  id: {
-    type: Number,
-    required: true,
-  },
 });
 
 const Meal = mongoose.model("meal", mealSchema);

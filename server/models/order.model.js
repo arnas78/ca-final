@@ -16,6 +16,11 @@ const orderSchema = mongoose.Schema({
     required: true,
     default: {},
   },
+  weekday: {
+    type: String,
+    required: false,
+    default: "",
+  },
 });
 
 const Order = mongoose.model("order", orderSchema);

@@ -24,7 +24,9 @@ import ContentContext from "../../context/Content";
 import Countdown from "react-countdown";
 
 const Lunch = () => {
-  const [authenticated, setauthenticated] = useState(JSON.parse(localStorage.getItem("userData")));
+  const [authenticated, setauthenticated] = useState(
+    JSON.parse(localStorage.getItem("userData"))
+  );
   function getNextWeekDay(dayID) {
     const dateCopy = new Date();
 
@@ -44,22 +46,13 @@ const Lunch = () => {
 
   const handleCartPrice = () => {
     let combinedPrice = 0.0;
-    if (mainChosen || mainChosen === 0 || soupChosen || soupChosen === 0) {
-      let soupPrice = 0.0;
-      let mainPrice = 0.0;
-      if (
-        (mainChosen || mainChosen === 0) &&
-        (soupChosen || soupChosen === 0)
-      ) {
-        soupPrice = soupData[soupChosen].price;
-        mainPrice = sampleData[mainChosen].price;
-        combinedPrice = soupPrice + mainPrice;
-      } else if (mainChosen || mainChosen === 0) {
-        mainPrice = sampleData[mainChosen].price;
-        combinedPrice = mainPrice;
-      } else {
-        soupPrice = soupData[soupChosen].price;
-        combinedPrice = soupPrice;
+    if (mainChosen || soupChosen) {
+      if (mainChosen && soupChosen) {
+        combinedPrice = soupChosen.price + mainChosen.price;
+      } else if (mainChosen) {
+        combinedPrice = mainChosen.price;
+      } else if (soupChosen) {
+        combinedPrice = soupChosen.price;
       }
     }
     return combinedPrice.toFixed(2);
@@ -67,17 +60,11 @@ const Lunch = () => {
 
   // Sets current day string value from array
   const {
-    soupChosen,
-    handleChosenSoup,
-    mainChosen,
-    handleChosenMain,
     weekdayChosen,
     handleChosenWeekday,
     mealData,
     orderData,
     setOrderData,
-    setMainChosen,
-    setSoupChosen
   } = useContext(ContentContext);
 
   const [isSorted, setSorted] = useState(false);
@@ -85,6 +72,8 @@ const Lunch = () => {
   const [cartActive, setCartActive] = useState(false);
   const [isVegan, setVegan] = useState(false);
   const [restaurant, setRestaurant] = useState("Grill London");
+  const [soupChosen, setSoupChosen] = useState(null);
+  const [mainChosen, setMainChosen] = useState(null);
   // 1 is Monday
   const [weekday, setWeekday] = useState(new Date().getDay());
 
@@ -96,7 +85,7 @@ const Lunch = () => {
     typeof mealData.meals === "undefined"
       ? null
       : mealData.meals.filter((obj) => {
-          return obj.type === "soup" && obj.restaurant === "grill"
+          return obj.type === "soup" && obj.restaurant === "grill";
         });
 
   let mainArr =
@@ -132,16 +121,20 @@ const Lunch = () => {
   };
 
   const handleRestaurant = (e) => {
-    setSoupData( mealData.meals.filter((obj) => {
-      return obj.type === "soup" && obj.restaurant === e.target.value;
-    }))
-    setSampleData( mealData.meals.filter((obj) => {
-      return obj.type === "main" && obj.restaurant === e.target.value;
-    }))
-    setMainChosen(null)
-    setSoupChosen(null)
+    setSoupData(
+      mealData.meals.filter((obj) => {
+        return obj.type === "soup" && obj.restaurant === e.target.value;
+      })
+    );
+    setSampleData(
+      mealData.meals.filter((obj) => {
+        return obj.type === "main" && obj.restaurant === e.target.value;
+      })
+    );
+    // setMainChosen(null);
+    // setSoupChosen(null);
     setRestaurant(e.target.selectedOptions[0].innerText);
-  }
+  };
 
   const handleVegan = (event) => {
     setVegan((current) => !current);
@@ -149,14 +142,9 @@ const Lunch = () => {
 
   const handleCartCount = () => {
     // console.log(soupChosen, mainChosen);
-    if ((soupChosen || soupChosen === 0) && mainChosen === null) {
+    if ((soupChosen && !mainChosen) || (mainChosen && !soupChosen)) {
       return <p>1</p>;
-    } else if ((mainChosen || mainChosen === 0) && soupChosen === null) {
-      return <p>1</p>;
-    } else if (
-      (mainChosen || mainChosen === 0) &&
-      (soupChosen || soupChosen === 0)
-    ) {
+    } else if (mainChosen && soupChosen) {
       return <p>2</p>;
     } else {
       return <p>0</p>;
@@ -170,6 +158,16 @@ const Lunch = () => {
 
   let currentDay = new Date().getDay();
 
+  const getRestaurantName = (name) => {
+    if (name === "grill") {
+      return "Grill London";
+    } else if (name === "talutti") {
+      return "Talutti";
+    } else {
+      return "Čili pizza";
+    }
+  };
+
   function handleClick() {
     if (typeof orderData !== "undefined") {
       let obj = {};
@@ -181,9 +179,7 @@ const Lunch = () => {
         });
 
       const myOrders = orderData.orders.filter((obj) => {
-        return (
-          obj.type === "lunch" && obj.user_id === authenticated._id
-        );
+        return obj.type === "lunch" && obj.user_id === authenticated._id;
       });
 
       if (myOrders.length < 2) {
@@ -225,10 +221,9 @@ const Lunch = () => {
     }
   }
 
-  if (!authenticated){
+  if (!authenticated) {
     return <Navigate replace to="/login" />;
-  }
-  else {
+  } else {
     return (
       <div className="Container__body">
         <Nav image={logo} />
@@ -239,8 +234,8 @@ const Lunch = () => {
             <div>
               <h1>Užsisakykite pietus!</h1>
               <h4>
-                Čia galite užsisakyti pietus, kuriuos restoranai atveš pasirinktą
-                dieną per pietus.
+                Čia galite užsisakyti pietus, kuriuos restoranai atveš
+                pasirinktą dieną per pietus.
               </h4>
             </div>
 
@@ -254,7 +249,10 @@ const Lunch = () => {
               <FontAwesomeIcon icon={faUtensils} className="Icon__pick" />
               <div>
                 <p>Restoranas</p>
-                <select className="Select__restaurant" onChange={handleRestaurant}>
+                <select
+                  className="Select__restaurant"
+                  onChange={handleRestaurant}
+                >
                   <option value="grill">Grill London</option>
                   <option value="cili">Čili pizza</option>
                   <option value="talutti">Talutti</option>
@@ -266,19 +264,34 @@ const Lunch = () => {
               <div>
                 <p>Savaitės diena</p>
                 <select className="Select__date" onChange={handleDay}>
-                  <option disabled={currentDay - 1 > 0 ? true : false} value="1">
+                  <option
+                    disabled={currentDay - 1 > 0 ? true : false}
+                    value="1"
+                  >
                     Pirmadienis
                   </option>
-                  <option disabled={currentDay - 2 > 0 ? true : false} value="2">
+                  <option
+                    disabled={currentDay - 2 > 0 ? true : false}
+                    value="2"
+                  >
                     Antradienis
                   </option>
-                  <option disabled={currentDay - 3 > 0 ? true : false} value="3">
+                  <option
+                    disabled={currentDay - 3 > 0 ? true : false}
+                    value="3"
+                  >
                     Treciadienis
                   </option>
-                  <option disabled={currentDay - 4 > 0 ? true : false} value="4">
+                  <option
+                    disabled={currentDay - 4 > 0 ? true : false}
+                    value="4"
+                  >
                     Ketvirtadienis
                   </option>
-                  <option disabled={currentDay - 5 > 0 ? true : false} value="5">
+                  <option
+                    disabled={currentDay - 5 > 0 ? true : false}
+                    value="5"
+                  >
                     Penktadienis
                   </option>
                 </select>
@@ -312,7 +325,9 @@ const Lunch = () => {
                     setSampleData(
                       [...sampleData].sort((a, b) => a.price - b.price)
                     );
-                    setSoupData([...soupData].sort((a, b) => a.price - b.price));
+                    setSoupData(
+                      [...soupData].sort((a, b) => a.price - b.price)
+                    );
                   } else {
                     setSampleData(sampleData);
                     setSoupData(soupData);
@@ -338,7 +353,9 @@ const Lunch = () => {
                     setSampleData(
                       [...sampleData].sort((a, b) => b.count - a.count)
                     );
-                    setSoupData([...soupData].sort((a, b) => b.count - a.count));
+                    setSoupData(
+                      [...soupData].sort((a, b) => b.count - a.count)
+                    );
                   } else {
                     setSampleData(sampleData);
                     setSoupData(soupData);
@@ -371,104 +388,92 @@ const Lunch = () => {
                   <h3>Mano krepšelis</h3>
                 </div>
                 <div className="Container__cart_opened_items">
-                  <p>
-                    <FontAwesomeIcon icon={faSpoon} className="Icon__sort" />{" "}
-                    Sriuba
-                  </p>
+                  <div className="Cart__chosen_desc_soup">
+                    <p className="Paragraph__cart">
+                      <FontAwesomeIcon icon={faSpoon} className="Icon__sort" />
+                      Sriuba
+                    </p>
+                    <p className="Paragraph__restaurant">
+                      {soupChosen
+                        ? getRestaurantName(soupChosen.restaurant)
+                        : ""}
+                    </p>
+                  </div>
                   <div
                     className={
-                      soupChosen || soupChosen === 0
-                        ? "Cart__item_invisible"
-                        : "Cart__empty"
+                      soupChosen ? "Cart__item_invisible" : "Cart__empty"
                     }
                   >
                     <h4>Jūs nesate pasirinkę sriubos!</h4>
                   </div>
                   <div
                     className={
-                      soupChosen || soupChosen === 0
+                      soupChosen
                         ? " Container__cart_opened_item_single "
                         : "Cart__item_invisible"
                     }
                   >
                     <img
-                      src={
-                        soupChosen || soupChosen === 0
-                          ? soupData[soupChosen].image
-                          : imageSoup
-                      }
+                      src={soupChosen ? soupChosen.image : imageSoup}
                       className="Image__cart"
                       alt="asd"
                     ></img>
                     <div>
+                      <h4>{soupChosen ? soupChosen.title : ""}</h4>
+                      <p>{soupChosen ? soupChosen.desc : "0.00"}</p>
                       <h4>
-                        {soupChosen || soupChosen === 0
-                          ? soupData[soupChosen].title
-                          : ""}
-                      </h4>
-                      <p>
-                        {soupChosen || soupChosen === 0
-                          ? soupData[soupChosen].desc
-                          : "0.00"}{" "}
-                      </p>
-                      <h4>
-                        {soupChosen || soupChosen === 0
-                          ? soupData[soupChosen].price
-                          : ""}
-                        <FontAwesomeIcon icon={faEuro} className="Icon__cart" />{" "}
+                        {soupChosen ? soupChosen.price : ""}
+                        <FontAwesomeIcon icon={faEuro} className="Icon__cart" />
                       </h4>
                     </div>
                   </div>
-                  <p className="Paragraph__cart">
-                    <FontAwesomeIcon icon={faUtensils} className="Icon__sort" />{" "}
-                    Pagrindinis
-                  </p>
+                  <div className="Cart__chosen_desc">
+                    <p className="Paragraph__cart">
+                      <FontAwesomeIcon
+                        icon={faUtensils}
+                        className="Icon__sort"
+                      />
+                      Pagrindinis
+                    </p>
+                    <p className="Paragraph__restaurant">
+                      {mainChosen
+                        ? getRestaurantName(mainChosen.restaurant)
+                        : ""}
+                    </p>
+                  </div>
+
                   <div
                     className={
-                      mainChosen || mainChosen === 0
-                        ? "Cart__item_invisible"
-                        : "Cart__empty"
+                      mainChosen ? "Cart__item_invisible" : "Cart__empty"
                     }
                   >
                     <h4>Jūs nesate pasirinkę pagrindinio patiekalo!</h4>
                   </div>
                   <div
                     className={
-                      mainChosen || mainChosen === 0
+                      mainChosen
                         ? " Container__cart_opened_item_single "
                         : "Cart__item_invisible"
                     }
                   >
                     <img
-                      src={
-                        mainChosen || mainChosen === 0
-                          ? sampleData[mainChosen].image
-                          : mainChosen
-                      }
+                      src={mainChosen ? mainChosen.image : food}
                       className="Image__cart"
                       alt="img"
                     ></img>
                     <div>
+                      <h4>{mainChosen ? mainChosen.title : ""}</h4>
+                      <p>{mainChosen ? mainChosen.desc : ""}</p>
                       <h4>
-                        {mainChosen || mainChosen === 0
-                          ? sampleData[mainChosen].title
-                          : ""}
-                      </h4>
-                      <p>
-                        {mainChosen || mainChosen === 0
-                          ? sampleData[mainChosen].desc
-                          : ""}
-                      </p>
-                      <h4>
-                        {mainChosen || mainChosen === 0
-                          ? sampleData[mainChosen].price
-                          : ""}
-                        <FontAwesomeIcon icon={faEuro} className="Icon__cart" />{" "}
+                        {mainChosen ? mainChosen.price : ""}
+                        <FontAwesomeIcon
+                          icon={faEuro}
+                          className="Icon__cart"
+                        />{" "}
                       </h4>
                     </div>
                   </div>
                 </div>
-
                 <div className="Container__cart_price">
                   <h4>Viso: {handleCartPrice()}</h4>
                   <FontAwesomeIcon FontAwesomeIcon icon={faEuro} />
@@ -476,10 +481,7 @@ const Lunch = () => {
                 <button
                   onClick={handleClick}
                   className={
-                    mainChosen ||
-                    mainChosen === 0 ||
-                    soupChosen ||
-                    soupChosen === 0
+                    mainChosen || soupChosen
                       ? "Btn__apply Btn__cart"
                       : "Cart__item_invisible"
                   }
@@ -499,7 +501,7 @@ const Lunch = () => {
               <h4>Krepšelis</h4>
               <div
                 className={
-                  soupChosen || soupChosen === 0 || mainChosen || mainChosen === 0
+                  soupChosen || mainChosen
                     ? "Container__cart_counter Container__cart_counter_active"
                     : "Container__cart_counter"
                 }
@@ -512,7 +514,7 @@ const Lunch = () => {
           <div className="Container__content">
             <div className="Header__restaurant">
               <h1 className="Heading__restaurant">
-                {typeof mealData === "undefined" ? "Loading..." : restaurant }
+                {typeof mealData === "undefined" ? "Loading..." : restaurant}
               </h1>
               <div className="Container__search">
                 <FontAwesomeIcon icon={faSearch} className="Icon__search" />
@@ -527,89 +529,109 @@ const Lunch = () => {
             <div className="Container__meals">
               <h3 className="Heading__food">Sriubos</h3>
               <div className="Container__soup">
-                {!soupData ? (<h1>Loading...</h1>) : (soupData.map((soup, i) => {
-                  if (searchValue) {
-                    if (
-                      soup.title
-                        .toLowerCase()
-                        .includes(searchValue.toLowerCase()) ||
-                      soup.desc.toLowerCase().includes(searchValue.toLowerCase())
-                    ) {
+                {!soupData ? (
+                  <h1>Loading...</h1>
+                ) : (
+                  soupData.map((soup, i) => {
+                    if (searchValue) {
+                      if (
+                        soup.title
+                          .toLowerCase()
+                          .includes(searchValue.toLowerCase()) ||
+                        soup.desc
+                          .toLowerCase()
+                          .includes(searchValue.toLowerCase())
+                      ) {
+                        return (
+                          <Meal
+                            key={i}
+                            meal={soup}
+                            profile={profile}
+                            isChosen={soupChosen}
+                            onClick={() => {
+                              if (soupChosen === soup) {
+                                setSoupChosen(null);
+                              } else {
+                                setSoupChosen(soup);
+                              }
+                            }}
+                            vegan={isVegan}
+                          />
+                        );
+                      }
+                    } else {
                       return (
                         <Meal
                           key={i}
                           meal={soup}
                           profile={profile}
                           isChosen={soupChosen}
-                          image={soup.image}
                           onClick={() => {
-                            handleChosenSoup(soup, true);
+                            if (soupChosen === soup) {
+                              setSoupChosen(null);
+                            } else {
+                              setSoupChosen(soup);
+                            }
                           }}
-                          id={soup.id}
                           vegan={isVegan}
                         />
                       );
                     }
-                  } else {
-                    return (
-                      <Meal
-                        key={i}
-                        meal={soup}
-                        profile={profile}
-                        isChosen={soupChosen}
-                        image={imageSoup}
-                        onClick={() => {
-                          handleChosenSoup(soup, true);
-                        }}
-                        id={soup.id}
-                        vegan={isVegan}
-                      />
-                    );
-                  }
-                }))}
+                  })
+                )}
               </div>
               <h3 className="Heading__food">Pagrindiniai patiekalai</h3>
               <div className="Container__main">
-                { !sampleData ? (<h1>Loading...</h1>) : (sampleData.map((meal, i) => {
-                  if (searchValue) {
-                    if (
-                      meal.title
-                        .toLowerCase()
-                        .includes(searchValue.toLowerCase()) ||
-                      meal.desc.toLowerCase().includes(searchValue.toLowerCase())
-                    ) {
+                {!sampleData ? (
+                  <h1>Loading...</h1>
+                ) : (
+                  sampleData.map((main, i) => {
+                    if (searchValue) {
+                      if (
+                        main.title
+                          .toLowerCase()
+                          .includes(searchValue.toLowerCase()) ||
+                        main.desc
+                          .toLowerCase()
+                          .includes(searchValue.toLowerCase())
+                      ) {
+                        return (
+                          <Meal
+                            key={i}
+                            meal={main}
+                            profile={profile}
+                            isChosen={mainChosen}
+                            onClick={() => {
+                              if (mainChosen === main) {
+                                setMainChosen(null);
+                              } else {
+                                setMainChosen(main);
+                              }
+                            }}
+                            vegan={isVegan}
+                          />
+                        );
+                      }
+                    } else {
                       return (
                         <Meal
                           key={i}
-                          meal={meal}
+                          meal={main}
                           profile={profile}
                           isChosen={mainChosen}
-                          image={food}
                           onClick={() => {
-                            handleChosenMain(meal, true);
+                            if (mainChosen === main) {
+                              setMainChosen(null);
+                            } else {
+                              setMainChosen(main);
+                            }
                           }}
                           vegan={isVegan}
-                          id={meal.id}
                         />
                       );
                     }
-                  } else {
-                    return (
-                      <Meal
-                        key={i}
-                        meal={meal}
-                        profile={profile}
-                        isChosen={mainChosen}
-                        image={food}
-                        onClick={() => {
-                          handleChosenMain(meal, true);
-                        }}
-                        vegan={isVegan}
-                        id={meal.id}
-                      />
-                    );
-                  }
-                }))}
+                  })
+                )}
               </div>
             </div>
           </div>

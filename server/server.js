@@ -62,7 +62,9 @@ app.get("/api/users", async (req, res) => {
 app.post("/api/users/signup", async (req, res) => {
   const newUserData = req.body;
   try {
-    const isUserExist = await User.findOne({ work_email: newUserData.work_email });
+    const isUserExist = await User.findOne({
+      work_email: newUserData.work_email,
+    });
 
     if (!isUserExist) {
       const newUser = new User(newUserData);
@@ -91,7 +93,9 @@ app.post("/api/users/login", async (req, res) => {
     if (user) {
       res.json({ message: "Vartotojas rastas", user });
     } else {
-      res.json({ message: "Vartotojo el. paštas arba slaptažodis neteisingi!" });
+      res.json({
+        message: "Vartotojo el. paštas arba slaptažodis neteisingi!",
+      });
     }
   } catch (error) {
     console.log(error);
@@ -358,8 +362,17 @@ app.get("/api/meals", async (req, res) => {
 });
 // -- POST /api/movies          |   Movie creation (creates new movie)
 app.post("/api/meals", async (req, res) => {
-  const { type, title, restaurant, desc, price, count, isVegan, isPopular, image, id } =
-    req.body;
+  const {
+    type,
+    title,
+    restaurant,
+    desc,
+    price,
+    count,
+    isVegan,
+    isPopular,
+    image,
+  } = req.body;
 
   const newMeal = {
     type,
@@ -371,7 +384,6 @@ app.post("/api/meals", async (req, res) => {
     isVegan,
     isPopular,
     image,
-    id,
   };
 
   try {
@@ -398,12 +410,13 @@ app.get("/api/orders", async (req, res) => {
 });
 // -- POST /api/movies          |   Movie creation (creates new movie)
 app.post("/api/orders", async (req, res) => {
-  const { user_id, type, obj_id } = req.body;
+  const { user_id, type, obj_id, weekday } = req.body;
 
   const newOrder = {
     user_id,
     type,
     obj_id,
+    weekday,
   };
 
   try {

@@ -3,22 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEuro } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
 
-const Meal = ({
-  meal,
-  profile,
-  isChosen,
-  image,
-  onClick,
-  id,
-  dashboard,
-  vegan,
-}) => {
+const Meal = ({ meal, profile, isChosen, onClick, dashboard, vegan }) => {
   if (!vegan) {
     if (!dashboard) {
       return (
         <div
           className={
-            isChosen === id
+            isChosen === meal
               ? "Container__single_meal Chosen"
               : "Container__single_meal"
           }
@@ -74,7 +65,7 @@ const Meal = ({
         return (
           <div
             className={
-              isChosen === id
+              isChosen === meal
                 ? "Container__single_meal Chosen"
                 : "Container__single_meal"
             }
@@ -152,7 +143,7 @@ const Meal = ({
       return (
         <div
           className={
-            isChosen === id
+            isChosen === meal
               ? "Container__single_meal Chosen"
               : "Container__single_meal"
           }

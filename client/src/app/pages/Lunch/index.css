@@ -406,9 +406,35 @@ input:checked + .slider:before {
   font-size: 1rem;
 }
 
+.Cart__chosen_desc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--color-secondary-light);
+}
+
+.Cart__chosen_desc_soup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Cart__chosen_desc_soup > p {
+  padding-top: 0;
+}
+
+.Cart__chosen_desc .Paragraph__restaurant {
+  margin-bottom: 0;
+}
+
 .Paragraph__cart {
   padding-top: 1rem;
-  border-top: 1px solid var(--color-secondary-light);
+  margin: 0;
+}
+
+.Paragraph__restaurant {
+  font-weight: bold;
+  color: var(--color-accent) !important;
 }
 
 .Icon__carts {
