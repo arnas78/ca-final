@@ -408,3 +408,20 @@ li {
   opacity: 0;
   z-index: -50;
 }
+
+.Input__cv {
+  cursor: pointer;
+  position: absolute;
+  width: 90%;
+  box-sizing: border-box;
+}
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  display: inline-block;
+  margin: auto;
+  color: var(--color-secondary-light);
+  padding: 1rem;
+  cursor: pointer;
+}

@@ -22,6 +22,7 @@ import fakeApi from "../../data/data.json";
 import Training from "../../components/Training";
 import ContentContext from "../../context/Content";
 import GoogleMapReact from "google-map-react";
+import Attendee from "../../components/Attendee";
 import Lecture from "../../components/Lecture";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
@@ -36,9 +37,18 @@ const MapOptions = {
 };
 
 const Learning = () => {
-  const [authenticated, setauthenticated] = useState(localStorage.getItem("user"));
-  const { lectureChosen, handleChosenLecture, lectureData, orderData, backendData } =
-    useContext(ContentContext);
+  const [authenticated, setauthenticated] = useState(
+    localStorage.getItem("user")
+  );
+  const {
+    lectureChosen,
+    handleChosenLecture,
+    lectureData,
+    orderData,
+    backendData,
+    allUserData,
+    allExtraData,
+  } = useContext(ContentContext);
   const [attendeesOpen, setAttendeesOpen] = useState(false);
   const [lectureSelected, setLectureSelected] = useState(null);
 
@@ -59,7 +69,9 @@ const Learning = () => {
       let obj = {};
 
       const arrLength = orderData.orders.filter((obj) => {
-        return obj.obj_id === lectureSelected._id && backendData._id === obj.user_id;
+        return (
+          obj.obj_id === lectureSelected._id && backendData._id === obj.user_id
+        );
       }).length;
 
       if (new Date() - new Date(lectureSelected.end) < 0) {
@@ -69,7 +81,6 @@ const Learning = () => {
             type: "events",
             obj_id: lectureSelected._id,
           };
-
 
           // Send data to the backend via POST
           fetch("http://localhost:5000/api/orders", {
@@ -91,10 +102,22 @@ const Learning = () => {
     }
   }
 
-  if (!authenticated){
+  const allUsersArray =
+    typeof allUserData.users === "undefined" ? [] : allUserData.users;
+
+  const allExtraArray =
+    typeof allExtraData.extra === "undefined" ? [] : allExtraData.extra;
+
+  console.log(allExtraArray);
+
+  let eventAttendees =
+    typeof (orderData.orders === "undefined") && !lectureSelected
+      ? []
+      : orderData.orders.filter((obj) => obj.obj_id === lectureSelected._id);
+
+  if (!authenticated) {
     return <Navigate replace to="/login" />;
-  }
-  else {
+  } else {
     return (
       <div className="Section__Learning">
         <Nav image={logo} />
@@ -136,13 +159,14 @@ const Learning = () => {
                 }}
               />
             </div>
-            <div className="Container__popup_attendees_single_all">
+
+            {/* <div className="Container__popup_attendees_single_all">
               <span class="avatar__popup">
                 <img src="https://picsum.photos/10" />
               </span>
               <h4>Konstantinas P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
+            </div> */}
+            {/* <div className="Container__popup_attendees_single_all">
               <span class="avatar__popup">
                 <img src="https://picsum.photos/20" />
               </span>
@@ -219,7 +243,7 @@ const Learning = () => {
                 <img src="https://picsum.photos/140" />
               </span>
               <h4>Vardenis P.</h4>
-            </div>
+            </div> */}
           </div>
           <div className="Container__learning_popup_header">
             <h2>
@@ -282,13 +306,23 @@ const Learning = () => {
               Dalyviai:
             </h4>
             <div className="Container__popup_attendees">
-              <div className="Container__popup_attendees_single">
-                <span class="avatar__popup">
-                  <img src="https://picsum.photos/10" />
-                </span>
-                <h4>Vardenis P.</h4>
-              </div>
-              <div className="Container__popup_attendees_single">
+              {typeof allUserData === "undefined" ||
+              typeof allExtraData === "undefined" ? (
+                <h1>Loading...</h1>
+              ) : (
+                eventAttendees.map((att, i) => {
+                  return (
+                    <Attendee
+                      attendee={att}
+                      key={i}
+                      userData={allUsersArray}
+                      userExtra={allExtraArray}
+                    ></Attendee>
+                  );
+                })
+              )}
+
+              {/* <div className="Container__popup_attendees_single">
                 <span class="avatar__popup">
                   <img src="https://picsum.photos/100" />
                 </span>
@@ -311,8 +345,8 @@ const Learning = () => {
                   <img src="https://picsum.photos/80" />
                 </span>
                 <h4>Vardenis P.</h4>
-              </div>
-              <div
+              </div> */}
+              {/* <div
                 className="Attendee__last"
                 onClick={() => {
                   setAttendeesOpen((current) => !current);
@@ -333,7 +367,7 @@ const Learning = () => {
                   </span>
                 </div>
                 <p>Daugiau...</p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -419,7 +453,6 @@ const Learning = () => {
                       onClick={() => {
                         handleChosenLecture(lecture, true);
                         setLectureSelected(lecture);
-                        console.log(lectureSelected);
                       }}
                       id={lecture.id}
                     />
@@ -437,7 +470,6 @@ const Learning = () => {
                         onClick={() => {
                           handleChosenLecture(lecture, true);
                           setLectureSelected(lecture);
-                          console.log(lectureSelected);
                         }}
                         id={lecture.id}
                       />

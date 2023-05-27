@@ -59,13 +59,8 @@ const Lunch = () => {
   };
 
   // Sets current day string value from array
-  const {
-    weekdayChosen,
-    handleChosenWeekday,
-    mealData,
-    orderData,
-    setOrderData,
-  } = useContext(ContentContext);
+  const { weekdayChosen, setWeekdayChosen, mealData, orderData, setOrderData } =
+    useContext(ContentContext);
 
   const [isSorted, setSorted] = useState(false);
   const [isPopularitySorted, setPopularitySorted] = useState(false);
@@ -75,7 +70,6 @@ const Lunch = () => {
   const [soupChosen, setSoupChosen] = useState(null);
   const [mainChosen, setMainChosen] = useState(null);
   // 1 is Monday
-  const [weekday, setWeekday] = useState(new Date().getDay());
 
   const handleCartClick = () => {
     setCartActive((current) => !current);
@@ -98,26 +92,10 @@ const Lunch = () => {
   const [soupData, setSoupData] = useState(soupArr);
   const [sampleData, setSampleData] = useState(mainArr);
 
-  const handleChange = (e) => {
-    setSampleData(
-      typeof mealData.meals === "undefined"
-        ? fakeApi.main[0].mains
-        : mealData.meals.filter((obj) => {
-            return obj.type === "main";
-          })[e.target.value]
-    );
-    setSoupData(
-      typeof mealData.meals === "undefined"
-        ? fakeApi.main[0].mains
-        : mealData.meals.filter((obj) => {
-            return obj.type === "soup";
-          })[e.target.value]
-    );
-    handleChosenWeekday(Number(e.target.value));
-  };
-
   const handleDay = (e) => {
-    setWeekday(Number(e.target.value));
+    setWeekdayChosen(e.target.value);
+    setMainChosen(null);
+    setSoupChosen(null);
   };
 
   const handleRestaurant = (e) => {
@@ -156,8 +134,6 @@ const Lunch = () => {
     setSearchValue(e.target.value);
   };
 
-  let currentDay = new Date().getDay();
-
   const getRestaurantName = (name) => {
     if (name === "grill") {
       return "Grill London";
@@ -170,56 +146,118 @@ const Lunch = () => {
 
   function handleClick() {
     if (typeof orderData !== "undefined") {
-      let obj = {};
+      let soupObj = {};
+      let mainObj = {};
+      let soupOrdered = false;
+      let mainOrdered = false;
+
+      if (soupChosen) {
+        const soupOrders = orderData.orders.filter((obj) => {
+          return (
+            obj.type === "soup" &&
+            obj.user_id === authenticated._id &&
+            obj.weekday === weekdayChosen
+          );
+        });
+        if (soupOrders.length === 0) {
+          soupObj = {
+            user_id: authenticated._id,
+            type: "soup",
+            obj_id: soupChosen._id,
+            meal_type: soupChosen.type,
+            weekday: weekdayChosen,
+          };
+          soupOrdered = true;
+        }
+      }
+
+      if (mainChosen) {
+        const mainOrders = orderData.orders.filter((obj) => {
+          return (
+            obj.type === "main" &&
+            obj.user_id === authenticated._id &&
+            obj.weekday === weekdayChosen
+          );
+        });
+        if (mainOrders.length === 0) {
+          mainObj = {
+            user_id: authenticated._id,
+            type: "main",
+            obj_id: mainChosen._id,
+            weekday: weekdayChosen,
+          };
+          mainOrdered = true;
+          // Send data to the backend via POST
+        }
+      }
+
+      if (mainOrdered && soupOrdered) {
+        // Send data to the backend via POST
+        fetch("http://localhost:5000/api/orders", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(soupObj), // body data type must match "Content-Type" header
+        });
+        fetch("http://localhost:5000/api/orders", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(mainObj), // body data type must match "Content-Type" header
+        });
+        alert(`Jūs sėkmingai atlikote pilną užsakymą!`);
+      } else if (mainOrdered && !soupOrdered) {
+        fetch("http://localhost:5000/api/orders", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(mainObj), // body data type must match "Content-Type" header
+        });
+        alert(`Jūs sėkmingai atlikote pagrindinio patiekalo užsakymą!`);
+      } else if (!mainOrdered && soupOrdered) {
+        fetch("http://localhost:5000/api/orders", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(soupObj), // body data type must match "Content-Type" header
+        });
+        alert(`Jūs sėkmingai atlikote sriubos užsakymą!`);
+      } else {
+        alert(
+          `Jūsų užsakymas nepavyko. Pasitikrinkite savo atliktus užsakymus ,,Mano profilis'' lange!`
+        );
+      }
 
       fetch("/api/orders")
         .then((response) => response.json())
         .then((data) => {
           setOrderData(data);
         });
-
-      const myOrders = orderData.orders.filter((obj) => {
-        return obj.type === "lunch" && obj.user_id === authenticated._id;
-      });
-
-      if (myOrders.length < 2) {
-        obj = {
-          user_id: authenticated._id,
-          type: "lunch",
-          obj_id: sampleData[mainChosen]._id,
-        };
-        // Send data to the backend via POST
-        fetch("http://localhost:5000/api/orders", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(obj), // body data type must match "Content-Type" header
-        });
-
-        obj = {
-          user_id: authenticated._id,
-          type: "lunch",
-          obj_id: soupData[soupChosen]._id,
-        };
-
-        // Send data to the backend via POST
-        fetch("http://localhost:5000/api/orders", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(obj), // body data type must match "Content-Type" header
-        });
-
-        alert(`Jūs sėkmingai atlikote užsakymą!`);
-        // window.location.reload(false);
-      } else {
-        console.log(myOrders.length);
-        alert(`Pietų užsakymą šiandien jau atlikote!`);
-      }
     }
   }
+
+  const weekday = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
+
+  const handleWeekday = () => {
+    let currentDay = 3;
+    if (currentDay === 6 || currentDay === 0) {
+      return -1;
+    } else {
+      return currentDay;
+    }
+  };
 
   if (!authenticated) {
     return <Navigate replace to="/login" />;
@@ -241,7 +279,9 @@ const Lunch = () => {
 
             <h3>
               Užsakymui likęs laikas: &nbsp;
-              <Countdown date={getNextWeekDay(weekday)}></Countdown>
+              <Countdown
+                date={getNextWeekDay(weekday.indexOf(weekdayChosen))}
+              ></Countdown>
             </h3>
           </div>
           <div className="Container__picker">
@@ -265,32 +305,32 @@ const Lunch = () => {
                 <p>Savaitės diena</p>
                 <select className="Select__date" onChange={handleDay}>
                   <option
-                    disabled={currentDay - 1 > 0 ? true : false}
-                    value="1"
+                    disabled={handleWeekday() - 1 > 0 ? true : false}
+                    value="monday"
                   >
                     Pirmadienis
                   </option>
                   <option
-                    disabled={currentDay - 2 > 0 ? true : false}
-                    value="2"
+                    disabled={handleWeekday() - 2 > 0 ? true : false}
+                    value="tuesday"
                   >
                     Antradienis
                   </option>
                   <option
-                    disabled={currentDay - 3 > 0 ? true : false}
-                    value="3"
+                    disabled={handleWeekday() - 3 > 0 ? true : false}
+                    value="wednesday"
                   >
                     Treciadienis
                   </option>
                   <option
-                    disabled={currentDay - 4 > 0 ? true : false}
-                    value="4"
+                    disabled={handleWeekday() - 4 > 0 ? true : false}
+                    value="thursday"
                   >
                     Ketvirtadienis
                   </option>
                   <option
-                    disabled={currentDay - 5 > 0 ? true : false}
-                    value="5"
+                    disabled={handleWeekday() - 5 > 0 ? true : false}
+                    value="friday"
                   >
                     Penktadienis
                   </option>

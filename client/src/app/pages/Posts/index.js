@@ -27,7 +27,9 @@ import ContentContext from "../../context/Content";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 const Posts = () => {
-  const [authenticated, setauthenticated] = useState(localStorage.getItem("user"));
+  const [authenticated, setauthenticated] = useState(
+    localStorage.getItem("user")
+  );
   const center = {
     lat: 54.86463618199356,
     lng: 23.944770457672913,
@@ -278,8 +280,15 @@ const Posts = () => {
               </div>
             </div>
             <div className="Container__post_popup_cv">
-              <p>Įkelkite aplikanto CV (gyvenimo aprašymą)!</p>
+              <label for="file-upload" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i> Įkelkite aplikanto CV
+                (gyvenimo aprašymą)!
+              </label>
+              <input accept=".pdf" id="file-upload" type="file" />
             </div>
+            {/* <div className="Container__post_popup_cv">
+              <p>Įkelkite aplikanto CV (gyvenimo aprašymą)!</p>
+            </div> */}
           </div>
 
           <div>

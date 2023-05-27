@@ -3,12 +3,24 @@ import React, { useState, useEffect } from "react";
 const ContentContext = React.createContext();
 
 function ContentProvider({ children }) {
+  const weekday = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
+
   const [appliedEvents, setSelectedTraining] = useState([]);
   const [appliedTrainings, setAppliedTrainings] = useState([]);
   const [lectureChosen, setLectureChosen] = useState(null);
-  const [weekdayChosen, setWeekdayChosen] = useState(0);
+  const [weekdayChosen, setWeekdayChosen] = useState(weekday[3]);
   const [backendData, setBackendData] = useState([{}]);
   const [userExtra, setUserExtra] = useState([{}]);
+  const [allUserData, setAllUserData] = useState([{}]);
+  const [allExtraData, setAllExtraData] = useState([{}]);
   const [eventsData, setEventsData] = useState([{}]);
   const [postData, setPostData] = useState([{}]);
   const [lectureData, setLectureData] = useState([{}]);
@@ -47,25 +59,33 @@ function ContentProvider({ children }) {
     }
   };
 
-  const handleChosenWeekday = (weekdayId) => {
-    setWeekdayChosen(weekdayId);
-  };
-
   useEffect(() => {
-    let user = JSON.parse(localStorage.getItem("userData"))
+    let user = JSON.parse(localStorage.getItem("userData"));
     if (user) {
       fetch("/api/users/" + user._id)
+        .then((response) => response.json())
+        .then((data) => {
+          setBackendData(data);
+        });
+
+      fetch("/api/users/extra/" + user._id)
+        .then((response) => response.json())
+        .then((data) => {
+          setUserExtra(data);
+        });
+    }
+
+    fetch("/api/users")
       .then((response) => response.json())
       .then((data) => {
-        setBackendData(data);
+        setAllUserData(data);
       });
 
-    fetch("/api/users/extra/" + user._id)
+    fetch("/api/users/extra")
       .then((response) => response.json())
       .then((data) => {
-        setUserExtra(data);
+        setAllExtraData(data);
       });
-    }
 
     fetch("/api/events")
       .then((response) => response.json())
@@ -120,7 +140,7 @@ function ContentProvider({ children }) {
         lectureChosen,
         handleChosenLecture,
         weekdayChosen,
-        handleChosenWeekday,
+        setWeekdayChosen,
         backendData,
         setBackendData,
         userExtra,
@@ -133,6 +153,10 @@ function ContentProvider({ children }) {
         referData,
         vacationData,
         setOrderData,
+        setReferData,
+        setVacationData,
+        allUserData,
+        allExtraData,
       }}
     >
       {children}

@@ -1,8 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-// const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
+const multer = require("multer");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 
 cloudinary.config({
@@ -35,6 +36,19 @@ const {
   Vacation,
 } = require("./models");
 
+const Storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+
+const upload = multer({
+  storage: Storage,
+}).single("image");
+
 //
 
 mongoose
@@ -45,6 +59,54 @@ mongoose
     app.listen(PORT, () => console.log("Server running on port:" + PORT));
   })
   .catch((e) => console.log(e));
+
+app.post("/api/images", upload, async (req, res, next) => {
+  const data = {
+    image: req.file.path,
+  };
+  cloudinary.uploader
+    .upload(data.image)
+    .then((result) => {
+      const image = new Image({
+        user_id: req.body.user_id,
+        img: result.url,
+      });
+      const response = image.save();
+      res.status(200).send({
+        message: "success",
+        result,
+      });
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: "failure",
+        error,
+      });
+    });
+});
+
+app.get("/api/users/extra", async (req, res) => {
+  try {
+    const extra = await UserAdditional.find();
+    res.json({ extra });
+  } catch (error) {
+    serverErrorHandler(error, res, 500, {
+      message: "Unable to retrieve users",
+    });
+  }
+});
+
+app.get("/api/users/extra/:id", async (req, res) => {
+  const userId = req.params.id;
+  try {
+    const doesUserExtraExist = await UserAdditional.findOne({
+      user_id: userId,
+    });
+    res.json(doesUserExtraExist);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // -- GET /api/users/:id         |   User information (retrieving user information and his movies and orders)
 app.get("/api/users", async (req, res) => {
@@ -107,18 +169,6 @@ app.get("/api/users/:id", async (req, res) => {
   try {
     const doesUserExist = await User.findOne({ _id: userId });
     res.json(doesUserExist);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-app.get("/api/users/extra/:id", async (req, res) => {
-  const userId = req.params.id;
-  try {
-    const doesUserExtraExist = await UserAdditional.findOne({
-      user_id: userId,
-    });
-    res.json(doesUserExtraExist);
   } catch (error) {
     console.log(error);
   }
@@ -453,7 +503,7 @@ app.get("/api/refers", async (req, res) => {
   }
 });
 // -- POST /api/movies          |   Movie creation (creates new movie)
-app.post("/api/refers", async (req, res) => {
+app.post("/api/refers", upload, async (req, res, next) => {
   const { user_id, title, name, surname, email, phone } = req.body;
 
   const newRefer = {

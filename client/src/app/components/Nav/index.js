@@ -21,33 +21,35 @@ function Nav({ image }) {
   // const [number, setNumber] = useState("");
 
   const navigate = useNavigate();
-  const [authenticated, setauthenticated] = useState(JSON.parse(localStorage.getItem("userData")));
-  const [confirmed, setConfirmed] = useState(false)
+  const [authenticated, setauthenticated] = useState(
+    JSON.parse(localStorage.getItem("userData"))
+  );
+  const [confirmed, setConfirmed] = useState(false);
   const location = useLocation().pathname;
-  const { userExtra, setMainChosen, setSoupChosen, setOrderData } = useContext(ContentContext);
+  const { userExtra, setMainChosen, setSoupChosen, setOrderData } =
+    useContext(ContentContext);
 
   const openConfirmation = () => {
-    setConfirmed(true)
-  }
+    setConfirmed(true);
+  };
 
   const handleProfile = () => {
     fetch("/api/orders")
-    .then((response) => response.json())
-    .then((data) => {
-      setOrderData(data);
-    });
-  }
+      .then((response) => response.json())
+      .then((data) => {
+        setOrderData(data);
+      });
+  };
 
   const handleLogout = () => {
-    localStorage.clear()
-    setauthenticated("")
-    setMainChosen(null)
-    setSoupChosen(null)
-    navigate('/login');
-  }
+    localStorage.clear();
+    setauthenticated("");
+    setMainChosen(null);
+    setSoupChosen(null);
+    navigate("/login");
+  };
 
-
-  if (!authenticated){
+  if (!authenticated) {
     return (
       <header className="Header">
         <nav>
@@ -88,7 +90,9 @@ function Nav({ image }) {
               </Link>
               <p
                 className={
-                  location === "/login" ? "Link__name Link__active" : "Link__name"
+                  location === "/login"
+                    ? "Link__name Link__active"
+                    : "Link__name"
                 }
               >
                 Prisijungti
@@ -98,10 +102,8 @@ function Nav({ image }) {
         </nav>
       </header>
     );
-  }
-  else {
-
-    if (authenticated.level === 9 ){
+  } else {
+    if (authenticated.level === 9) {
       console.log("xd");
       return (
         <header className="Header">
@@ -112,11 +114,22 @@ function Nav({ image }) {
                 : "Container__confirm_popup_bg Inactive"
             }
           ></div>
-          <div className={confirmed ? "Container__confirm" : "Container__confirm Inactive"}>
+          <div
+            className={
+              confirmed ? "Container__confirm" : "Container__confirm Inactive"
+            }
+          >
             <h2>Ar tikrai norite atsijungti?</h2>
             <div className="Container__confirm_buttons">
-              <button className="Button__confirm Logout" onClick={handleLogout}>Atsijungti</button>
-              <button className="Button__confirm" onClick={() => confirmed ? setConfirmed(false) : null}>Atšaukti</button>
+              <button className="Button__confirm Logout" onClick={handleLogout}>
+                Atsijungti
+              </button>
+              <button
+                className="Button__confirm"
+                onClick={() => (confirmed ? setConfirmed(false) : null)}
+              >
+                Atšaukti
+              </button>
             </div>
           </div>
           <nav>
@@ -159,10 +172,12 @@ function Nav({ image }) {
                     Pietūs
                   </p>
                 </div>
-    
+
                 <div>
                   <Link
-                    className={location === "/lectures" ? "Link Active" : "Link"}
+                    className={
+                      location === "/lectures" ? "Link Active" : "Link"
+                    }
                     to="/lectures"
                   >
                     <FontAwesomeIcon icon={faBook} className="Icon__link" />
@@ -177,13 +192,16 @@ function Nav({ image }) {
                     Mokymai
                   </p>
                 </div>
-    
+
                 <div>
                   <Link
                     className={location === "/events" ? "Link Active" : "Link"}
                     to="/events"
                   >
-                    <FontAwesomeIcon icon={faCalendarDays} className="Icon__link" />
+                    <FontAwesomeIcon
+                      icon={faCalendarDays}
+                      className="Icon__link"
+                    />
                   </Link>
                   <p
                     className={
@@ -195,7 +213,7 @@ function Nav({ image }) {
                     Renginiai
                   </p>
                 </div>
-    
+
                 <div>
                   <Link
                     className={location === "/posts" ? "Link Active" : "Link"}
@@ -218,19 +236,16 @@ function Nav({ image }) {
                 </div>
               </ul>
             </div>
-    
+
             <div>
               <div>
                 <Link
                   className={location === "/admin" ? "Link Active" : "Link"}
                   to="/admin"
                 >
-                  <FontAwesomeIcon
-                      icon={faGear}
-                      className="Icon__link"
-                    />
+                  <FontAwesomeIcon icon={faGear} className="Icon__link" />
                 </Link>
-                <p className="Link__name">Administratorius  </p>
+                <p className="Link__name">Administratorius </p>
               </div>
               <div>
                 <div className="Btn__logout" onClick={openConfirmation}>
@@ -242,9 +257,7 @@ function Nav({ image }) {
           </nav>
         </header>
       );
-    }
-
-    else {
+    } else {
       return (
         <header className="Header">
           <div
@@ -254,11 +267,22 @@ function Nav({ image }) {
                 : "Container__confirm_popup_bg Inactive"
             }
           ></div>
-          <div className={confirmed ? "Container__confirm" : "Container__confirm Inactive"} >
+          <div
+            className={
+              confirmed ? "Container__confirm" : "Container__confirm Inactive"
+            }
+          >
             <h2>Ar tikrai norite atsijungti?</h2>
             <div className="Container__confirm_buttons">
-              <button className="Button__confirm Logout" onClick={handleLogout}>Atsijungti</button>
-              <button className="Button__confirm" onClick={() => confirmed ? setConfirmed(false) : null}>Atšaukti</button>
+              <button className="Button__confirm Logout" onClick={handleLogout}>
+                Atsijungti
+              </button>
+              <button
+                className="Button__confirm"
+                onClick={() => (confirmed ? setConfirmed(false) : null)}
+              >
+                Atšaukti
+              </button>
             </div>
           </div>
           <nav>
@@ -269,7 +293,9 @@ function Nav({ image }) {
               <ul className="Nav__list">
                 <div>
                   <Link
-                    className={location === "/dashboard" ? "Link Active" : "Link"}
+                    className={
+                      location === "/dashboard" ? "Link Active" : "Link"
+                    }
                     to="/dashboard"
                   >
                     <FontAwesomeIcon icon={faHome} className="Icon__link" />
@@ -301,10 +327,12 @@ function Nav({ image }) {
                     Pietūs
                   </p>
                 </div>
-    
+
                 <div>
                   <Link
-                    className={location === "/lectures" ? "Link Active" : "Link"}
+                    className={
+                      location === "/lectures" ? "Link Active" : "Link"
+                    }
                     to="/lectures"
                   >
                     <FontAwesomeIcon icon={faBook} className="Icon__link" />
@@ -319,13 +347,16 @@ function Nav({ image }) {
                     Mokymai
                   </p>
                 </div>
-    
+
                 <div>
                   <Link
                     className={location === "/events" ? "Link Active" : "Link"}
                     to="/events"
                   >
-                    <FontAwesomeIcon icon={faCalendarDays} className="Icon__link" />
+                    <FontAwesomeIcon
+                      icon={faCalendarDays}
+                      className="Icon__link"
+                    />
                   </Link>
                   <p
                     className={
@@ -337,7 +368,7 @@ function Nav({ image }) {
                     Renginiai
                   </p>
                 </div>
-    
+
                 <div>
                   <Link
                     className={location === "/posts" ? "Link Active" : "Link"}
@@ -360,7 +391,7 @@ function Nav({ image }) {
                 </div>
               </ul>
             </div>
-    
+
             <div>
               <div>
                 <Link
@@ -369,7 +400,11 @@ function Nav({ image }) {
                   to="/profile"
                 >
                   <div className="Btn__profile">
-                    <img className="Img__profile" src={userExtra.image} alt="profile"></img>
+                    <img
+                      className="Img__profile"
+                      src={userExtra ? userExtra.image : ""}
+                      alt="profile"
+                    ></img>
                   </div>
                 </Link>
                 <p className="Link__name">Mano profilis</p>
@@ -385,11 +420,7 @@ function Nav({ image }) {
         </header>
       );
     }
-
   }
-
-
-
 }
 
 export default Nav;

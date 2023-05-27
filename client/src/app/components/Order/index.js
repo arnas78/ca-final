@@ -17,9 +17,14 @@ import {
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import ContentContext from "../../context/Content";
 
-const Order = ({ obj, order, type, currentDays }) => {
-
-  const { backendData } = useContext(ContentContext);
+const Order = ({ obj, order, type, currentDays, canDelete }) => {
+  const {
+    backendData,
+    setOrderData,
+    setReferData,
+    setVacationData,
+    setUserExtra,
+  } = useContext(ContentContext);
 
   const diffDays = (a, b) => {
     const oneDay = 24 * 60 * 60 * 1000;
@@ -35,6 +40,48 @@ const Order = ({ obj, order, type, currentDays }) => {
     return allDayscount;
   };
 
+  const handleProfile = () => {
+    fetch("/api/orders")
+      .then((response) => response.json())
+      .then((data) => {
+        setOrderData(data);
+      });
+  };
+
+  const handleRefers = () => {
+    fetch("/api/refers")
+      .then((response) => response.json())
+      .then((data) => {
+        setReferData(data);
+      });
+  };
+
+  const handleUserExtra = () => {
+    fetch("/api/users/extra/" + backendData._id)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserExtra(data);
+      });
+  };
+
+  const handleVacations = () => {
+    fetch("/api/vacations")
+      .then((response) => response.json())
+      .then((data) => {
+        setVacationData(data);
+      });
+  };
+
+  const getRestaurantName = (name) => {
+    if (name === "grill") {
+      return "Grill London";
+    } else if (name === "talutti") {
+      return "Talutti";
+    } else {
+      return "Čili pizza";
+    }
+  };
+
   function handleClick() {
     if (type === "vacation") {
       fetch(`http://localhost:5000/api/vacations/` + obj._id, {
@@ -46,22 +93,19 @@ const Order = ({ obj, order, type, currentDays }) => {
         diffDays(new Date(obj.end_date), new Date(obj.start_date)) +
         1;
 
-      fetch(
-        `http://localhost:5000/api/user/extra/` + backendData._id,
-        {
-          method: "PUT",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            vacation_days: addDays,
-          }), // body data type must match "Content-Type" header
-        }
-      );
+      fetch(`http://localhost:5000/api/user/extra/` + backendData._id, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          vacation_days: addDays,
+        }), // body data type must match "Content-Type" header
+      });
 
       alert(`Jūs sėkmingai panaikinote atostogas!`);
-
-      window.location.reload(false);
+      handleUserExtra();
+      handleVacations();
     } else if (type === "refer") {
       fetch(`http://localhost:5000/api/refers/` + obj._id, {
         method: "DELETE",
@@ -69,7 +113,7 @@ const Order = ({ obj, order, type, currentDays }) => {
 
       alert(`Jūs sėkmingai panaikinote darbo aplikaciją!`);
 
-      window.location.reload(false);
+      handleRefers();
     } else {
       fetch(`http://localhost:5000/api/orders/` + order._id, {
         method: "DELETE",
@@ -77,39 +121,52 @@ const Order = ({ obj, order, type, currentDays }) => {
 
       alert(`Jūs sėkmingai panaikinote užsakymą!`);
 
-      window.location.reload(false);
+      handleProfile();
     }
     // Send data to the backend via POST
   }
 
   if (type === "lunch") {
+    console.log(canDelete);
     return (
-      <div className="Container__profile_activities_events_single Status__approved">
-        <img
-          src={obj.image}
-          className="Image__profile_event"
-          alt="conference"
-        ></img>
-        <div className="Event__profile_single">
-          <div>
+      <div
+        className={
+          canDelete
+            ? "Container__profile_activities_events_single_lunch Status__approved"
+            : "Container__profile_activities_events_single_lunch"
+        }
+      >
+        <div className="Container__profile_activities_events_single_lunch_header">
+          <img
+            src={obj.image}
+            className="Image__profile_event"
+            alt="conference"
+          ></img>
+          <div className="Event__profile_single">
             <div>
-              <FontAwesomeIcon icon={faUtensils} />
-              <h4>{obj.title}</h4>
-            </div>
-            <div>
-              <FontAwesomeIcon icon={faEuro} />
-              <h4>{obj.price}</h4>
-            </div>
-            <div>
-              <FontAwesomeIcon icon={faSpoon} />
-              <h4>{obj.type.toUpperCase()}</h4>
+              <div>
+                <FontAwesomeIcon icon={faUtensils} />
+                <h4>{obj.title}</h4>
+              </div>
+              <div>
+                <FontAwesomeIcon icon={faEuro} />
+                <h4>{obj.price}</h4>
+              </div>
+              <div>
+                <FontAwesomeIcon icon={faSpoon} />
+                <h4>{getRestaurantName(obj.restaurant)}</h4>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="Lecture__profile_remove" onClick={handleClick}>
-          <FontAwesomeIcon icon={faXmark} id="Remove" />
-        </div>
+        {!canDelete ? (
+          ""
+        ) : (
+          <div className="Lecture__profile_remove" onClick={handleClick}>
+            <FontAwesomeIcon icon={faXmark} id="Remove" />
+          </div>
+        )}
       </div>
     );
   } else if (type === "refer") {

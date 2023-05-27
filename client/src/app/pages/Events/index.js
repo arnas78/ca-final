@@ -33,8 +33,9 @@ import Lecture from "../../components/Lecture";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 const Events = () => {
-
-  const [authenticated, setauthenticated] = useState(localStorage.getItem("user"));
+  const [authenticated, setauthenticated] = useState(
+    localStorage.getItem("user")
+  );
   // const events = fakeApi.events;
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
@@ -76,7 +77,9 @@ const Events = () => {
       let obj = {};
 
       const arrLength = orderData.orders.filter((obj) => {
-        return obj.obj_id === selectedEvent._id && backendData._id === obj.user_id;
+        return (
+          obj.obj_id === selectedEvent._id && backendData._id === obj.user_id
+        );
       }).length;
 
       if (arrLength === 0) {
@@ -103,34 +106,36 @@ const Events = () => {
     }
   }
 
-  if (!authenticated){
+  if (!authenticated) {
     return <Navigate replace to="/login" />;
-  }
-  else {
+  } else {
     return (
       <div className="Section__events">
         <div className="background"></div>
         <div className="Color__block"></div>
         <Nav image={logo} />
-  
+
         <div className="Container__events">
           <div className="Header__events">
             <div>
               <h1>Aplikuokite į renginius, konferencijas!</h1>
               <div className="Container__events_header">
                 <h4>
-                  Pateikite prašymus į renginius/konferencijas! Pateikus prašymą,
-                  su jumis susisieks jūsų komandos ar bendrinis vadovas dėl
-                  tolimesnės informacijos.
+                  Pateikite prašymus į renginius/konferencijas! Pateikus
+                  prašymą, su jumis susisieks jūsų komandos ar bendrinis vadovas
+                  dėl tolimesnės informacijos.
                 </h4>
                 <p>
                   Naujausiai pridėti
-                  <FontAwesomeIcon icon={faArrowDown} className="Icon__header" />
+                  <FontAwesomeIcon
+                    icon={faArrowDown}
+                    className="Icon__header"
+                  />
                 </p>
               </div>
             </div>
           </div>
-  
+
           <div
             className={
               isEventChosen
@@ -196,7 +201,10 @@ const Events = () => {
                   {selectedEvent ? selectedEvent.place : ""}
                 </h4>
                 <h4>
-                  <FontAwesomeIcon icon={faCalendar} className="Icon__location" />
+                  <FontAwesomeIcon
+                    icon={faCalendar}
+                    className="Icon__location"
+                  />
                   {selectedEvent ? selectedEvent.date : ""}
                 </h4>
                 <p>{selectedEvent ? selectedEvent.description : ""}</p>
@@ -238,7 +246,7 @@ const Events = () => {
               );
             })}
           </div>
-  
+
           <div className="Container__event_events">
             <h1>
               Populiariausi{" "}
@@ -334,7 +342,6 @@ const Events = () => {
       </div>
     );
   }
-
 };
 
 export default Events;

@@ -19,6 +19,10 @@ content-type: application/json
     "level": 9
 }
 
+
+###
+GET http://localhost:5000/api/users/extra
+
 ###
 POST http://localhost:5000/api/user/extra
 content-type: application/json
@@ -188,6 +192,9 @@ content-type: application/json
 
 ###
 GET http://localhost:5000/api/refers
+
+###
+DELETE http://localhost:5000/api/refers/646a9536a050f77af21be7a8
 
 
 

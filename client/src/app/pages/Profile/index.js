@@ -34,9 +34,12 @@ import {
 import fakeApi from "../../data/data.json";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import Weekdays from "react-calendar/dist/cjs/MonthView/Weekdays";
 
 const Profile = () => {
-  const [authenticated, setauthenticated] = useState(localStorage.getItem("user"));
+  const [authenticated, setauthenticated] = useState(
+    localStorage.getItem("user")
+  );
   function clone(obj) {
     if (null == obj || "object" != typeof obj) return obj;
     var copy = obj.constructor();
@@ -81,6 +84,22 @@ const Profile = () => {
     return start;
   };
 
+  const handleUserExtra = () => {
+    fetch("/api/users/extra/" + backendData._id)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserExtra(data);
+      });
+  };
+
+  const handleVacations = () => {
+    fetch("/api/vacations")
+      .then((response) => response.json())
+      .then((data) => {
+        setVacationData(data);
+      });
+  };
+
   const handleReserve = () => {
     if (value && typeof userExtra !== "undefined") {
       if (diffDays(value[0], value[1]) <= userExtra.vacation_days) {
@@ -104,21 +123,19 @@ const Profile = () => {
         let subtractDay =
           userExtra.vacation_days - diffDays(value[0], value[1]);
 
-        fetch(
-          `http://localhost:5000/api/user/extra/` + backendData._id,
-          {
-            method: "PUT",
-            headers: {
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify({
-              vacation_days: subtractDay,
-            }), // body data type must match "Content-Type" header
-          }
-        );
+        fetch(`http://localhost:5000/api/user/extra/` + backendData._id, {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            vacation_days: subtractDay,
+          }), // body data type must match "Content-Type" header
+        });
 
         alert("Jūsų rezervacija atlikta sėkmingai. Gerų atostogų!");
-        window.location.reload(false);
+        handleUserExtra();
+        handleVacations();
       } else {
         alert("Jūsų pasirinktas dienų kiekis per didelis!");
       }
@@ -148,7 +165,7 @@ const Profile = () => {
       });
 
       alert("Jūs sėkmingai atnaujinote asmeninius duomenis!");
-      window.location.reload(false);
+      handleUserExtra();
     } else {
       alert("Kažkas ne taip... Pabandykite dar kartą!");
     }
@@ -163,7 +180,37 @@ const Profile = () => {
     eventsData,
     referData,
     vacationData,
+    setWeekdayChosen,
+    weekdayChosen,
+    setUserExtra,
+    setVacationData,
   } = useContext(ContentContext);
+
+  const weekday = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
+
+  const handleCanDelete = (day) => {
+    let currentDay = 3;
+    console.log(day);
+    if (currentDay === 6 || currentDay === 0) {
+      return true;
+    } else if (day < currentDay) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleDay = (e) => {
+    setWeekdayChosen(e.target.value);
+  };
 
   const [bio, setBio] = useState("");
 
@@ -186,32 +233,32 @@ const Profile = () => {
   const userVacations =
     typeof vacationData.vacations === "undefined"
       ? []
-      : vacationData.vacations.filter(
-          (obj) => obj.user_id === backendData._id
-        );
+      : vacationData.vacations.filter((obj) => obj.user_id === backendData._id);
 
   const userRefers =
     typeof referData.refers === "undefined"
       ? []
-      : referData.refers.filter(
-          (obj) => obj.user_id === backendData._id
-        );
+      : referData.refers.filter((obj) => obj.user_id === backendData._id);
 
   const userOrders =
     typeof orderData.orders === "undefined"
       ? []
+      : orderData.orders.filter((obj) => obj.user_id === backendData._id);
+
+  const userLunch =
+    typeof orderData.orders === "undefined"
+      ? []
       : orderData.orders.filter(
-          (obj) => obj.user_id === backendData._id
+          (obj) =>
+            obj.user_id === backendData._id && obj.weekday === weekdayChosen
         );
 
-  if (!authenticated){
+  if (!authenticated) {
     return <Navigate replace to="/login" />;
-  }
-  else {
-    if (authenticated.level === 9){
+  } else {
+    if (authenticated.level === 9) {
       return <Navigate replace to="/admin" />;
-    }
-    else {
+    } else {
       return (
         <div className="Section__profile">
           <div className="background-3"></div>
@@ -222,7 +269,8 @@ const Profile = () => {
               <div>
                 <h1 className="Heading_1__white">Jūsų profilis</h1>
                 <h4>
-                  Čia galite matyti ar keisti savo asmeninę bei kitą informaciją.
+                  Čia galite matyti ar keisti savo asmeninę bei kitą
+                  informaciją.
                 </h4>
               </div>
               <h3>
@@ -234,7 +282,9 @@ const Profile = () => {
               <div className="Container__profile_details">
                 <img
                   className="Image__profile"
-                  src={typeof userExtra === "undefined" ? image : userExtra.image}
+                  src={
+                    typeof userExtra === "undefined" ? image : userExtra.image
+                  }
                   alt="profile_image"
                 ></img>
                 <div>
@@ -289,7 +339,9 @@ const Profile = () => {
               <div className="Container__profile_socials">
                 <a
                   className="Container__profile_socials_single"
-                  href={typeof userExtra === "undefined" ? "" : userExtra.linkedin}
+                  href={
+                    typeof userExtra === "undefined" ? "" : userExtra.linkedin
+                  }
                 >
                   <FontAwesomeIcon
                     id="linkedin"
@@ -297,10 +349,12 @@ const Profile = () => {
                     icon={faLinkedinIn}
                   />
                 </a>
-  
+
                 <a
                   className="Container__profile_socials_single"
-                  href={typeof userExtra === "undefined" ? "" : userExtra.github}
+                  href={
+                    typeof userExtra === "undefined" ? "" : userExtra.github
+                  }
                 >
                   <FontAwesomeIcon
                     id="github"
@@ -420,7 +474,7 @@ const Profile = () => {
                       />
                     </div>
                   </div>
-  
+
                   <div className="Container__separator"></div>
                   <div className="Container__profile_edit_header">
                     <h2>Kontaktai</h2>
@@ -459,7 +513,9 @@ const Profile = () => {
                         className="Input__active"
                         placeholder="Taikos pr. XX-XX"
                         onChange={handleAddress}
-                        value={address.length !== 0 ? address : userExtra.address}
+                        value={
+                          address.length !== 0 ? address : userExtra.address
+                        }
                       />
                     </div>
                     <div>
@@ -486,7 +542,9 @@ const Profile = () => {
                         type="text"
                         className="Input__active"
                         defaultValue={
-                          typeof userExtra === "undefined" ? "" : userExtra.github
+                          typeof userExtra === "undefined"
+                            ? ""
+                            : userExtra.github
                         }
                         placeholder="https://github.com/profileName"
                       />
@@ -504,7 +562,9 @@ const Profile = () => {
                         type="text"
                         className="Input__active"
                         defaultValue={
-                          typeof userExtra === "undefined" ? "" : userExtra.linkedin
+                          typeof userExtra === "undefined"
+                            ? ""
+                            : userExtra.linkedin
                         }
                         placeholder="https://linkedin.com/profileName"
                       />
@@ -559,7 +619,9 @@ const Profile = () => {
                             index < lectureData.lectures.length;
                             index++
                           ) {
-                            if (order.obj_id === lectureData.lectures[index]._id) {
+                            if (
+                              order.obj_id === lectureData.lectures[index]._id
+                            ) {
                               return (
                                 <Order
                                   key={i}
@@ -621,16 +683,39 @@ const Profile = () => {
                     </div>
                   </div>
                   <div>
-                    <div className="Container__profile_activities_header">
-                      <FontAwesomeIcon icon={faUtensils} />
-                      <h3>Mano pietų užsakymai</h3>
+                    <div className="Container__profile_activities_header_posts">
+                      <div>
+                        <FontAwesomeIcon icon={faUtensils} />
+                        <h3>Mano pietų užsakymai</h3>
+                      </div>
+
+                      <div className="Container__sorting">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="Icon__pick"
+                        />
+                        <div>
+                          <p>Savaitės diena</p>
+                          <select
+                            className="Select__date"
+                            onChange={handleDay}
+                            defaultValue={weekdayChosen}
+                          >
+                            <option value="monday">Pirmadienis</option>
+                            <option value="tuesday">Antradienis</option>
+                            <option value="wednesday">Treciadienis</option>
+                            <option value="thursday">Ketvirtadienis</option>
+                            <option value="friday">Penktadienis</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                     <div className="Container__profile_activities_posts Container__meal_orders">
                       {typeof orderData.orders === "undefined" ||
                       typeof mealData.meals === "undefined" ? (
                         <p>Loading...</p>
                       ) : (
-                        userOrders.map((order, i) => {
+                        userLunch.map((order, i) => {
                           for (
                             let index = 0;
                             index < mealData.meals.length;
@@ -643,6 +728,9 @@ const Profile = () => {
                                   obj={mealData.meals[index]}
                                   order={order}
                                   type={"lunch"}
+                                  canDelete={handleCanDelete(
+                                    weekday.indexOf(order.weekday)
+                                  )}
                                 />
                               );
                             }
@@ -677,8 +765,8 @@ const Profile = () => {
                 />
                 <div className="Container__vacation_chosen">
                   <h4>
-                    Jūs pasirinkote: {value ? diffDays(value[0], value[1]) : "0"}{" "}
-                    dienų(-as).
+                    Jūs pasirinkote:{" "}
+                    {value ? diffDays(value[0], value[1]) : "0"} dienų(-as).
                   </h4>
                 </div>
                 <div className="Container__vacation_reservation">
@@ -721,8 +809,6 @@ const Profile = () => {
         </div>
       );
     }
-
-
   }
 };
 
