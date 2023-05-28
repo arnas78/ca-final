@@ -34,6 +34,7 @@ const {
   Order,
   Refer,
   Vacation,
+  Image,
 } = require("./models");
 
 const Storage = multer.diskStorage({
@@ -72,6 +73,58 @@ app.post("/api/images", upload, async (req, res, next) => {
         img: result.url,
       });
       const response = image.save();
+      res.status(200).send({
+        message: "success",
+        result,
+      });
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: "failure",
+        error,
+      });
+    });
+});
+
+// -- POST /api/movies          |   Movie creation (creates new movie)
+app.post("/api/meals", upload, async (req, res, next) => {
+  const data = {
+    image: req.file.path,
+  };
+  cloudinary.uploader
+    .upload(data.image)
+    .then((result) => {
+      const {
+        type,
+        title,
+        restaurant,
+        desc,
+        price,
+        count,
+        isVegan,
+        isPopular,
+      } = req.body;
+
+      const image = result.url;
+
+      const newMeal = {
+        type,
+        title,
+        restaurant,
+        desc,
+        price,
+        count,
+        isVegan,
+        isPopular,
+        image,
+      };
+      // const image = new Image({
+      //   user_id: req.body.user_id,
+      //   img: result.url,
+      // });
+
+      const meal = new Meal(newMeal);
+      meal.save();
       res.status(200).send({
         message: "success",
         result,
@@ -412,41 +465,71 @@ app.get("/api/meals", async (req, res) => {
     });
   }
 });
-// -- POST /api/movies          |   Movie creation (creates new movie)
-app.post("/api/meals", async (req, res) => {
-  const {
-    type,
-    title,
-    restaurant,
-    desc,
-    price,
-    count,
-    isVegan,
-    isPopular,
-    image,
-  } = req.body;
 
-  const newMeal = {
-    type,
-    title,
-    restaurant,
-    desc,
-    price,
-    count,
-    isVegan,
-    isPopular,
-    image,
-  };
-
+app.delete("/api/meals/:id", async (req, res) => {
+  const id = req.params.id;
   try {
-    const meal = new Meal(newMeal);
-    await meal.save();
+    const meal = await Meal.findByIdAndDelete(id);
 
-    res.json({ message: "New meal added" });
+    res.status(200).send({
+      message: "Sėkmingai ištrinti mokymai:",
+      meal,
+    });
   } catch (error) {
     console.log(error);
   }
 });
+
+app.put("/api/meals/:id", async (req, res) => {
+  const mealId = req.params.id;
+  const newData = req.body;
+  try {
+    const meal = await Meal.findByIdAndUpdate(mealId, newData);
+
+    res.status(200).send({
+      message: "Sėkmingai atnaujintas patiekalas",
+      meal,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// -- POST /api/movies          |   Movie creation (creates new movie)
+// app.post("/api/meals", async (req, res) => {
+//   const {
+//     type,
+//     title,
+//     restaurant,
+//     desc,
+//     price,
+//     count,
+//     isVegan,
+//     isPopular,
+//     image,
+//   } = req.body;
+
+//   const newMeal = {
+//     type,
+//     title,
+//     restaurant,
+//     desc,
+//     price,
+//     count,
+//     isVegan,
+//     isPopular,
+//     image,
+//   };
+
+//   try {
+//     const meal = new Meal(newMeal);
+//     await meal.save();
+
+//     res.json({ message: "New meal added" });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // ORDERS
 

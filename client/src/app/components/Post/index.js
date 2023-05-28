@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,6 +11,21 @@ import {
 const Post = ({ post, onClick, isRecent }) => {
   var time_difference = new Date().getTime() - new Date(post.posted).getTime();
   var days_difference = time_difference / (1000 * 60 * 60 * 24);
+  const [authenticated, setauthenticated] = useState(
+    JSON.parse(localStorage.getItem("userData"))
+  );
+
+  const handleButtonName = () => {
+    if (authenticated) {
+      if (authenticated.level === 9) {
+        return "Daugiau informacijos";
+      } else {
+        return "Pasiūlyti žmogų";
+      }
+    } else {
+      return "Pateikti aplikaciją";
+    }
+  };
 
   if (isRecent) {
     return (
@@ -43,9 +58,10 @@ const Post = ({ post, onClick, isRecent }) => {
             Paskelbta prieš: {Math.round(days_difference)}d.
           </p>
         </div>
+
         <div>
           <button className="Btn__apply" onClick={onClick}>
-            Pasiūlyti žmogų <FontAwesomeIcon icon={faArrowRight} />
+            {handleButtonName()} <FontAwesomeIcon icon={faArrowRight} />
             <span></span>
             <span></span>
             <span></span>

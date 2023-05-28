@@ -14,6 +14,9 @@ import {
   faArrowRight,
   faGraduationCap,
   faHand,
+  faPen,
+  faPlug,
+  faPlus,
   faUser,
   faX,
 } from "@fortawesome/free-solid-svg-icons";
@@ -34,7 +37,7 @@ import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 const Events = () => {
   const [authenticated, setauthenticated] = useState(
-    localStorage.getItem("user")
+    JSON.parse(localStorage.getItem("userData"))
   );
   // const events = fakeApi.events;
   const progressCircle = useRef(null);
@@ -221,13 +224,32 @@ const Events = () => {
               </LoadScript>
             </div>
             <div>
-              <button className="Btn__apply Btn__popup" onClick={handleClick}>
-                Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-              </button>
+              {authenticated.level === 9 ? (
+                <div className="Container__admin_buttons">
+                  <button className="Button__sort Button__admin">
+                    <FontAwesomeIcon
+                      icon={faX}
+                      className="Icon__sort Icon__admin"
+                    />{" "}
+                    Ištrinti mokymus
+                  </button>
+                  <button className="Button__sort Button__admin">
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      className="Icon__sort Icon__admin"
+                    />{" "}
+                    Redaguoti mokymus
+                  </button>
+                </div>
+              ) : (
+                <button className="Btn__apply Btn__popup" onClick={handleClick}>
+                  Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+              )}
             </div>
           </div>
           <div className="Container__events_upcoming">
@@ -248,10 +270,24 @@ const Events = () => {
           </div>
 
           <div className="Container__event_events">
-            <h1>
-              Populiariausi{" "}
-              <FontAwesomeIcon icon={faArrowRight} className="Icon__header" />
-            </h1>
+            <div className="Container__event_events_header">
+              <h1>
+                Populiariausi{" "}
+                <FontAwesomeIcon icon={faArrowRight} className="Icon__header" />
+              </h1>
+              {authenticated.level === 9 ? (
+                <button className="Button__sort Button__admin">
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    className="Icon__sort Icon__admin"
+                  />{" "}
+                  Pridėti renginį
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
+
             <div className="Container__image_event">
               <Swiper
                 spaceBetween={30}

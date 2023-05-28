@@ -16,6 +16,8 @@ const Refer = require("./refer.model.js");
 
 const Vacation = require("./vacation.model.js");
 
+const Image = require("./image.model.js");
+
 module.exports = {
   User,
   UserAdditional,
@@ -26,4 +28,5 @@ module.exports = {
   Order,
   Refer,
   Vacation,
+  Image,
 };

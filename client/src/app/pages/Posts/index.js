@@ -9,6 +9,8 @@ import {
   faEnvelopeOpenText,
   faHand,
   faPaperPlane,
+  faPen,
+  faPlus,
   faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesUp } from "@fortawesome/free-solid-svg-icons";
@@ -28,7 +30,7 @@ import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 const Posts = () => {
   const [authenticated, setauthenticated] = useState(
-    localStorage.getItem("user")
+    JSON.parse(localStorage.getItem("userData"))
   );
   const center = {
     lat: 54.86463618199356,
@@ -249,80 +251,100 @@ const Posts = () => {
               </ul>
             </div>
           </div>
-
-          <div className="Container__post_popup_apply">
-            <h4>Informacija</h4>
-            <div className="Container__post_popup_inputs">
-              <div className="Container__post_popup_inputs_single">
-                <label>Vardas</label>
-                <input
-                  type="text"
-                  className="Input__post"
-                  placeholder="Vardenis"
-                  onChange={handleName}
-                  value={name}
-                />
-              </div>
-              <div className="Container__post_popup_inputs_single">
-                <label>Pavardė</label>
-                <input
-                  type="text"
-                  className="Input__post"
-                  placeholder="Pavardenis"
-                  onChange={handleSurname}
-                  value={surname}
-                />
-              </div>
-              <div className="Container__post_popup_inputs_single">
-                <label>El. paštas</label>
-                <input
-                  type="text"
-                  className="Input__post"
-                  placeholder="v.pavardenis@email.com"
-                  onChange={handleEmail}
-                  value={email}
-                />
-              </div>
-              <div className="Container__post_popup_inputs_single">
-                <label>Telefono nr.</label>
-                <input
-                  type="text"
-                  className="Input__post"
-                  placeholder="+37061234567"
-                  onChange={handlePhone}
-                  value={phone}
-                />
-              </div>
+          {authenticated && authenticated.level === 9 ? (
+            <div>
+              <button className="Button__sort Button__admin">
+                <FontAwesomeIcon
+                  icon={faX}
+                  className="Icon__sort Icon__admin"
+                />{" "}
+                Ištrinti mokymus
+              </button>
+              <button className="Button__sort Button__admin">
+                <FontAwesomeIcon
+                  icon={faPen}
+                  className="Icon__sort Icon__admin"
+                />{" "}
+                Redaguoti mokymus
+              </button>
             </div>
-            <div className="Container__post_popup_cv_header">
-              <h4>Jūsų CV</h4>
-              <p>{fileName.substring(fileName.lastIndexOf("\\") + 1)}</p>
-            </div>
-            <div className="Container__post_popup_cv">
-              <label for="file-upload" class="custom-file-upload">
-                Įkelkite aplikanto CV (gyvenimo aprašymą)!
-              </label>
-              <input
-                accept=".pdf"
-                id="file-upload"
-                type="file"
-                onChange={handleUpload}
-              />
-            </div>
-            {/* <div className="Container__post_popup_cv">
+          ) : (
+            <div>
+              <div className="Container__post_popup_apply">
+                <h4>Informacija</h4>
+                <div className="Container__post_popup_inputs">
+                  <div className="Container__post_popup_inputs_single">
+                    <label>Vardas</label>
+                    <input
+                      type="text"
+                      className="Input__post"
+                      placeholder="Vardenis"
+                      onChange={handleName}
+                      value={name}
+                    />
+                  </div>
+                  <div className="Container__post_popup_inputs_single">
+                    <label>Pavardė</label>
+                    <input
+                      type="text"
+                      className="Input__post"
+                      placeholder="Pavardenis"
+                      onChange={handleSurname}
+                      value={surname}
+                    />
+                  </div>
+                  <div className="Container__post_popup_inputs_single">
+                    <label>El. paštas</label>
+                    <input
+                      type="text"
+                      className="Input__post"
+                      placeholder="v.pavardenis@email.com"
+                      onChange={handleEmail}
+                      value={email}
+                    />
+                  </div>
+                  <div className="Container__post_popup_inputs_single">
+                    <label>Telefono nr.</label>
+                    <input
+                      type="text"
+                      className="Input__post"
+                      placeholder="+37061234567"
+                      onChange={handlePhone}
+                      value={phone}
+                    />
+                  </div>
+                </div>
+                <div className="Container__post_popup_cv_header">
+                  <h4>Jūsų CV</h4>
+                  <p>{fileName.substring(fileName.lastIndexOf("\\") + 1)}</p>
+                </div>
+                <div className="Container__post_popup_cv">
+                  <label for="file-upload" class="custom-file-upload">
+                    Įkelkite aplikanto CV (gyvenimo aprašymą)!
+                  </label>
+                  <input
+                    accept=".pdf"
+                    id="file-upload"
+                    type="file"
+                    onChange={handleUpload}
+                  />
+                </div>
+                {/* <div className="Container__post_popup_cv">
               <p>Įkelkite aplikanto CV (gyvenimo aprašymą)!</p>
             </div> */}
-          </div>
+              </div>
 
-          <div>
-            <button className="Btn__apply Btn__popup" onClick={handleClick}>
-              Siųsti aplikaciją <FontAwesomeIcon icon={faPaperPlane} />
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-          </div>
+              <div>
+                <button className="Btn__apply Btn__popup" onClick={handleClick}>
+                  Siųsti aplikaciją <FontAwesomeIcon icon={faPaperPlane} />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
         <div className="Container__recent">
           <div className="Container__posts_recent">
@@ -385,6 +407,19 @@ const Posts = () => {
                 onChange={handleSearch}
               />
             </div>
+            {authenticated && authenticated.level === 9 ? (
+              <div className="Container__button_add_posts">
+                <button className="Button__sort Button__admin">
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    className="Icon__sort Icon__admin"
+                  />{" "}
+                  Pridėti mokymus
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
 

@@ -147,13 +147,11 @@ content-type: application/json
 GET http://localhost:5000/api/meals
 
 ###
-PUT http://localhost:5000/api/meals/6356c6b0ba9c3ddd7d151fc8
+PUT http://localhost:5000/api/meals/6471d1228fd5b19cb55ee0dc
 content-type: application/json
 
 {
-    "_id": "Spiderman",
-    "category": "Fantasy",
-    "rentPrice": 5
+    "title": "xdd"
 }
 
 # ORDERS

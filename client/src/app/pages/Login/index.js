@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Nav from "../../components/Nav";
 import "./index.css";
 import logo from "../../components/images/Vector.svg";
@@ -9,23 +9,22 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import ContentContext from "../../context/Content";
 
 const Login = () => {
-
   const navigate = useNavigate();
-  const [loginEmail, setLoginEmail] = useState("")
-  const [loginPassword, setLoginPassword] = useState("")
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
   const { setBackendData, setUserExtra } = useContext(ContentContext);
 
   const handleLogin = (event) => {
     setLoginEmail(event.target.value);
-  }
+  };
 
   const handlePassword = (event) => {
     setLoginPassword(event.target.value);
-  }
+  };
 
   const loginUser = async (e) => {
     e.preventDefault();
-  
+
     if (loginEmail.length === 0 || loginPassword.length === 0) {
       alert("Please provide needed information");
       return;
@@ -33,9 +32,9 @@ const Login = () => {
 
     const user = {
       work_email: loginEmail,
-      password: loginPassword
+      password: loginPassword,
     };
-  
+
     try {
       const data = await (
         await fetch("http://localhost:5000/api" + "/users/login", {
@@ -46,21 +45,20 @@ const Login = () => {
           body: JSON.stringify(user),
         })
       ).json();
-  
+
       if (data.message === "Vartotojas rastas") {
         localStorage.setItem("user", data.user._id);
         localStorage.setItem("userData", JSON.stringify(data.user));
-        if (data.user.level === 9){
-          navigate('/admin');
-        }
-        else {
-          setBackendData(data.user)
+        if (data.user.level === 9) {
+          navigate("/lunch");
+        } else {
+          setBackendData(data.user);
           fetch("/api/users/extra/" + data.user._id)
             .then((response) => response.json())
             .then((data) => {
               setUserExtra(data);
-          });
-          navigate('/dashboard');
+            });
+          navigate("/dashboard");
         }
       } else {
         alert(data.message);
@@ -95,11 +93,20 @@ const Login = () => {
         <form id="Login__form" className="Container__login_form">
           <div>
             <label>El. paštas</label>
-            <input onChange={handleLogin} type="mail"  placeholder="Prisijungimo vardas" />
+            <input
+              onChange={handleLogin}
+              type="mail"
+              placeholder="Prisijungimo vardas"
+            />
           </div>
           <div>
             <label>Slaptažodis</label>
-            <input onChange={handlePassword} id="Login__password" type="password" placeholder="Slaptažodis" />
+            <input
+              onChange={handlePassword}
+              id="Login__password"
+              type="password"
+              placeholder="Slaptažodis"
+            />
           </div>
         </form>
         <button className="Btn__apply" onClick={loginUser}>

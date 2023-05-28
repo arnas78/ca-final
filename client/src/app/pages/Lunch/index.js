@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import Nav from "../../components/Nav";
 import "./index.css";
@@ -8,9 +8,14 @@ import imageSoup from "../../components/images/soup.webp";
 import profile from "../../components/images/blank_profile.png";
 import {
   faCircleArrowRight,
+  faDeleteLeft,
   faEuro,
+  faHand,
+  faPen,
+  faPlus,
   faSpoon,
   faUtensils,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
@@ -59,17 +64,201 @@ const Lunch = () => {
   };
 
   // Sets current day string value from array
-  const { weekdayChosen, setWeekdayChosen, mealData, orderData, setOrderData } =
-    useContext(ContentContext);
+  const {
+    weekdayChosen,
+    setWeekdayChosen,
+    mealData,
+    orderData,
+    setOrderData,
+    setMealData,
+  } = useContext(ContentContext);
 
   const [isSorted, setSorted] = useState(false);
   const [isPopularitySorted, setPopularitySorted] = useState(false);
   const [cartActive, setCartActive] = useState(false);
   const [isVegan, setVegan] = useState(false);
   const [restaurant, setRestaurant] = useState("Grill London");
+  const [restaurantValue, setRestaurantValue] = useState("grill");
   const [soupChosen, setSoupChosen] = useState(null);
   const [mainChosen, setMainChosen] = useState(null);
   // 1 is Monday
+
+  // ADMIN
+  const [adminPopup, setAdminPopup] = useState(false);
+  const [adminPopupEdit, setAdminPopupEdit] = useState(false);
+  const [mealName, setMealName] = useState("");
+  const [mealDesc, setMealDesc] = useState("");
+  const [mealPrice, setMealPrice] = useState(0);
+  const [mealType, setMealType] = useState("soup");
+  const [mealVegan, setMealVegan] = useState(false);
+
+  const handleAdminPopup = (e) => {
+    setAdminPopup((prevCheck) => !prevCheck);
+  };
+
+  const handleAdminPopupEdit = (e) => {
+    setAdminPopupEdit((prevCheck) => !prevCheck);
+  };
+
+  const adminHandleType = (e) => {
+    setMealType(e.target.value);
+  };
+
+  const adminHandleVegan = (e) => {
+    setMealVegan(e.target.value);
+  };
+
+  const adminHandleName = (e) => {
+    setMealName(e.target.value);
+  };
+
+  const adminHandleDesc = (e) => {
+    setMealDesc(e.target.value);
+  };
+
+  const adminHandlePrice = (e) => {
+    setMealPrice(Number(e.target.value));
+  };
+
+  const handleSoups = (e) => {
+    fetch("/api/meals")
+      .then((response) => response.json())
+      .then((data) => {
+        setSoupData(
+          data.meals.filter((obj) => {
+            return obj.type === "soup" && obj.restaurant === restaurantValue;
+          })
+        );
+        setMealData(data);
+      });
+  };
+
+  const handleMeals = (e) => {
+    fetch("/api/meals")
+      .then((response) => response.json())
+      .then((data) => {
+        setSampleData(
+          data.meals.filter((obj) => {
+            return obj.type === "main" && obj.restaurant === restaurantValue;
+          })
+        );
+        setMealData(data);
+      });
+  };
+
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const handlePicture = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleUpload = (e) => {
+    if (
+      !selectedFile ||
+      mealName.length === 0 ||
+      mealDesc.length === 0 ||
+      mealPrice === 0 ||
+      typeof mealPrice === "undefined"
+    ) {
+      alert("Neteisingi duomenys. Bandykite dar kartą.");
+    } else {
+      const formData = new FormData();
+      formData.append("title", mealName);
+      formData.append("restaurant", restaurantValue);
+      formData.append("desc", mealDesc);
+      formData.append("price", mealPrice);
+      formData.append("count", 0);
+      formData.append("isVegan", mealVegan);
+      formData.append("isPopular", false);
+      formData.append("image", selectedFile);
+      formData.append("type", mealType);
+
+      const data = fetch("http://localhost:5000/api/meals", {
+        method: "POST",
+        body: formData,
+      }).catch((err) => ("Error occured", err));
+      alert("Sėkmingai sukūrėte patiekalą!");
+      handleAdminPopup();
+      setMealName("");
+      setMealDesc("");
+      setMealPrice(0);
+      mealType === "soup" ? handleSoups() : handleMeals();
+    }
+  };
+
+  const handleUpdate = (e) => {
+    if (soupChosen) {
+      if (
+        mealName.length === 0 ||
+        mealDesc.length === 0 ||
+        mealPrice === 0 ||
+        typeof mealPrice === "undefined"
+      ) {
+        alert("Neteisingi duomenys. Bandykite dar kartą.");
+      } else {
+        let obj = {
+          title: mealName,
+          desc: mealDesc,
+          price: mealPrice,
+        };
+
+        const data = fetch(
+          "http://localhost:5000/api/meals/" + soupChosen._id,
+          {
+            method: "PUT",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(obj),
+          }
+        ).catch((err) => ("Error occured", err));
+
+        alert("Sėkmingai atnaujinote patiekalą!");
+        handleAdminPopupEdit();
+        setMealName("");
+        setMealDesc("");
+        setMealPrice(0);
+        handleSoups();
+      }
+    }
+  };
+
+  const adminHandleDelete = () => {
+    if (soupChosen) {
+      fetch(`http://localhost:5000/api/meals/` + soupChosen._id, {
+        method: "DELETE",
+      });
+      alert("Sėkmingai ištrynėte sriubą " + soupChosen.title);
+      handleSoups();
+    } else if (mainChosen) {
+      fetch(`http://localhost:5000/api/meals/` + mainChosen._id, {
+        method: "DELETE",
+      });
+      alert("Sėkmingai ištrynėte pagrindinį patiekalą " + mainChosen.title);
+      handleMeals();
+    } else if (!mainChosen || !soupChosen) {
+      alert("Pasirinkite patiekalą.");
+    }
+  };
 
   const handleCartClick = () => {
     setCartActive((current) => !current);
@@ -112,6 +301,7 @@ const Lunch = () => {
     // setMainChosen(null);
     // setSoupChosen(null);
     setRestaurant(e.target.selectedOptions[0].innerText);
+    setRestaurantValue(e.target.value);
   };
 
   const handleVegan = (event) => {
@@ -408,161 +598,416 @@ const Lunch = () => {
                 Populiarumas
               </button>
             </div>
-            <div
-              className={
-                cartActive
-                  ? "Container__cart Button__sort_active"
-                  : "Container__cart"
-              }
-              onClick={handleCartClick}
-            >
+            {authenticated.level !== 9 ? (
               <div
                 className={
                   cartActive
-                    ? "Container__cart_opened Container__cart_opened_active"
-                    : "Container__cart_opened"
+                    ? "Container__cart Button__sort_active"
+                    : "Container__cart"
                 }
                 onClick={handleCartClick}
               >
-                <div>
-                  <h3>Mano krepšelis</h3>
-                </div>
-                <div className="Container__cart_opened_items">
-                  <div className="Cart__chosen_desc_soup">
-                    <p className="Paragraph__cart">
-                      <FontAwesomeIcon icon={faSpoon} className="Icon__sort" />
-                      Sriuba
-                    </p>
-                    <p className="Paragraph__restaurant">
-                      {soupChosen
-                        ? getRestaurantName(soupChosen.restaurant)
-                        : ""}
-                    </p>
-                  </div>
-                  <div
-                    className={
-                      soupChosen ? "Cart__item_invisible" : "Cart__empty"
-                    }
-                  >
-                    <h4>Jūs nesate pasirinkę sriubos!</h4>
-                  </div>
-                  <div
-                    className={
-                      soupChosen
-                        ? " Container__cart_opened_item_single "
-                        : "Cart__item_invisible"
-                    }
-                  >
-                    <img
-                      src={soupChosen ? soupChosen.image : imageSoup}
-                      className="Image__cart"
-                      alt="asd"
-                    ></img>
-                    <div>
-                      <h4>{soupChosen ? soupChosen.title : ""}</h4>
-                      <p>{soupChosen ? soupChosen.desc : "0.00"}</p>
-                      <h4>
-                        {soupChosen ? soupChosen.price : ""}
-                        <FontAwesomeIcon icon={faEuro} className="Icon__cart" />
-                      </h4>
-                    </div>
-                  </div>
-                  <div className="Cart__chosen_desc">
-                    <p className="Paragraph__cart">
-                      <FontAwesomeIcon
-                        icon={faUtensils}
-                        className="Icon__sort"
-                      />
-                      Pagrindinis
-                    </p>
-                    <p className="Paragraph__restaurant">
-                      {mainChosen
-                        ? getRestaurantName(mainChosen.restaurant)
-                        : ""}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      mainChosen ? "Cart__item_invisible" : "Cart__empty"
-                    }
-                  >
-                    <h4>Jūs nesate pasirinkę pagrindinio patiekalo!</h4>
-                  </div>
-                  <div
-                    className={
-                      mainChosen
-                        ? " Container__cart_opened_item_single "
-                        : "Cart__item_invisible"
-                    }
-                  >
-                    <img
-                      src={mainChosen ? mainChosen.image : food}
-                      className="Image__cart"
-                      alt="img"
-                    ></img>
-                    <div>
-                      <h4>{mainChosen ? mainChosen.title : ""}</h4>
-                      <p>{mainChosen ? mainChosen.desc : ""}</p>
-                      <h4>
-                        {mainChosen ? mainChosen.price : ""}
-                        <FontAwesomeIcon
-                          icon={faEuro}
-                          className="Icon__cart"
-                        />{" "}
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-                <div className="Container__cart_price">
-                  <h4>Viso: {handleCartPrice()}</h4>
-                  <FontAwesomeIcon FontAwesomeIcon icon={faEuro} />
-                </div>
-                <button
-                  onClick={handleClick}
+                <div
                   className={
-                    mainChosen || soupChosen
-                      ? "Btn__apply Btn__cart"
-                      : "Cart__item_invisible"
+                    cartActive
+                      ? "Container__cart_opened Container__cart_opened_active"
+                      : "Container__cart_opened"
+                  }
+                  onClick={handleCartClick}
+                >
+                  <div>
+                    <h3>Mano krepšelis</h3>
+                  </div>
+                  <div className="Container__cart_opened_items">
+                    <div className="Cart__chosen_desc_soup">
+                      <p className="Paragraph__cart">
+                        <FontAwesomeIcon
+                          icon={faSpoon}
+                          className="Icon__sort"
+                        />
+                        Sriuba
+                      </p>
+                      <p className="Paragraph__restaurant">
+                        {soupChosen
+                          ? getRestaurantName(soupChosen.restaurant)
+                          : ""}
+                      </p>
+                    </div>
+                    <div
+                      className={
+                        soupChosen ? "Cart__item_invisible" : "Cart__empty"
+                      }
+                    >
+                      <h4>Jūs nesate pasirinkę sriubos!</h4>
+                    </div>
+                    <div
+                      className={
+                        soupChosen
+                          ? " Container__cart_opened_item_single "
+                          : "Cart__item_invisible"
+                      }
+                    >
+                      <img
+                        src={soupChosen ? soupChosen.image : imageSoup}
+                        className="Image__cart"
+                        alt="asd"
+                      ></img>
+                      <div>
+                        <h4>{soupChosen ? soupChosen.title : ""}</h4>
+                        <p>{soupChosen ? soupChosen.desc : "0.00"}</p>
+                        <h4>
+                          {soupChosen ? soupChosen.price : ""}
+                          <FontAwesomeIcon
+                            icon={faEuro}
+                            className="Icon__cart"
+                          />
+                        </h4>
+                      </div>
+                    </div>
+                    <div className="Cart__chosen_desc">
+                      <p className="Paragraph__cart">
+                        <FontAwesomeIcon
+                          icon={faUtensils}
+                          className="Icon__sort"
+                        />
+                        Pagrindinis
+                      </p>
+                      <p className="Paragraph__restaurant">
+                        {mainChosen
+                          ? getRestaurantName(mainChosen.restaurant)
+                          : ""}
+                      </p>
+                    </div>
+
+                    <div
+                      className={
+                        mainChosen ? "Cart__item_invisible" : "Cart__empty"
+                      }
+                    >
+                      <h4>Jūs nesate pasirinkę pagrindinio patiekalo!</h4>
+                    </div>
+                    <div
+                      className={
+                        mainChosen
+                          ? " Container__cart_opened_item_single "
+                          : "Cart__item_invisible"
+                      }
+                    >
+                      <img
+                        src={mainChosen ? mainChosen.image : food}
+                        className="Image__cart"
+                        alt="img"
+                      ></img>
+                      <div>
+                        <h4>{mainChosen ? mainChosen.title : ""}</h4>
+                        <p>{mainChosen ? mainChosen.desc : ""}</p>
+                        <h4>
+                          {mainChosen ? mainChosen.price : ""}
+                          <FontAwesomeIcon
+                            icon={faEuro}
+                            className="Icon__cart"
+                          />{" "}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="Container__cart_price">
+                    <h4>Viso: {handleCartPrice()}</h4>
+                    <FontAwesomeIcon FontAwesomeIcon icon={faEuro} />
+                  </div>
+                  <button
+                    onClick={handleClick}
+                    className={
+                      mainChosen || soupChosen
+                        ? "Btn__apply Btn__cart"
+                        : "Cart__item_invisible"
+                    }
+                  >
+                    Užsakyti
+                    <FontAwesomeIcon
+                      FontAwesomeIcon
+                      icon={faCircleArrowRight}
+                    />
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </button>
+                </div>
+                <FontAwesomeIcon
+                  icon={faCartShopping}
+                  className="Icon__sort Icon__carts"
+                />
+                <h4>Krepšelis</h4>
+                <div
+                  className={
+                    soupChosen || mainChosen
+                      ? "Container__cart_counter Container__cart_counter_active"
+                      : "Container__cart_counter"
                   }
                 >
-                  Užsakyti
-                  <FontAwesomeIcon FontAwesomeIcon icon={faCircleArrowRight} />
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                  <p>{handleCartCount()}</p>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <button className="Button__sort Button__admin">
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    className="Icon__sort Icon__admin"
+                    onClick={handleAdminPopup}
+                  />{" "}
+                  Naujas patiekalas
                 </button>
               </div>
-              <FontAwesomeIcon
-                icon={faCartShopping}
-                className="Icon__sort Icon__carts"
-              />
-              <h4>Krepšelis</h4>
-              <div
-                className={
-                  soupChosen || mainChosen
-                    ? "Container__cart_counter Container__cart_counter_active"
-                    : "Container__cart_counter"
-                }
-              >
-                <p>{handleCartCount()}</p>
+            )}
+          </div>
+          <div
+            className={
+              adminPopup
+                ? "Container__learning_popup_bg"
+                : "Container__learning_popup_bg Opacity"
+            }
+            onClick={handleAdminPopup}
+          ></div>
+          <div
+            className={
+              adminPopup
+                ? "Container__popup_admin_create"
+                : "Container__popup_admin_create Opacity"
+            }
+          >
+            <h2>Naujas patiekalas</h2>
+            <div className="Container__popup_admin_create_inputs">
+              <div>
+                <label>Pavadinimas</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Patiekalo pavadinimas"
+                  onChange={adminHandleName}
+                ></input>
+              </div>
+              <div>
+                <label>Aprašymas</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Patiekalo aprašymas"
+                  onChange={adminHandleDesc}
+                />
+              </div>
+              <div className="Container__popup_admin_create_inputs_small">
+                <div className="Admin__create_input_small">
+                  <label>Kaina</label>
+                  <input
+                    type="number"
+                    className="Input__admin"
+                    placeholder="Patiekalo aprašymas"
+                    onChange={adminHandlePrice}
+                  />
+                </div>
+                <div className="Admin__create_input_small">
+                  <label>Tipas</label>
+                  <select
+                    className="Select__restaurant"
+                    onChange={adminHandleType}
+                  >
+                    <option value="soup">Sriuba</option>
+                    <option value="main">Pagrindinis</option>
+                  </select>
+                </div>
+                <div className="Admin__create_input_small">
+                  <label>Veganiška</label>
+                  <select
+                    className="Select__restaurant"
+                    onChange={adminHandleVegan}
+                  >
+                    <option value={false}>Ne</option>
+                    <option value={true}>Taip</option>
+                  </select>
+                </div>
+              </div>
+              <div className="Container__post_popup_cv">
+                <label for="file-upload" class="custom-file-upload">
+                  Įkelkite nuotrauką
+                </label>
+                <input
+                  accept="image/*"
+                  id="file-upload"
+                  type="file"
+                  onChange={handlePicture}
+                />
+                <img
+                  className="Image__admin"
+                  src={selectedFile ? preview : ""}
+                  alt=" "
+                ></img>
               </div>
             </div>
+
+            <button className="Btn__apply Btn__popup" onClick={handleUpload}>
+              Sukurti naują patiekalą
+              <FontAwesomeIcon icon={faPlus} />
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
           </div>
+
+          <div
+            className={
+              adminPopupEdit
+                ? "Container__popup_admin_create"
+                : "Container__popup_admin_create Opacity"
+            }
+          >
+            <h2>Redaguoti patiekalą</h2>
+            <div className="Container__popup_admin_create_inputs">
+              <div>
+                <label>Pavadinimas</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Patiekalo pavadinimas"
+                  onChange={adminHandleName}
+                  defaultValue={soupChosen ? soupChosen.title : ""}
+                ></input>
+              </div>
+              <div>
+                <label>Aprašymas</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Patiekalo aprašymas"
+                  onChange={adminHandleDesc}
+                  defaultValue={soupChosen ? soupChosen.desc : ""}
+                />
+              </div>
+              <div className="Container__popup_admin_create_inputs_small">
+                <div className="Admin__create_input_small">
+                  <label>Kaina</label>
+                  <input
+                    type="number"
+                    className="Input__admin"
+                    placeholder="Patiekalo aprašymas"
+                    onChange={adminHandlePrice}
+                    defaultValue={soupChosen ? soupChosen.price : ""}
+                  />
+                </div>
+                <div className="Admin__create_input_small">
+                  <label>Tipas</label>
+                  <select
+                    className="Select__restaurant"
+                    onChange={adminHandleType}
+                  >
+                    <option value="soup">Sriuba</option>
+                    <option value="main">Pagrindinis</option>
+                  </select>
+                </div>
+                <div className="Admin__create_input_small">
+                  <label>Veganiška</label>
+                  <select
+                    className="Select__restaurant"
+                    onChange={adminHandleVegan}
+                    defaultValue={soupChosen ? soupChosen.isVegan : ""}
+                  >
+                    <option value={false}>Ne</option>
+                    <option value={true}>Taip</option>
+                  </select>
+                </div>
+              </div>
+              <div className="Container__post_popup_cv">
+                <label for="file-upload" class="custom-file-upload">
+                  Įkelkite nuotrauką
+                </label>
+                <input
+                  accept="image/*"
+                  id="file-upload"
+                  type="file"
+                  onChange={handlePicture}
+                />
+                {soupChosen ? (
+                  <img
+                    className="Image__admin"
+                    src={selectedFile ? preview : soupChosen.image}
+                    alt=" "
+                  ></img>
+                ) : (
+                  <img
+                    className="Image__admin"
+                    src={selectedFile ? preview : ""}
+                    alt=" "
+                  ></img>
+                )}
+              </div>
+            </div>
+
+            <button className="Btn__apply Btn__popup" onClick={handleUpdate}>
+              Atnaujinti patiekalą
+              <FontAwesomeIcon icon={faPlus} />
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+
+          <div
+            className={
+              adminPopupEdit
+                ? "Container__learning_popup_bg"
+                : "Container__learning_popup_bg Opacity"
+            }
+            onClick={handleAdminPopupEdit}
+          ></div>
 
           <div className="Container__content">
             <div className="Header__restaurant">
               <h1 className="Heading__restaurant">
                 {typeof mealData === "undefined" ? "Loading..." : restaurant}
               </h1>
-              <div className="Container__search">
-                <FontAwesomeIcon icon={faSearch} className="Icon__search" />
-                <input
-                  type="text"
-                  placeholder="Ieškokite restorane..."
-                  onChange={handleSearch}
-                />
+              <div className="Container__header_restaurant_admin">
+                {authenticated.level === 9 ? (
+                  <div>
+                    <div>
+                      <button
+                        className="Button__sort Button__admin"
+                        onClick={adminHandleDelete}
+                      >
+                        <FontAwesomeIcon
+                          icon={faX}
+                          className="Icon__sort Icon__admin"
+                        />{" "}
+                        Ištrinti patiekalą
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        className="Button__sort Button__admin"
+                        onClick={handleAdminPopupEdit}
+                      >
+                        <FontAwesomeIcon
+                          icon={faPen}
+                          className="Icon__sort Icon__admin"
+                        />{" "}
+                        Redaguoti patiekalą
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                <div className="Container__search">
+                  <FontAwesomeIcon icon={faSearch} className="Icon__search" />
+                  <input
+                    type="text"
+                    placeholder="Ieškokite restorane..."
+                    onChange={handleSearch}
+                  />
+                </div>
               </div>
             </div>
 

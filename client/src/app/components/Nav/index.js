@@ -235,7 +235,7 @@ function Nav({ image }) {
             </div>
 
             <div>
-              <div>
+              {/* <div>
                 <Link
                   className={location === "/admin" ? "Link Active" : "Link"}
                   to="/admin"
@@ -243,7 +243,7 @@ function Nav({ image }) {
                   <FontAwesomeIcon icon={faGear} className="Icon__link" />
                 </Link>
                 <p className="Link__name">Administratorius </p>
-              </div>
+              </div> */}
               <div>
                 <div className="Btn__logout" onClick={openConfirmation}>
                   <FontAwesomeIcon icon={faSignOut} className="Icon__link" />

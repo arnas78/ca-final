@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faChevronDown,
+  faPen,
+  faPlus,
   faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -38,7 +40,7 @@ const MapOptions = {
 
 const Learning = () => {
   const [authenticated, setauthenticated] = useState(
-    localStorage.getItem("user")
+    JSON.parse(localStorage.getItem("userData"))
   );
   const {
     lectureChosen,
@@ -53,8 +55,24 @@ const Learning = () => {
   } = useContext(ContentContext);
   const [attendeesOpen, setAttendeesOpen] = useState(false);
   const [lectureSelected, setLectureSelected] = useState(null);
-
+  const [adminPopup, setAdminPopup] = useState(false);
   const [showEnded, setShowEnded] = useState(false);
+
+  const handleAdminPopup = () => {
+    setAdminPopup((prevCheck) => !prevCheck);
+  };
+
+  const handleDeleteLecture = () => {
+    if (lectureSelected) {
+      fetch(`http://localhost:5000/api/lectures/` + lectureSelected._id, {
+        method: "DELETE",
+      });
+      alert("Sėkmingai ištrynėte sriubą " + lectureSelected.title);
+      handleLectures();
+      handleChosenLecture("", false);
+      setLectureSelected(null);
+    }
+  };
 
   const handleLectures = () => {
     fetch("/api/lectures")
@@ -166,109 +184,6 @@ const Learning = () => {
               : "Container__learning_popup Inactive"
           }
         >
-          {/* <div
-            className={
-              attendeesOpen
-                ? "Container__learning_popup_all_atendees Attendees__all_active"
-                : "Container__learning_popup_all_atendees"
-            }
-          >
-            <div className="Container__learning_popup_all_atendees_header">
-              <h3>Visi dalyviai</h3>
-              <FontAwesomeIcon
-                icon={faArrowLeft}
-                className="Icon__popup"
-                onClick={() => {
-                  setAttendeesOpen((current) => !current);
-                }}
-              />
-            </div>
-
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/10" />
-              </span>
-              <h4>Konstantinas P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/20" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/30" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/40" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/50" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/60" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/70" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/80" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/90" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/100" />
-              </span>
-              <h4>Jonas P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/110" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/120" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/130" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-            <div className="Container__popup_attendees_single_all">
-              <span class="avatar__popup">
-                <img src="https://picsum.photos/140" />
-              </span>
-              <h4>Vardenis P.</h4>
-            </div>
-          </div> */}
           <div className="Container__learning_popup_header">
             <h2>
               <FontAwesomeIcon
@@ -316,13 +231,33 @@ const Learning = () => {
             </LoadScript>
           </div>
           <div>
-            <button className="Btn__apply Btn__popup" onClick={handleClick}>
-              Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
+            {authenticated.level === 9 ? (
+              <div>
+                <button className="Button__sort Button__admin">
+                  <FontAwesomeIcon
+                    icon={faX}
+                    className="Icon__sort Icon__admin"
+                    onClick={handleDeleteLecture}
+                  />{" "}
+                  Ištrinti mokymus
+                </button>
+                <button className="Button__sort Button__admin">
+                  <FontAwesomeIcon
+                    icon={faPen}
+                    className="Icon__sort Icon__admin"
+                  />{" "}
+                  Redaguoti mokymus
+                </button>
+              </div>
+            ) : (
+              <button className="Btn__apply Btn__popup" onClick={handleClick}>
+                Norėčiau dalyvauti! <FontAwesomeIcon icon={faHand} />
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+            )}
           </div>
           <div>
             <h4>
@@ -404,6 +339,19 @@ const Learning = () => {
               <h4>Žemiau rasite visus mokymus, vyksiančius įmonėje.</h4>
             </div>
             <div className="Container__sort_learning">
+              {authenticated.level === 9 ? (
+                <button className="Button__sort Button__admin">
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    className="Icon__sort Icon__admin"
+                    onClick={handleAdminPopup}
+                  />{" "}
+                  Nauji mokymai
+                </button>
+              ) : (
+                ""
+              )}
+
               <div className="Container__checkbox_learning">
                 <label class="switch">
                   <input
