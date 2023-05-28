@@ -265,9 +265,8 @@
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
-.Container__dashboard_lectures h4 {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+.Paragraph__my_lectures {
+  margin: 1rem 0;
   color: var(--color-secondary-light);
 }
 

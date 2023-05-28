@@ -6,17 +6,17 @@ POST http://localhost:5000/api/users/signup
 content-type: application/json
 
 {
-    "name": "Admin",
-    "surname": "Admin",
-    "work_email": "admin@admin.com",
-    "position": "Admin",
-    "location": "Admin",
-    "password": "admin",
+    "name": "Antanas",
+    "surname": "Antanaitis",
+    "work_email": "antanas@antanaitis.com",
+    "position": "Fullstack Programuotojas",
+    "location": "Vilnius, Lietuva",
+    "password": "petras",
     "phone": "+37061234567",
-    "birthdate": "Admin",
-    "sex": "Admin",
-    "personal_number": "Admin",
-    "level": 9
+    "birthdate": "2000-01-31",
+    "sex": "Vyras",
+    "personal_number": "5XXXXXX1234",
+    "level": 1
 }
 
 
@@ -28,13 +28,13 @@ POST http://localhost:5000/api/user/extra
 content-type: application/json
 
 {
-    "user_id": "646ad39cf62527cc02027e9d",
-    "vacation_days": 10,
-    "bio": "Sveiki, esu vardenis!",
-    "personal_email": "vardenis@gmail.com",
-    "github": "https://github.com/arnas78",
-    "bank_name": "SEB",
-    "bank_number": "XX1234YYYY4567XXXX89"
+    "user_id": "647314838a7c8032557fa9c0",
+    "vacation_days": 20,
+    "bio": "Sveiki, esu Antanas Antanaitis!",
+    "personal_email": "antanas@gmail.com",
+    "bank_name": "SwedBank",
+    "bank_number": "XX1234YYYY4567XXXX89",
+    "image": "https://res.cloudinary.com/dqcj3vyhm/image/upload/v1673598447/aisyshoe3qzp1gtcprfj.jpg"
 }
 
 ###

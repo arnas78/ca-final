@@ -50,6 +50,7 @@ const Posts = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const handleSurname = (event) => {
     setSurname(event.target.value);
@@ -85,6 +86,21 @@ const Posts = () => {
     setSearchValue(e.target.value);
   };
 
+  const handleUpload = (e) => {
+    setFileName(e.target.value);
+  };
+
+  const handleClose = () => {
+    if (isPostChosen) {
+      setPostChosen(false);
+      setFileName("");
+      setSurname("");
+      setPhone("");
+      setName("");
+      setEmail("");
+    }
+  };
+
   function handleClick() {
     if (isPostChosen && referData !== "undefined") {
       let obj = {};
@@ -93,9 +109,10 @@ const Posts = () => {
         name.length === 0 ||
         surname.length === 0 ||
         email.length === 0 ||
-        phone.length === 0
+        phone.length === 0 ||
+        fileName.length === 0
       ) {
-        alert("Įveskite visus duomenis!");
+        alert("Yra tuščių laukų arba neįkėlėte CV!");
       } else {
         obj = {
           user_id: "646a4910cc114a5a37df1014",
@@ -116,7 +133,7 @@ const Posts = () => {
         });
 
         alert(`Jūs sėkmingai pateikėte aplikaciją dėl ${chosenPost.title}!`);
-        window.location.reload(false);
+        handleClose();
       }
     }
   }
@@ -145,7 +162,7 @@ const Posts = () => {
               ? "Container__learning_popup_bg"
               : "Container__learning_popup_bg Opacity"
           }
-          onClick={() => (isPostChosen ? setPostChosen(false) : null)}
+          onClick={handleClose}
         ></div>
         <div
           className={
@@ -165,9 +182,7 @@ const Posts = () => {
             <FontAwesomeIcon
               icon={faX}
               className="Icon__popup"
-              onClick={() =>
-                isPostChosen || chosenPost === 0 ? setPostChosen(false) : null
-              }
+              onClick={handleClose}
             />
           </div>
           <div className="Container__popup_info">
@@ -279,12 +294,20 @@ const Posts = () => {
                 />
               </div>
             </div>
+            <div className="Container__post_popup_cv_header">
+              <h4>Jūsų CV</h4>
+              <p>{fileName.substring(fileName.lastIndexOf("\\") + 1)}</p>
+            </div>
             <div className="Container__post_popup_cv">
               <label for="file-upload" class="custom-file-upload">
-                <i class="fa fa-cloud-upload"></i> Įkelkite aplikanto CV
-                (gyvenimo aprašymą)!
+                Įkelkite aplikanto CV (gyvenimo aprašymą)!
               </label>
-              <input accept=".pdf" id="file-upload" type="file" />
+              <input
+                accept=".pdf"
+                id="file-upload"
+                type="file"
+                onChange={handleUpload}
+              />
             </div>
             {/* <div className="Container__post_popup_cv">
               <p>Įkelkite aplikanto CV (gyvenimo aprašymą)!</p>

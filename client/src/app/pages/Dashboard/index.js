@@ -10,6 +10,7 @@ import { faGithub, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 import ContentContext from "../../context/Content";
 import Meal from "../../components/Meal";
 import food from "../../components/images/food.jpg";
+import Attendee from "../../components/Attendee";
 import profile from "../../components/images/blank_profile.png";
 import event from "../../components/images/event.jpg";
 import conference from "../../components/images/conf-2.png";
@@ -71,8 +72,9 @@ const MapOptions = {
 };
 
 const Dashboard = () => {
-
-  const [authenticated, setauthenticated] = useState(JSON.parse(localStorage.getItem("userData")));
+  const [authenticated, setauthenticated] = useState(
+    JSON.parse(localStorage.getItem("userData"))
+  );
 
   const allMeals = fakeApi.main;
   const allSoups = fakeApi.soups;
@@ -103,7 +105,7 @@ const Dashboard = () => {
   const [chosenPost, setChosenPost] = useState(null);
   const [isPostChosen, setPostChosen] = useState(false);
   const [isEventChosen, setIsEventChosen] = useState(false);
-
+  const [fileName, setFileName] = useState("");
   const [surname, setSurname] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -121,6 +123,9 @@ const Dashboard = () => {
   const handleEmail = (event) => {
     setEmail(event.target.value);
   };
+  const handleUpload = (e) => {
+    setFileName(e.target.value);
+  };
 
   const [selectedEvent, setEventSelected] = useState(null);
 
@@ -137,7 +142,10 @@ const Dashboard = () => {
     orderData,
     referData,
     mealData,
-    setOrderData
+    setOrderData,
+    allExtraData,
+    allOrderData,
+    allUserData,
   } = useContext(ContentContext);
 
   let postDataRecent =
@@ -148,11 +156,11 @@ const Dashboard = () => {
 
   const handleProfile = () => {
     fetch("/api/orders")
-    .then((response) => response.json())
-    .then((data) => {
-      setOrderData(data);
-    });
-  }
+      .then((response) => response.json())
+      .then((data) => {
+        setOrderData(data);
+      });
+  };
 
   let eventData =
     typeof eventsData.events === "undefined"
@@ -177,9 +185,21 @@ const Dashboard = () => {
   const userOrders =
     typeof orderData.orders === "undefined"
       ? []
-      : orderData.orders.filter(
-          (obj) => obj.user_id === backendData._id
-        );
+      : orderData.orders.filter((obj) => obj.user_id === backendData._id);
+
+  const allUsersArray =
+    typeof allUserData.users === "undefined" ? [] : allUserData.users;
+
+  const allExtraArray =
+    typeof allExtraData.extra === "undefined" ? [] : allExtraData.extra;
+
+  let allOrders =
+    typeof orderData.orders === "undefined" ? [] : orderData.orders;
+
+  let eventAttendees =
+    typeof (orderData.orders === "undefined") && !lectureSelected
+      ? []
+      : orderData.orders.filter((obj) => obj.obj_id === lectureSelected._id);
 
   const renderMeals = () => {
     let arr =
@@ -313,22 +333,17 @@ const Dashboard = () => {
     }
   }
 
-
   const userVacations =
     typeof vacationData.vacations === "undefined"
       ? []
-      : vacationData.vacations.filter(
-          (obj) => obj.user_id === backendData._id
-        );
+      : vacationData.vacations.filter((obj) => obj.user_id === backendData._id);
 
-  if (!authenticated){
+  if (!authenticated) {
     return <Navigate replace to="/login" />;
-  }
-  else {
+  } else {
     if (authenticated.level === 9) {
       <Navigate replace to="/admin" />;
-    }
-    else {
+    } else {
       return (
         <div className="Section__dashboard">
           <Nav image={logo} />
@@ -337,10 +352,16 @@ const Dashboard = () => {
           <div className="Container__dashboard">
             <div className="Header__dashboard">
               <div>
-                <Link onClick={handleProfile} className="Link__dashboard_profile" to="/profile">
+                <Link
+                  onClick={handleProfile}
+                  className="Link__dashboard_profile"
+                  to="/profile"
+                >
                   <img
                     className="Image__dashboard"
-                    src={typeof userExtra === "undefined" ? image : userExtra.image}
+                    src={
+                      typeof userExtra === "undefined" ? image : userExtra.image
+                    }
                     alt="profile_image"
                   ></img>
                   <h3 className="Heading__my_profile">Mano profilis</h3>
@@ -358,8 +379,8 @@ const Dashboard = () => {
                 </h1>
                 <h4>
                   Užsisakykite pietus į ofisą, užsiregistruokite į mokymus,
-                  pateikite prašymą į renginį ar pasiūlykite savo draugą/pažįstamą į
-                  mūsų darbovietę!
+                  pateikite prašymą į renginį ar pasiūlykite savo
+                  draugą/pažįstamą į mūsų darbovietę!
                 </h4>
               </div>
             </div>
@@ -371,7 +392,10 @@ const Dashboard = () => {
                   </h2>
                   <div>
                     <div className="Container__vacation_days_dashboard">
-                      <FontAwesomeIcon icon={faClipboard} id="vacation_dashboard" />
+                      <FontAwesomeIcon
+                        icon={faClipboard}
+                        id="vacation_dashboard"
+                      />
                       <h4>
                         {typeof userExtra === "undefined"
                           ? "Loading..."
@@ -404,7 +428,10 @@ const Dashboard = () => {
                       })
                     )}
                   </div>
-                  <Link className="Btn__apply Btn__apply_vacation" to="/profile">
+                  <Link
+                    className="Btn__apply Btn__apply_vacation"
+                    to="/profile"
+                  >
                     Sužinoti daugiau... <FontAwesomeIcon icon={faArrowRight} />
                     <span></span>
                     <span></span>
@@ -563,7 +590,9 @@ const Dashboard = () => {
                             className="Icon__location"
                           />
                           {lectureSelected
-                            ? lectureSelected.start + ` - ` + lectureSelected.end
+                            ? lectureSelected.start +
+                              ` - ` +
+                              lectureSelected.end
                             : ""}
                         </h4>
                         <p>{lectureSelected ? lectureSelected.desc : ""}</p>
@@ -579,44 +608,37 @@ const Dashboard = () => {
                         </GoogleMap>
                       </LoadScript>
                     </div>
-    
+
                     <div>
                       <h4>
-                        <FontAwesomeIcon icon={faUser} className="Icon__location" />
+                        <FontAwesomeIcon
+                          icon={faUser}
+                          className="Icon__location"
+                        />
                         Dalyviai:
                       </h4>
                       <div className="Container__popup_attendees">
-                        <div className="Container__popup_attendees_single">
-                          <span class="avatar__popup">
-                            <img src="https://picsum.photos/10" />
-                          </span>
-                          <h4>Vardenis P.</h4>
-                        </div>
-                        <div className="Container__popup_attendees_single">
-                          <span class="avatar__popup">
-                            <img src="https://picsum.photos/100" />
-                          </span>
-                          <h4>Vardenis P.</h4>
-                        </div>
-                        <div className="Container__popup_attendees_single">
-                          <span class="avatar__popup">
-                            <img src="https://picsum.photos/20" />
-                          </span>
-                          <h4>Vardenis P.</h4>
-                        </div>
-                        <div className="Container__popup_attendees_single">
-                          <span class="avatar__popup">
-                            <img src="https://picsum.photos/90" />
-                          </span>
-                          <h4>Vardenis P.</h4>
-                        </div>
-                        <div className="Container__popup_attendees_single">
-                          <span class="avatar__popup">
-                            <img src="https://picsum.photos/80" />
-                          </span>
-                          <h4>Vardenis P.</h4>
-                        </div>
-                        <div
+                        {typeof allUserData === "undefined" ||
+                        typeof allExtraData === "undefined" ? (
+                          <h1>Loading...</h1>
+                        ) : eventAttendees.length !== 0 ? (
+                          eventAttendees.map((att, i) => {
+                            return (
+                              <Attendee
+                                attendee={att}
+                                key={i}
+                                userData={allUsersArray}
+                                userExtra={allExtraArray}
+                              ></Attendee>
+                            );
+                          })
+                        ) : (
+                          <h3>
+                            Šiuo metu apmokymuose dalyvių nėra.
+                            Užsiregistruokite!
+                          </h3>
+                        )}
+                        {/* <div
                           className="Attendee__last"
                           onClick={() => {
                             setAttendeesOpen((current) => !current);
@@ -637,14 +659,14 @@ const Dashboard = () => {
                             </span>
                           </div>
                           <p>Daugiau...</p>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
                   <h2>
                     <FontAwesomeIcon icon={faBook} /> Mokymai
                   </h2>
-                  <h4>Mano mokymai: </h4>
+                  <h4 className="Paragraph__my_lectures">Mano mokymai: </h4>
                   <div className="Container__dashboard_lecture_list">
                     {typeof orderData.orders === "undefined" ||
                     typeof lectureData.lectures === "undefined" ? (
@@ -656,14 +678,20 @@ const Dashboard = () => {
                           index < lectureData.lectures.length;
                           index++
                         ) {
-                          if (order.obj_id === lectureData.lectures[index]._id) {
+                          if (
+                            order.obj_id === lectureData.lectures[index]._id
+                          ) {
                             return (
                               <Lecture
                                 key={i}
                                 lecture={lectureData.lectures[index]}
                                 onClick={() => {
-                                  setLectureSelected(lectureData.lectures[index]);
+                                  setLectureSelected(
+                                    lectureData.lectures[index]
+                                  );
                                 }}
+                                userExtra={allExtraArray}
+                                userOrders={allOrders}
                                 dashboard={true}
                               />
                               // <Order
@@ -671,7 +699,7 @@ const Dashboard = () => {
                               //   obj={lectureData.lectures[index]}
                               //   order={order}
                               //   type={"lecture_dashboard"}
-    
+
                               // />
                             );
                           }
@@ -843,7 +871,10 @@ const Dashboard = () => {
                   <h2 className="Heading__swiper">
                     <FontAwesomeIcon icon={faCalendarDay} /> Renginiai
                   </h2>
-                  <Link className="Btn__apply Btn__swiper_dashboard" to="/events">
+                  <Link
+                    className="Btn__apply Btn__swiper_dashboard"
+                    to="/events"
+                  >
                     Visi renginiai <FontAwesomeIcon icon={faArrowRight} />
                     <span></span>
                     <span></span>
@@ -900,7 +931,7 @@ const Dashboard = () => {
                         </SwiperSlide>
                       );
                     })}
-    
+
                     <div className="autoplay-progress" slot="container-end">
                       <svg viewBox="0 0 48 48" ref={progressCircle}>
                         <circle cx="24" cy="24" r="20"></circle>
@@ -912,11 +943,13 @@ const Dashboard = () => {
                 <div className="Container__dashboard_posts">
                   <div className="Container__dashboard_posts_header">
                     <h2>
-                      <FontAwesomeIcon icon={faEnvelopeOpenText} /> Darbo skelbimai
+                      <FontAwesomeIcon icon={faEnvelopeOpenText} /> Darbo
+                      skelbimai
                     </h2>
                     <div>
                       <h3>
-                        Paskutiniai pridėti <FontAwesomeIcon icon={faArrowDown} />
+                        Paskutiniai pridėti{" "}
+                        <FontAwesomeIcon icon={faArrowDown} />
                       </h3>
                     </div>
                   </div>
@@ -970,7 +1003,7 @@ const Dashboard = () => {
                             />
                             {chosenPost ? chosenPost.location : ""}
                           </h4>
-    
+
                           <h4>
                             <FontAwesomeIcon
                               icon={faCircleDollarToSlot}
@@ -979,7 +1012,7 @@ const Dashboard = () => {
                             {chosenPost ? chosenPost.payrange : ""}
                           </h4>
                         </div>
-    
+
                         <div className="Container__popup_posts_tags">
                           {chosenPost
                             ? chosenPost.tags.map((tag, i) => {
@@ -1019,7 +1052,7 @@ const Dashboard = () => {
                         </ul>
                       </div>
                     </div>
-    
+
                     <div className="Container__post_popup_apply">
                       <h4>Informacija</h4>
                       <div className="Container__post_popup_inputs">
@@ -1064,17 +1097,32 @@ const Dashboard = () => {
                           />
                         </div>
                       </div>
+                      <div className="Container__post_popup_cv_header">
+                        <h4>Jūsų CV</h4>
+                        <p>
+                          {fileName.substring(fileName.lastIndexOf("\\") + 1)}
+                        </p>
+                      </div>
                       <div className="Container__post_popup_cv">
-                        <p>Įkelkite aplikanto CV (gyvenimo aprašymą)!</p>
+                        <label for="file-upload" class="custom-file-upload">
+                          Įkelkite aplikanto CV (gyvenimo aprašymą)!
+                        </label>
+                        <input
+                          accept=".pdf"
+                          id="file-upload"
+                          type="file"
+                          onChange={handleUpload}
+                        />
                       </div>
                     </div>
-    
+
                     <div>
                       <button
                         className="Btn__apply Btn__popup"
                         onClick={handleClickPosts}
                       >
-                        Siųsti aplikaciją <FontAwesomeIcon icon={faPaperPlane} />
+                        Siųsti aplikaciją{" "}
+                        <FontAwesomeIcon icon={faPaperPlane} />
                         <span></span>
                         <span></span>
                         <span></span>
@@ -1082,7 +1130,7 @@ const Dashboard = () => {
                       </button>
                     </div>
                   </div>
-    
+
                   <div className="Container__recent">
                     <div className="Container__posts_recent">
                       {postDataRecent.map((post, i) => {
@@ -1101,7 +1149,8 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <Link className="Btn__apply Btn__lectures" to="/posts">
-                    Visi darbo skelbimai... <FontAwesomeIcon icon={faArrowRight} />
+                    Visi darbo skelbimai...{" "}
+                    <FontAwesomeIcon icon={faArrowRight} />
                     <span></span>
                     <span></span>
                     <span></span>

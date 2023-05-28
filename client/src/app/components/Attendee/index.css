@@ -1,0 +1,25 @@
+.Container__popup_attendees {
+    margin-top: 1.5rem;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    width: 100%;
+    transition: all 0.3s;
+  }
+  
+  .Container__popup_attendees_single {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--color-accent-secondary);
+    color: var(--color-secondary-dark);
+    padding: 0.5rem 1rem;
+    width: 27.2%;
+    border-radius: 0.5rem;
+  }

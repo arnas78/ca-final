@@ -387,8 +387,26 @@ li {
   margin-bottom: 1rem;
 }
 
-.Container__post_popup_cv {
+.Container__post_popup_cv_header {
+  display: flex;
   margin-top: 2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Container__post_popup_cv_header p {
+  margin-bottom: 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: right;
+  height: 20px;
+  width: 300px;
+  color: var(--color-accent);
+  font-weight: bold;
+}
+
+.Container__post_popup_cv {
   height: 50px;
   border: 2px dashed var(--color-accent);
   padding: 1rem;

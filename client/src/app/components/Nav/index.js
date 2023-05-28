@@ -44,8 +44,6 @@ function Nav({ image }) {
   const handleLogout = () => {
     localStorage.clear();
     setauthenticated("");
-    setMainChosen(null);
-    setSoupChosen(null);
     navigate("/login");
   };
 
@@ -104,7 +102,6 @@ function Nav({ image }) {
     );
   } else {
     if (authenticated.level === 9) {
-      console.log("xd");
       return (
         <header className="Header">
           <div

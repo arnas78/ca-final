@@ -48,11 +48,29 @@ const Learning = () => {
     backendData,
     allUserData,
     allExtraData,
+    setLectureData,
+    setOrderData,
   } = useContext(ContentContext);
   const [attendeesOpen, setAttendeesOpen] = useState(false);
   const [lectureSelected, setLectureSelected] = useState(null);
 
   const [showEnded, setShowEnded] = useState(false);
+
+  const handleLectures = () => {
+    fetch("/api/lectures")
+      .then((response) => response.json())
+      .then((data) => {
+        setLectureData(data);
+      });
+  };
+
+  const handleOrders = () => {
+    fetch("/api/orders")
+      .then((response) => response.json())
+      .then((data) => {
+        setOrderData(data);
+      });
+  };
 
   let allLectures =
     typeof lectureData.lectures === "undefined"
@@ -74,7 +92,10 @@ const Learning = () => {
         );
       }).length;
 
-      if (new Date() - new Date(lectureSelected.end) < 0) {
+      if (
+        new Date() - new Date(lectureSelected.end) < 0 &&
+        new Date() - new Date(lectureSelected.start) < 0
+      ) {
         if (arrLength === 0) {
           obj = {
             user_id: backendData._id,
@@ -92,12 +113,14 @@ const Learning = () => {
           });
 
           alert(`Jūs sėkmingai aplikavote į mokymus!`);
-          window.location.reload(false);
+          handleChosenLecture("", false);
+          handleOrders();
+          handleLectures();
         } else {
           alert(`Šiuose mokymuose jau aplikavote.`);
         }
       } else {
-        alert("Šis renginys pasibaigęs");
+        alert("Registracija į šį renginį yra negalima.");
       }
     }
   }
@@ -108,7 +131,8 @@ const Learning = () => {
   const allExtraArray =
     typeof allExtraData.extra === "undefined" ? [] : allExtraData.extra;
 
-  console.log(allExtraArray);
+  let allOrders =
+    typeof orderData.orders === "undefined" ? [] : orderData.orders;
 
   let eventAttendees =
     typeof (orderData.orders === "undefined") && !lectureSelected
@@ -142,7 +166,7 @@ const Learning = () => {
               : "Container__learning_popup Inactive"
           }
         >
-          <div
+          {/* <div
             className={
               attendeesOpen
                 ? "Container__learning_popup_all_atendees Attendees__all_active"
@@ -160,13 +184,13 @@ const Learning = () => {
               />
             </div>
 
-            {/* <div className="Container__popup_attendees_single_all">
+            <div className="Container__popup_attendees_single_all">
               <span class="avatar__popup">
                 <img src="https://picsum.photos/10" />
               </span>
               <h4>Konstantinas P.</h4>
-            </div> */}
-            {/* <div className="Container__popup_attendees_single_all">
+            </div>
+            <div className="Container__popup_attendees_single_all">
               <span class="avatar__popup">
                 <img src="https://picsum.photos/20" />
               </span>
@@ -243,8 +267,8 @@ const Learning = () => {
                 <img src="https://picsum.photos/140" />
               </span>
               <h4>Vardenis P.</h4>
-            </div> */}
-          </div>
+            </div>
+          </div> */}
           <div className="Container__learning_popup_header">
             <h2>
               <FontAwesomeIcon
@@ -309,7 +333,7 @@ const Learning = () => {
               {typeof allUserData === "undefined" ||
               typeof allExtraData === "undefined" ? (
                 <h1>Loading...</h1>
-              ) : (
+              ) : eventAttendees.length !== 0 ? (
                 eventAttendees.map((att, i) => {
                   return (
                     <Attendee
@@ -320,6 +344,8 @@ const Learning = () => {
                     ></Attendee>
                   );
                 })
+              ) : (
+                <h3>Šiuo metu apmokymuose dalyvių nėra. Užsiregistruokite!</h3>
               )}
 
               {/* <div className="Container__popup_attendees_single">
@@ -445,24 +471,12 @@ const Learning = () => {
             </div>
             <div className="Container__learnings">
               {allLectures.map((lecture, i) => {
-                if (showEnded) {
-                  return (
-                    <Lecture
-                      key={i}
-                      lecture={lecture}
-                      onClick={() => {
-                        handleChosenLecture(lecture, true);
-                        setLectureSelected(lecture);
-                      }}
-                      id={lecture.id}
-                    />
-                  );
-                } else if (!showEnded) {
-                  let isEnded = false;
-                  if (new Date() - new Date(lecture.end) > 0) {
-                    isEnded = true;
-                  }
-                  if (!isEnded) {
+                if (
+                  typeof allUserData !== "undefined" ||
+                  typeof allExtraData !== "undefined" ||
+                  typeof allOrders !== "undefined"
+                ) {
+                  if (showEnded) {
                     return (
                       <Lecture
                         key={i}
@@ -471,15 +485,39 @@ const Learning = () => {
                           handleChosenLecture(lecture, true);
                           setLectureSelected(lecture);
                         }}
+                        userData={allUsersArray}
+                        userExtra={allExtraArray}
+                        userOrders={allOrders}
                         id={lecture.id}
                       />
                     );
+                  } else if (!showEnded) {
+                    let isEnded = false;
+                    if (new Date() - new Date(lecture.end) > 0) {
+                      isEnded = true;
+                    }
+                    if (!isEnded) {
+                      return (
+                        <Lecture
+                          key={i}
+                          lecture={lecture}
+                          onClick={() => {
+                            handleChosenLecture(lecture, true);
+                            setLectureSelected(lecture);
+                          }}
+                          userData={allUsersArray}
+                          userExtra={allExtraArray}
+                          userOrders={allOrders}
+                          id={lecture.id}
+                        />
+                      );
+                    }
                   }
                 }
               })}
             </div>
           </div>
-          <div className="Container__learning_nav">
+          {/* <div className="Container__learning_nav">
             <div class="dropdown">
               <h4>Kiekis per puslapį:</h4>
               <select class="dropbtn">
@@ -498,7 +536,7 @@ const Learning = () => {
                 className="Icon__navigation"
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     );

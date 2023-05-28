@@ -3,7 +3,34 @@ import "./index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
-const Lecture = ({ lecture, isChosen, image, onClick, id, dashboard }) => {
+const Lecture = ({
+  lecture,
+  isChosen,
+  image,
+  onClick,
+  id,
+  dashboard,
+  userData,
+  userExtra,
+  userOrders,
+}) => {
+  let pictureArr = [];
+  let extraCounter = 0;
+  const lectureOrders = userOrders.filter((obj) => {
+    return obj.obj_id === lecture._id;
+  });
+
+  for (let i = 0; i < lectureOrders.length; i++) {
+    for (let y = 0; y < userExtra.length; y++) {
+      if (lectureOrders[i].user_id === userExtra[y].user_id) {
+        pictureArr.length < 3
+          ? pictureArr.push(userExtra[y].image)
+          : extraCounter++;
+      }
+    }
+  }
+  pictureArr.push(extraCounter);
+
   const isActive = () => {
     if (new Date() - new Date(lecture.start) > 0) {
       return true;
@@ -45,18 +72,37 @@ const Lecture = ({ lecture, isChosen, image, onClick, id, dashboard }) => {
         <h4 id="Learning__end">{lecture.end}</h4>
         <div className="Container__learning_attendees">
           <div class="avatars">
-            <span class="avatar">
-              <img src="https://picsum.photos/70" />
-            </span>
-            <span class="avatar">
+            {pictureArr[0] !== 0 ? (
+              pictureArr.map((pic, i) => {
+                if (i < 3 && pic !== 0) {
+                  return (
+                    <span class="avatar">
+                      <img key={i} src={pic} />
+                    </span>
+                  );
+                } else {
+                  if (pic !== 0) {
+                    return (
+                      <span class="avatar last">
+                        <p>+ {pic}</p>
+                      </span>
+                    );
+                  }
+                }
+              })
+            ) : (
+              <h4>Dalyvių nėra</h4>
+            )}
+
+            {/* <span class="avatar">
               <img src="https://picsum.photos/80" />
             </span>
             <span class="avatar">
               <img src="https://picsum.photos/90" />
-            </span>
-            <span class="avatar last">
+            </span> */}
+            {/* <span class="avatar last">
               <p>+20</p>
-            </span>
+            </span> */}
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@ const Attendee = ({ attendee, userData, userExtra }) => {
       <span class="avatar__popup">
         <img src={extraObj.image} />
       </span>
-      <h4>{userObj.name}</h4>
+      <h4>{userObj.name + " " + userObj.surname[0] + "."}</h4>
     </div>
   );
 };

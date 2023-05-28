@@ -204,6 +204,7 @@ app.post("/api/user/extra", async (req, res) => {
     linkedin,
     bank_name,
     bank_number,
+    image,
   } = req.body;
 
   const newPost = {
@@ -218,6 +219,7 @@ app.post("/api/user/extra", async (req, res) => {
     linkedin,
     bank_name,
     bank_number,
+    image,
   };
 
   try {
