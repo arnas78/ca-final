@@ -137,7 +137,7 @@ const Profile = () => {
         handleUserExtra();
         handleVacations();
       } else {
-        alert("Jūsų pasirinktas dienų kiekis per didelis!");
+        alert("Jūsų dienų likutis nėra pakankamas!");
       }
     } else {
       alert("Atostogų laikotarpis nepasirinktas. Atlikite pasirinkimą!");
@@ -152,8 +152,6 @@ const Profile = () => {
         bio: bio,
         address: address,
       };
-
-      console.log(obj);
 
       // Send data to the backend via POST
       fetch("http://localhost:5000/api/user/extra/" + backendData._id, {
@@ -198,7 +196,6 @@ const Profile = () => {
 
   const handleCanDelete = (day) => {
     let currentDay = 3;
-    console.log(day);
     if (currentDay === 6 || currentDay === 0) {
       return true;
     } else if (day < currentDay) {
