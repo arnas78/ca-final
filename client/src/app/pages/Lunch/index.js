@@ -198,10 +198,11 @@ const Lunch = () => {
       }).catch((err) => ("Error occured", err));
       alert("Sėkmingai sukūrėte patiekalą!");
       handleAdminPopup();
+      handleSoups();
+      handleMeals();
       setMealName("");
       setMealDesc("");
       setMealPrice(0);
-      mealType === "soup" ? handleSoups() : handleMeals();
     }
   };
 

@@ -54,6 +54,7 @@ const Learning = () => {
     setOrderData,
   } = useContext(ContentContext);
   const [attendeesOpen, setAttendeesOpen] = useState(false);
+  const [adminPopupEdit, setAdminPopupEdit] = useState(false);
   const [lectureSelected, setLectureSelected] = useState(null);
   const [adminPopup, setAdminPopup] = useState(false);
   const [showEnded, setShowEnded] = useState(false);
@@ -62,12 +63,24 @@ const Learning = () => {
     setAdminPopup((prevCheck) => !prevCheck);
   };
 
+  const handleAdminPopupEdit = (e) => {
+    handleChosenLecture("", false);
+    setAdminPopupEdit((prevCheck) => !prevCheck);
+    if (lectureSelected) {
+      setLectureTitle(lectureSelected.title);
+      setLecturePlace(lectureSelected.place);
+      setLectureStart(lectureSelected.start);
+      setLectureEnd(lectureSelected.end);
+      setLectureDesc(lectureSelected.desc);
+    }
+  };
+
   const handleDeleteLecture = () => {
     if (lectureSelected) {
       fetch(`http://localhost:5000/api/lectures/` + lectureSelected._id, {
         method: "DELETE",
       });
-      alert("Sėkmingai ištrynėte sriubą " + lectureSelected.title);
+      alert("Sėkmingai ištrynėte mokymus " + lectureSelected.title);
       handleLectures();
       handleChosenLecture("", false);
       setLectureSelected(null);
@@ -88,6 +101,113 @@ const Learning = () => {
       .then((data) => {
         setOrderData(data);
       });
+  };
+
+  const [lectureTitle, setLectureTitle] = useState("");
+  const [lecturePlace, setLecturePlace] = useState("");
+  const [lectureStart, setLectureStart] = useState("");
+  const [lectureEnd, setLectureEnd] = useState("");
+  const [lectureDesc, setLectureDesc] = useState("");
+
+  const handleUpload = (e) => {
+    if (
+      lectureTitle.length === 0 ||
+      lecturePlace.length === 0 ||
+      lectureStart.length === 0 ||
+      lectureEnd.length === 0 ||
+      lectureDesc.length === 0
+    ) {
+      alert("Neteisingi duomenys. Bandykite dar kartą.");
+    } else {
+      let lectureObj = {
+        title: lectureTitle,
+        place: lecturePlace,
+        start: lectureStart,
+        end: lectureEnd,
+        desc: lectureDesc,
+        id: 12,
+      };
+
+      console.log(lectureObj);
+
+      const data = fetch("http://localhost:5000/api/lectures", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(lectureObj),
+      }).catch((err) => ("Error occured", err));
+      alert("Sėkmingai sukūrėte patiekalą!");
+      handleAdminPopup();
+      handleLectures();
+      setLectureTitle("");
+      setLecturePlace("");
+      setLectureStart("");
+      setLectureEnd("");
+      setLectureDesc("");
+    }
+  };
+
+  const handleUpdate = (e) => {
+    if (lectureSelected) {
+      if (
+        lectureTitle.length === 0 ||
+        lecturePlace.length === 0 ||
+        lectureStart.length === 0 ||
+        lectureEnd.length === 0 ||
+        lectureDesc.length === 0
+      ) {
+        alert("Neteisingi duomenys. Bandykite dar kartą.");
+      } else {
+        let lectureObj = {
+          title: lectureTitle,
+          place: lecturePlace,
+          start: lectureStart,
+          end: lectureEnd,
+          desc: lectureDesc,
+        };
+
+        const data = fetch(
+          "http://localhost:5000/api/lectures/" + lectureSelected._id,
+          {
+            method: "PUT",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(lectureObj),
+          }
+        ).catch((err) => ("Error occured", err));
+
+        alert("Sėkmingai atnaujinote mokymus!");
+        handleAdminPopupEdit();
+        handleLectures();
+        setLectureTitle("");
+        setLecturePlace("");
+        setLectureStart("");
+        setLectureEnd("");
+        setLectureDesc("");
+      }
+    }
+  };
+
+  const adminHandleTitle = (e) => {
+    setLectureTitle(e.target.value);
+  };
+
+  const adminHandlePlace = (e) => {
+    setLecturePlace(e.target.value);
+  };
+
+  const adminHandleStart = (e) => {
+    setLectureStart(e.target.value);
+  };
+
+  const adminHandleEnd = (e) => {
+    setLectureEnd(e.target.value);
+  };
+
+  const adminHandleDesc = (e) => {
+    setLectureDesc(e.target.value);
   };
 
   let allLectures =
@@ -167,6 +287,160 @@ const Learning = () => {
 
         <div
           className={
+            adminPopup
+              ? "Container__learning_popup_bg"
+              : "Container__learning_popup_bg Opacity"
+          }
+          onClick={handleAdminPopup}
+        ></div>
+        <div
+          className={
+            adminPopup
+              ? "Container__popup_admin_create"
+              : "Container__popup_admin_create Opacity"
+          }
+        >
+          <h2>Nauji mokymai</h2>
+          <div className="Container__popup_admin_create_inputs">
+            <div>
+              <label>Pavadinimas</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Mokymų pavadinimas"
+                onChange={adminHandleTitle}
+              ></input>
+            </div>
+            <div>
+              <label>Vieta</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Mokymų vieta"
+                onChange={adminHandlePlace}
+              />
+            </div>
+            <div>
+              <label>Pradžios data (YYYY-MM-DD)</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Mokymų pradžios data"
+                onChange={adminHandleStart}
+              />
+            </div>
+            <div>
+              <label>Pabaigos data (YYYY-MM-DD)</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Mokymų pabaigos data"
+                onChange={adminHandleEnd}
+              />
+            </div>
+            <div>
+              <label>Aprašymas</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Mokymų aprašymas"
+                onChange={adminHandleDesc}
+              />
+            </div>
+          </div>
+
+          <button className="Btn__apply Btn__popup" onClick={handleUpload}>
+            Sukurti naujus mokymus
+            <FontAwesomeIcon icon={faPlus} />
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
+        <div
+          className={
+            adminPopupEdit
+              ? "Container__popup_admin_create"
+              : "Container__popup_admin_create Opacity"
+          }
+        >
+          <h2>Redaguoti patiekalą</h2>
+          <div className="Container__popup_admin_create_inputs">
+            <div>
+              <label>Pavadinimas</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Mokymų pavadinimas"
+                onChange={adminHandleTitle}
+                defaultValue={lectureSelected ? lectureSelected.title : ""}
+              ></input>
+            </div>
+            <div>
+              <label>Vieta</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Mokymų vieta"
+                onChange={adminHandlePlace}
+                defaultValue={lectureSelected ? lectureSelected.place : ""}
+              />
+            </div>
+            <div>
+              <label>Pradžios data (YYYY-MM-DD)</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Mokymų pradžios data"
+                onChange={adminHandleStart}
+                defaultValue={lectureSelected ? lectureSelected.start : ""}
+              />
+            </div>
+            <div>
+              <label>Pabaigos data (YYYY-MM-DD)</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Mokymų pabaigos data"
+                onChange={adminHandleEnd}
+                defaultValue={lectureSelected ? lectureSelected.end : ""}
+              />
+            </div>
+            <div>
+              <label>Aprašymas</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Mokymų aprašymas"
+                onChange={adminHandleDesc}
+                defaultValue={lectureSelected ? lectureSelected.desc : ""}
+              />
+            </div>
+          </div>
+
+          <button className="Btn__apply Btn__popup" onClick={handleUpdate}>
+            Atnaujinti mokymus
+            <FontAwesomeIcon icon={faPlus} />
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
+        <div
+          className={
+            adminPopupEdit
+              ? "Container__learning_popup_bg"
+              : "Container__learning_popup_bg Opacity"
+          }
+          onClick={handleAdminPopupEdit}
+        ></div>
+
+        <div
+          className={
             lectureChosen || lectureChosen === 0
               ? "Container__learning_popup_bg"
               : "Container__learning_popup_bg Inactive"
@@ -241,7 +515,10 @@ const Learning = () => {
                   />{" "}
                   Ištrinti mokymus
                 </button>
-                <button className="Button__sort Button__admin">
+                <button
+                  className="Button__sort Button__admin"
+                  onClick={handleAdminPopupEdit}
+                >
                   <FontAwesomeIcon
                     icon={faPen}
                     className="Icon__sort Icon__admin"

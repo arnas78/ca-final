@@ -319,23 +319,91 @@ app.get("/api/events", async (req, res) => {
   }
 });
 // -- POST /api/movies          |   Movie creation (creates new movie)
-app.post("/api/events", async (req, res) => {
-  const { title, date, place, description, tags, image } = req.body;
+// app.post("/api/events", async (req, res) => {
+//   const { title, date, place, description, tags, image } = req.body;
 
-  const newEvent = {
-    title,
-    date,
-    place,
-    description,
-    tags,
-    image,
+//   const newEvent = {
+//     title,
+//     date,
+//     place,
+//     description,
+//     tags,
+//     image,
+//   };
+
+//   try {
+//     const event = new Event(newEvent);
+//     await event.save();
+
+//     res.json({ message: "New event added" });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
+app.post("/api/events", upload, async (req, res, next) => {
+  const data = {
+    image: req.file.path,
   };
+  cloudinary.uploader
+    .upload(data.image)
+    .then((result) => {
+      const { title, date, place, description, tags } = req.body;
 
+      const image = result.url;
+
+      const newEvent = {
+        title,
+        date,
+        place,
+        description,
+        tags,
+        image,
+      };
+      // const image = new Image({
+      //   user_id: req.body.user_id,
+      //   img: result.url,
+      // });
+
+      const event = new Event(newEvent);
+      event.save();
+      res.status(200).send({
+        message: "success",
+        result,
+      });
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: "failure",
+        error,
+      });
+    });
+});
+
+app.put("/api/events/:id", async (req, res) => {
+  const eventId = req.params.id;
+  const newData = req.body;
   try {
-    const event = new Event(newEvent);
-    await event.save();
+    const event = await Event.findByIdAndUpdate(eventId, newData);
 
-    res.json({ message: "New event added" });
+    res.status(200).send({
+      message: "Sėkmingai atnaujinti mokymai:",
+      event,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.delete("/api/events/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const event = await Event.findByIdAndDelete(id);
+
+    res.status(200).send({
+      message: "Sėkmingai ištrinti mokymai:",
+      event,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -387,6 +455,35 @@ app.post("/api/posts", async (req, res) => {
   }
 });
 
+app.put("/api/posts/:id", async (req, res) => {
+  const postId = req.params.id;
+  const newData = req.body;
+  try {
+    const post = await Post.findByIdAndUpdate(postId, newData);
+
+    res.status(200).send({
+      message: "Sėkmingai atnaujintas skelbimas:",
+      post,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.delete("/api/posts/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const post = await Post.findByIdAndDelete(id);
+
+    res.status(200).send({
+      message: "Sėkmingai ištrintas skelbimas:",
+      post,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // LECTURES
 
 app.get("/api/lectures", async (req, res) => {
@@ -401,7 +498,7 @@ app.get("/api/lectures", async (req, res) => {
 });
 // -- POST /api/movies          |   Movie creation (creates new movie)
 app.post("/api/lectures", async (req, res) => {
-  const { title, place, start, end, desc } = req.body;
+  const { title, place, start, end, desc, id } = req.body;
 
   const newLecture = {
     title,
@@ -409,6 +506,7 @@ app.post("/api/lectures", async (req, res) => {
     start,
     end,
     desc,
+    id,
   };
 
   try {

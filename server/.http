@@ -101,11 +101,12 @@ POST http://localhost:5000/api/lectures
 content-type: application/json
 
 {
-    "title": "Testinis",
+    "title": "test",
     "place": "Vilnius Office, Lithuania",
-    "start": "2023-10-24",
-    "end": "2023-07-01",
-    "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra."
+    "start": "2023-11-24",
+    "end": "2023-12-01",
+    "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque, est vitae finibus pulvinar, elit mauris fringilla eros, eget aliquet mi ipsum eu turpis. Duis volutpat vulputate interdum. Suspendisse sollicitudin tincidunt nisl, vitae ullamcorper leo. Cras pulvinar a urna sit amet pharetra.",
+    "id": 11
 }
 
 ###

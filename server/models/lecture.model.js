@@ -14,11 +14,15 @@ const lectureSchema = mongoose.Schema({
     required: true,
   },
   end: {
-    type: Array,
+    type: String,
     required: false,
   },
   desc: {
-    type: Array,
+    type: String,
+    required: true,
+  },
+  id: {
+    type: Number,
     required: true,
   },
 });

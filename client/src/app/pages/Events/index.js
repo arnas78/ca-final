@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import Nav from "../../components/Nav";
 import Event from "../../components/Event";
@@ -51,7 +51,8 @@ const Events = () => {
 
   const [selectedEvent, setEventSelected] = useState(null);
 
-  const { eventsData, orderData, backendData } = useContext(ContentContext);
+  const { eventsData, orderData, backendData, setEventsData } =
+    useContext(ContentContext);
 
   const center = {
     lat: 54.86463618199356,
@@ -72,6 +73,9 @@ const Events = () => {
   if (eventDataUpcoming.length >= 4) {
     eventDataUpcoming = eventDataUpcoming.slice(-4);
   }
+
+  const [sampleEvents, setSampleEvents] = useState(eventData);
+  const [upcomingEvents, setUpcomingEvents] = useState(eventDataUpcoming);
 
   function handleClick() {
     if (selectedEvent && orderData !== "undefined") {
@@ -109,6 +113,158 @@ const Events = () => {
     }
   }
 
+  const [adminPopup, setAdminPopup] = useState(false);
+  const [adminPopupEdit, setAdminPopupEdit] = useState(false);
+  const [eventTitle, setEventTitle] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventPlace, setEventPlace] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
+
+  const handleEvents = () => {
+    fetch("/api/events")
+      .then((response) => response.json())
+      .then((data) => {
+        setSampleEvents(data.events);
+        setUpcomingEvents(data.events.slice(-4));
+        setEventsData(data);
+      });
+  };
+
+  const handleAdminPopup = () => {
+    setAdminPopup((prevCheck) => !prevCheck);
+  };
+
+  const adminHandleTitle = (e) => {
+    setEventTitle(e.target.value);
+  };
+
+  const adminHandleDate = (e) => {
+    setEventDate(e.target.value);
+  };
+
+  const adminHandlePlace = (e) => {
+    setEventPlace(e.target.value);
+  };
+
+  const adminHandleDescription = (e) => {
+    setEventDescription(e.target.value);
+  };
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const handlePicture = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleAdminPopupEdit = (e) => {
+    setAdminPopupEdit((prevCheck) => !prevCheck);
+    setIsEventChosen(false);
+    if (selectedEvent) {
+      setEventTitle(selectedEvent.title);
+      setEventDate(selectedEvent.date);
+      setEventPlace(selectedEvent.place);
+      setEventDescription(selectedEvent.description);
+    }
+  };
+
+  const handleUpload = (e) => {
+    if (
+      eventTitle.length === 0 ||
+      eventDate.length === 0 ||
+      eventPlace.length === 0 ||
+      eventDescription.length === 0 ||
+      !selectedFile
+    ) {
+      alert("Neteisingi duomenys. Bandykite dar kartą.");
+    } else {
+      const formData = new FormData();
+      formData.append("title", eventTitle);
+      formData.append("date", eventDate);
+      formData.append("place", eventPlace);
+      formData.append("description", eventDescription);
+      formData.append("image", selectedFile);
+
+      const data = fetch("http://localhost:5000/api/events", {
+        method: "POST",
+        body: formData,
+      }).catch((err) => ("Error occured", err));
+      alert("Sėkmingai sukūrėte renginį!");
+      handleAdminPopup();
+      handleEvents();
+      setEventTitle("");
+      setEventDate("");
+      setEventPlace("");
+      setEventDescription("");
+    }
+  };
+
+  const handleDeleteEvent = () => {
+    if (selectedEvent) {
+      fetch(`http://localhost:5000/api/events/` + selectedEvent._id, {
+        method: "DELETE",
+      });
+      alert("Sėkmingai ištrynėte renginį " + selectedEvent.title);
+      setIsEventChosen(false);
+      handleEvents();
+    }
+  };
+
+  const handleUpdate = (e) => {
+    if (selectedEvent) {
+      if (
+        eventTitle.length === 0 ||
+        eventDate.length === 0 ||
+        eventPlace.length === 0 ||
+        eventDescription.length === 0
+      ) {
+        alert("Neteisingi duomenys. Bandykite dar kartą.");
+      } else {
+        let eventObj = {
+          title: eventTitle,
+          date: eventDate,
+          place: eventPlace,
+          description: eventDescription,
+        };
+
+        const data = fetch(
+          "http://localhost:5000/api/events/" + selectedEvent._id,
+          {
+            method: "PUT",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(eventObj),
+          }
+        ).catch((err) => ("Error occured", err));
+        alert("Sėkmingai atnaujinote renginį!");
+        handleAdminPopupEdit();
+        handleEvents();
+        setEventTitle("");
+        setEventDate("");
+        setEventPlace("");
+        setEventDescription("");
+      }
+    }
+  };
+
   if (!authenticated) {
     return <Navigate replace to="/login" />;
   } else {
@@ -138,6 +294,183 @@ const Events = () => {
               </div>
             </div>
           </div>
+
+          <div
+            className={
+              adminPopup
+                ? "Container__learning_popup_bg"
+                : "Container__learning_popup_bg Opacity"
+            }
+            onClick={handleAdminPopup}
+          ></div>
+          <div
+            className={
+              adminPopup
+                ? "Container__popup_admin_create"
+                : "Container__popup_admin_create Opacity"
+            }
+          >
+            <h2>Naujas renginys</h2>
+            <div className="Container__popup_admin_create_inputs">
+              <div>
+                <label>Pavadinimas</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Renginio pavadinimas"
+                  onChange={adminHandleTitle}
+                ></input>
+              </div>
+              <div>
+                <label>Renginio data (DD MON YYYY, HH:MM)</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Renginio data"
+                  onChange={adminHandleDate}
+                />
+              </div>
+              <div>
+                <label>Vieta</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Renginio vieta"
+                  onChange={adminHandlePlace}
+                />
+              </div>
+
+              <div>
+                <label>Aprašymas</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Renginio aprašymas"
+                  onChange={adminHandleDescription}
+                />
+              </div>
+              <div className="Container__post_popup_cv">
+                <label for="file-upload" class="custom-file-upload">
+                  Įkelkite nuotrauką
+                </label>
+                <input
+                  accept="image/*"
+                  id="file-upload"
+                  type="file"
+                  onChange={handlePicture}
+                />
+                <img
+                  className="Image__admin"
+                  src={selectedFile ? preview : ""}
+                  alt=" "
+                ></img>
+              </div>
+            </div>
+
+            <button className="Btn__apply Btn__popup" onClick={handleUpload}>
+              Sukurti naują renginį
+              <FontAwesomeIcon icon={faPlus} />
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+
+          <div
+            className={
+              adminPopupEdit
+                ? "Container__popup_admin_create"
+                : "Container__popup_admin_create Opacity"
+            }
+          >
+            <h2>Redaguoti renginį</h2>
+            <div className="Container__popup_admin_create_inputs">
+              <div>
+                <label>Pavadinimas</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Renginio pavadinimas"
+                  defaultValue={selectedEvent ? selectedEvent.title : ""}
+                  onChange={adminHandleTitle}
+                ></input>
+              </div>
+              <div>
+                <label>Renginio data (DD MON YYYY, HH:MM)</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Renginio data"
+                  defaultValue={selectedEvent ? selectedEvent.date : ""}
+                  onChange={adminHandleDate}
+                />
+              </div>
+              <div>
+                <label>Vieta</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Renginio vieta"
+                  defaultValue={selectedEvent ? selectedEvent.place : ""}
+                  onChange={adminHandlePlace}
+                />
+              </div>
+
+              <div>
+                <label>Aprašymas</label>
+                <input
+                  type="text"
+                  className="Input__admin"
+                  placeholder="Renginio aprašymas"
+                  defaultValue={selectedEvent ? selectedEvent.description : ""}
+                  onChange={adminHandleDescription}
+                />
+              </div>
+              <div className="Container__post_popup_cv">
+                <label for="file-upload" class="custom-file-upload">
+                  Įkelkite nuotrauką
+                </label>
+                <input
+                  accept="image/*"
+                  id="file-upload"
+                  type="file"
+                  onChange={handlePicture}
+                />
+                {selectedEvent ? (
+                  <img
+                    className="Image__admin"
+                    src={selectedFile ? preview : selectedEvent.image}
+                    alt=" "
+                  ></img>
+                ) : (
+                  <img
+                    className="Image__admin"
+                    src={selectedFile ? preview : ""}
+                    alt=" "
+                  ></img>
+                )}
+              </div>
+            </div>
+
+            <button className="Btn__apply Btn__popup" onClick={handleUpdate}>
+              Atnaujinti mokymus
+              <FontAwesomeIcon icon={faPlus} />
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+
+          <div
+            className={
+              adminPopupEdit
+                ? "Container__learning_popup_bg"
+                : "Container__learning_popup_bg Opacity"
+            }
+            onClick={handleAdminPopupEdit}
+          ></div>
 
           <div
             className={
@@ -226,14 +559,20 @@ const Events = () => {
             <div>
               {authenticated.level === 9 ? (
                 <div className="Container__admin_buttons">
-                  <button className="Button__sort Button__admin">
+                  <button
+                    className="Button__sort Button__admin"
+                    onClick={handleDeleteEvent}
+                  >
                     <FontAwesomeIcon
                       icon={faX}
                       className="Icon__sort Icon__admin"
                     />{" "}
                     Ištrinti mokymus
                   </button>
-                  <button className="Button__sort Button__admin">
+                  <button
+                    className="Button__sort Button__admin"
+                    onClick={handleAdminPopupEdit}
+                  >
                     <FontAwesomeIcon
                       icon={faPen}
                       className="Icon__sort Icon__admin"
@@ -253,7 +592,7 @@ const Events = () => {
             </div>
           </div>
           <div className="Container__events_upcoming">
-            {eventDataUpcoming.map((event, i) => {
+            {upcomingEvents.map((event, i) => {
               return (
                 <Event
                   key={i}
@@ -276,7 +615,10 @@ const Events = () => {
                 <FontAwesomeIcon icon={faArrowRight} className="Icon__header" />
               </h1>
               {authenticated.level === 9 ? (
-                <button className="Button__sort Button__admin">
+                <button
+                  className="Button__sort Button__admin"
+                  onClick={handleAdminPopup}
+                >
                   <FontAwesomeIcon
                     icon={faPlus}
                     className="Icon__sort Icon__admin"
@@ -304,7 +646,7 @@ const Events = () => {
                 onAutoplayTimeLeft={onAutoplayTimeLeft}
                 className="mySwiper"
               >
-                {eventDataUpcoming.map((event, i) => {
+                {upcomingEvents.map((event, i) => {
                   return (
                     <SwiperSlide
                       onClick={() => {
@@ -359,7 +701,7 @@ const Events = () => {
             </div>
           </div>
           <div className="Container__event_posts">
-            {eventData.map((event, i) => {
+            {sampleEvents.map((event, i) => {
               return (
                 <Event
                   key={i}

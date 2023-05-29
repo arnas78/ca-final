@@ -490,6 +490,7 @@ input:checked + .slider:before {
   z-index: 10;
   padding: 1.5rem;
   z-index: 20;
+  font-family: var(--font-main);
 }
 
 .Input__admin {

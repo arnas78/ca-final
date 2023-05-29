@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Nav from "../../components/Nav";
 import { Navigate } from "react-router-dom";
 import "./index.css";
@@ -75,6 +75,21 @@ const Posts = () => {
     postDataRecent = postDataRecent.slice(-4);
   }
 
+  const { setPostData } = useContext(ContentContext);
+
+  const [samplePosts, setSamplePosts] = useState(postsData);
+  const [recentPosts, setRecentPosts] = useState(postDataRecent);
+
+  const handlePosts = () => {
+    fetch("/api/posts")
+      .then((response) => response.json())
+      .then((data) => {
+        setSamplePosts(data.posts);
+        setRecentPosts(data.posts.slice(-4));
+        setPostData(data);
+      });
+  };
+
   const handleLocation = (e) => {
     setSortLocation(e.target.value);
   };
@@ -140,6 +155,153 @@ const Posts = () => {
     }
   }
 
+  const [postTitle, setPostTitle] = useState("");
+  const [postLevel, setPostLevel] = useState("");
+  const [postLocation, setPostLocation] = useState("");
+  const [postRequirements, setPostRequirements] = useState("");
+  const [postDescription, setPostDescription] = useState("");
+  const [postPayrange, setPostPayrange] = useState("");
+  const [adminPopupEdit, setAdminPopupEdit] = useState(false);
+  const [adminPopup, setAdminPopup] = useState(false);
+
+  const handleAdminPopupEdit = (e) => {
+    setPostChosen(false);
+    if (chosenPost) {
+      console.log(chosenPost);
+      setPostTitle(chosenPost.title);
+      setPostLevel(chosenPost.level);
+      setPostLocation(chosenPost.location);
+      setPostRequirements(chosenPost.requirements);
+      setPostDescription(chosenPost.description);
+      setPostPayrange(chosenPost.payrange);
+    }
+    setAdminPopupEdit((prevCheck) => !prevCheck);
+  };
+
+  const handleUploadPost = (e) => {
+    if (
+      postTitle.length === 0 ||
+      postLevel.length === 0 ||
+      postLocation.length === 0 ||
+      postRequirements.length === 0 ||
+      postDescription.length === 0 ||
+      postPayrange.length === 0
+    ) {
+      alert("Neteisingi duomenys. Bandykite dar kartą.");
+    } else {
+      let postObj = {
+        title: postTitle,
+        level: postLevel,
+        location: postLocation,
+        requirements: postRequirements,
+        description: postDescription,
+        posted: new Date().toISOString().split("T")[0],
+        payrange: postPayrange,
+      };
+
+      const data = fetch("http://localhost:5000/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(postObj),
+      }).catch((err) => ("Error occured", err));
+      alert("Sėkmingai sukūrėte darbo skelbimą!");
+      handleAdminPopup();
+      handlePosts();
+      setPostTitle("");
+      setPostLevel("");
+      setPostLocation("");
+      setPostRequirements("");
+      setPostDescription("");
+      setPostPayrange("");
+    }
+  };
+
+  const handleDeletePost = () => {
+    if (chosenPost) {
+      fetch(`http://localhost:5000/api/posts/` + chosenPost._id, {
+        method: "DELETE",
+      });
+      alert("Sėkmingai ištrynėte darbo skelbimą " + chosenPost.title);
+      setPostChosen(false);
+      handlePosts();
+    }
+  };
+
+  const handleUpdate = (e) => {
+    if (chosenPost) {
+      if (
+        postTitle.length === 0 ||
+        postLevel.length === 0 ||
+        postLocation.length === 0 ||
+        postRequirements.length === 0 ||
+        postDescription.length === 0 ||
+        postPayrange.length === 0
+      ) {
+        alert("Neteisingi duomenys. Bandykite dar kartą.");
+      } else {
+        let postObj = {
+          title: postTitle,
+          level: postLevel,
+          location: postLocation,
+          requirements: postRequirements,
+          description: postDescription,
+          payrange: postPayrange,
+        };
+
+        const data = fetch(
+          "http://localhost:5000/api/posts/" + chosenPost._id,
+          {
+            method: "PUT",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(postObj),
+          }
+        ).catch((err) => ("Error occured", err));
+
+        alert("Sėkmingai atnaujinote darbo skelbimą!");
+        handleAdminPopupEdit();
+        handlePosts();
+        setPostTitle("");
+        setPostLevel("");
+        setPostLocation("");
+        setPostRequirements("");
+        setPostDescription("");
+        setPostPayrange("");
+      }
+    }
+  };
+
+  const handleAdminPopup = () => {
+    setAdminPopup((prevCheck) => !prevCheck);
+  };
+
+  const adminHandleTitle = (e) => {
+    setPostTitle(e.target.value);
+  };
+
+  const adminHandleLevel = (e) => {
+    setPostLevel(e.target.value);
+  };
+
+  const adminHandleLocation = (e) => {
+    setPostLocation(e.target.value);
+  };
+
+  const adminHandleRequirements = (e) => {
+    setPostRequirements(e.target.value.split(";"));
+  };
+
+  const adminHandleDescription = (e) => {
+    setPostDescription(e.target.value);
+  };
+
+  const adminHandlePayrange = (e) => {
+    setPostPayrange(e.target.value);
+  };
+
   return (
     <div className="Section__Posts">
       <Nav image={logo} />
@@ -157,6 +319,181 @@ const Posts = () => {
             Naujausi skelbimai <FontAwesomeIcon icon={faArrowDown} />
           </h3>
         </div>
+
+        <div
+          className={
+            adminPopup
+              ? "Container__learning_popup_bg"
+              : "Container__learning_popup_bg Opacity"
+          }
+          onClick={handleAdminPopup}
+        ></div>
+        <div
+          className={
+            adminPopup
+              ? "Container__popup_admin_create"
+              : "Container__popup_admin_create Opacity"
+          }
+        >
+          <h2>Naujas darbo skelbimas</h2>
+          <div className="Container__popup_admin_create_inputs">
+            <div>
+              <label>Pavadinimas</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Pozicijos pavadinimas"
+                onChange={adminHandleTitle}
+              ></input>
+            </div>
+            <div>
+              <label>Pozicijos lygis</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Pozicijos lygis"
+                onChange={adminHandleLevel}
+              />
+            </div>
+            <div>
+              <label>Vieta</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Pozicijos vieta"
+                onChange={adminHandleLocation}
+              />
+            </div>
+
+            <div>
+              <label>Reikalavimai</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Darbo skelbimo reikalavimai (atskirti per ;)"
+                onChange={adminHandleRequirements}
+              />
+            </div>
+            <div>
+              <label>Aprašymas</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Pozicijos aprašymas"
+                onChange={adminHandleDescription}
+              />
+            </div>
+            <div>
+              <label>Atlygio rėžiai</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Pozicijos atlygio rėžiai"
+                onChange={adminHandlePayrange}
+              />
+            </div>
+          </div>
+
+          <button className="Btn__apply Btn__popup" onClick={handleUploadPost}>
+            Sukurti naują darbo skelbimą
+            <FontAwesomeIcon icon={faPlus} />
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
+        <div
+          className={
+            adminPopupEdit
+              ? "Container__popup_admin_create"
+              : "Container__popup_admin_create Opacity"
+          }
+        >
+          <h2>Redaguoti darbo skelbimą</h2>
+          <div className="Container__popup_admin_create_inputs">
+            <div>
+              <label>Pavadinimas</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Pozicijos pavadinimas"
+                onChange={adminHandleTitle}
+                defaultValue={chosenPost ? chosenPost.title : ""}
+              ></input>
+            </div>
+            <div>
+              <label>Pozicijos lygis</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Pozicijos lygis"
+                onChange={adminHandleLevel}
+                defaultValue={chosenPost ? chosenPost.level : ""}
+              />
+            </div>
+            <div>
+              <label>Vieta</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Pozicijos vieta"
+                onChange={adminHandleLocation}
+                defaultValue={chosenPost ? chosenPost.location : ""}
+              />
+            </div>
+
+            <div>
+              <label>Reikalavimai</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Darbo skelbimo reikalavimai (atskirti per ;)"
+                onChange={adminHandleRequirements}
+                defaultValue={chosenPost ? chosenPost.requirements : ""}
+              />
+            </div>
+            <div>
+              <label>Aprašymas</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Pozicijos aprašymas"
+                onChange={adminHandleDescription}
+                defaultValue={chosenPost ? chosenPost.description : ""}
+              />
+            </div>
+            <div>
+              <label>Atlygio rėžiai</label>
+              <input
+                type="text"
+                className="Input__admin"
+                placeholder="Pozicijos atlygio rėžiai"
+                onChange={adminHandlePayrange}
+                defaultValue={chosenPost ? chosenPost.payrange : ""}
+              />
+            </div>
+          </div>
+
+          <button className="Btn__apply Btn__popup" onClick={handleUpdate}>
+            Atnaujinti mokymus
+            <FontAwesomeIcon icon={faPlus} />
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
+        <div
+          className={
+            adminPopupEdit
+              ? "Container__learning_popup_bg"
+              : "Container__learning_popup_bg Opacity"
+          }
+          onClick={handleAdminPopupEdit}
+        ></div>
 
         <div
           className={
@@ -253,14 +590,20 @@ const Posts = () => {
           </div>
           {authenticated && authenticated.level === 9 ? (
             <div>
-              <button className="Button__sort Button__admin">
+              <button
+                className="Button__sort Button__admin"
+                onClick={handleDeletePost}
+              >
                 <FontAwesomeIcon
                   icon={faX}
                   className="Icon__sort Icon__admin"
                 />{" "}
                 Ištrinti mokymus
               </button>
-              <button className="Button__sort Button__admin">
+              <button
+                className="Button__sort Button__admin"
+                onClick={handleAdminPopupEdit}
+              >
                 <FontAwesomeIcon
                   icon={faPen}
                   className="Icon__sort Icon__admin"
@@ -348,7 +691,7 @@ const Posts = () => {
         </div>
         <div className="Container__recent">
           <div className="Container__posts_recent">
-            {postDataRecent.map((post, i) => {
+            {recentPosts.map((post, i) => {
               return (
                 <Post
                   key={i}
@@ -409,7 +752,10 @@ const Posts = () => {
             </div>
             {authenticated && authenticated.level === 9 ? (
               <div className="Container__button_add_posts">
-                <button className="Button__sort Button__admin">
+                <button
+                  className="Button__sort Button__admin"
+                  onClick={handleAdminPopup}
+                >
                   <FontAwesomeIcon
                     icon={faPlus}
                     className="Icon__sort Icon__admin"
@@ -424,7 +770,7 @@ const Posts = () => {
         </div>
 
         <div className="Container__postings">
-          {postsData.map((post, i) => {
+          {samplePosts.map((post, i) => {
             if (searchValue) {
               if (
                 post.title.toLowerCase().includes(searchValue.toLowerCase()) ||
