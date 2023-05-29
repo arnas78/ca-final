@@ -167,7 +167,6 @@ const Posts = () => {
   const handleAdminPopupEdit = (e) => {
     setPostChosen(false);
     if (chosenPost) {
-      console.log(chosenPost);
       setPostTitle(chosenPost.title);
       setPostLevel(chosenPost.level);
       setPostLocation(chosenPost.location);
