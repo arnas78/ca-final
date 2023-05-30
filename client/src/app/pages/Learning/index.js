@@ -559,53 +559,6 @@ const Learning = () => {
               ) : (
                 <h3>Šiuo metu apmokymuose dalyvių nėra. Užsiregistruokite!</h3>
               )}
-
-              {/* <div className="Container__popup_attendees_single">
-                <span class="avatar__popup">
-                  <img src="https://picsum.photos/100" />
-                </span>
-                <h4>Vardenis P.</h4>
-              </div>
-              <div className="Container__popup_attendees_single">
-                <span class="avatar__popup">
-                  <img src="https://picsum.photos/20" />
-                </span>
-                <h4>Vardenis P.</h4>
-              </div>
-              <div className="Container__popup_attendees_single">
-                <span class="avatar__popup">
-                  <img src="https://picsum.photos/90" />
-                </span>
-                <h4>Vardenis P.</h4>
-              </div>
-              <div className="Container__popup_attendees_single">
-                <span class="avatar__popup">
-                  <img src="https://picsum.photos/80" />
-                </span>
-                <h4>Vardenis P.</h4>
-              </div> */}
-              {/* <div
-                className="Attendee__last"
-                onClick={() => {
-                  setAttendeesOpen((current) => !current);
-                }}
-              >
-                <div class="avatars">
-                  <span class="avatar">
-                    <img src="https://picsum.photos/70" />
-                  </span>
-                  <span class="avatar">
-                    <img src="https://picsum.photos/80" />
-                  </span>
-                  <span class="avatar">
-                    <img src="https://picsum.photos/90" />
-                  </span>
-                  <span class="avatar last">
-                    <p>+10</p>
-                  </span>
-                </div>
-                <p>Daugiau...</p>
-              </div> */}
             </div>
           </div>
         </div>

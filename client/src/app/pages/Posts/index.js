@@ -369,7 +369,7 @@ const Posts = () => {
               <input
                 type="text"
                 className="Input__admin"
-                placeholder="Darbo skelbimo reikalavimai (atskirti per ;)"
+                placeholder="Darbo skelbimo reikalavimai (atskirti per ';')"
                 onChange={adminHandleRequirements}
               />
             </div>

@@ -412,6 +412,7 @@ li {
   padding: 1rem;
   border-radius: 0.5rem;
   display: flex;
+  gap: 2rem;
   align-items: center;
   cursor: pointer;
   position: relative;

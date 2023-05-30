@@ -174,28 +174,79 @@ app.get("/api/users", async (req, res) => {
 });
 
 // -- POST /api/users/signup    |   User signup (creates new user)
-app.post("/api/users/signup", async (req, res) => {
-  const newUserData = req.body;
-  try {
-    const isUserExist = await User.findOne({
-      work_email: newUserData.work_email,
-    });
+// app.post("/api/users/signup", async (req, res) => {
+//   const newUserData = req.body;
+//   try {
+//     const isUserExist = await User.findOne({
+//       work_email: newUserData.work_email,
+//     });
 
-    if (!isUserExist) {
-      const newUser = new User(newUserData);
+//     if (!isUserExist) {
+//       const newUser = new User(newUserData);
 
-      const createdUser = await newUser.save();
+//       const createdUser = await newUser.save();
 
-      res.json({
-        message: "User created",
-        user: createdUser,
+//       res.json({
+//         message: "User created",
+//         user: createdUser,
+//       });
+//     } else {
+//       res.json({ message: "User with given email already exists" });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
+app.post("/api/users", upload, async (req, res, next) => {
+  const data = {
+    image: req.file.path,
+  };
+  cloudinary.uploader
+    .upload(data.image)
+    .then((result) => {
+      const {
+        nane,
+        surname,
+        work_email,
+        position,
+        location,
+        password,
+        phone,
+        birthdate,
+        sex,
+        personal_number,
+        level,
+      } = req.body;
+
+      const image = result.url;
+
+      const newEvent = {
+        title,
+        date,
+        place,
+        description,
+        tags,
+        image,
+      };
+      // const image = new Image({
+      //   user_id: req.body.user_id,
+      //   img: result.url,
+      // });
+
+      const event = new Event(newEvent);
+      event.save();
+      res.status(200).send({
+        message: "success",
+        result,
       });
-    } else {
-      res.json({ message: "User with given email already exists" });
-    }
-  } catch (error) {
-    console.log(error);
-  }
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: "failure",
+        error,
+      });
+    });
 });
 
 // -- POST /api/users/login     |   User login (connects existing user)

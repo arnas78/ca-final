@@ -79,13 +79,13 @@ const Login = () => {
           <div className="Container__default_logins">
             <h4>Test paskyros:</h4>
             <div>
-              <p>Prisijungimas - admin</p>
+              <p>Prisijungimas - admin@admin.com</p>
               <p>Slaptažodis - admin</p>
             </div>
 
             <div>
-              <p>Prisijungimas - v.pavardenis</p>
-              <p>Slaptažodis - test2023</p>
+              <p>Prisijungimas - test@test.com</p>
+              <p>Slaptažodis - test</p>
             </div>
           </div>
         </div>

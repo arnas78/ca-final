@@ -161,6 +161,8 @@ function ContentProvider({ children }) {
         setMealData,
         setEventsData,
         setPostData,
+        setAllUserData,
+        setAllExtraData,
       }}
     >
       {children}
