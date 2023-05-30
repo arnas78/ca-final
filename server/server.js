@@ -221,20 +221,21 @@ app.post("/api/users", upload, async (req, res, next) => {
 
       const image = result.url;
 
-      const newEvent = {
-        title,
-        date,
-        place,
-        description,
-        tags,
-        image,
+      const newUser = {
+        nane,
+        surname,
+        work_email,
+        position,
+        location,
+        password,
+        phone,
+        birthdate,
+        sex,
+        personal_number,
+        level,
       };
-      // const image = new Image({
-      //   user_id: req.body.user_id,
-      //   img: result.url,
-      // });
 
-      const event = new Event(newEvent);
+      const event = new User(newUser);
       event.save();
       res.status(200).send({
         message: "success",
