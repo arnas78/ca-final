@@ -58,6 +58,7 @@
   height: fit-content;
   padding: 1.5rem;
   box-sizing: border-box;
+  margin-bottom: 1.5rem;
 }
 
 .Container__admin_user_list_header {
@@ -65,6 +66,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 1.5rem;
+  font-weight: bold;
 }
 
 .Container__admin_user_list_header > div {
@@ -130,10 +132,11 @@
   box-sizing: border-box;
 }
 
-.Container__popup_admin_create_inputs {
+.Container__popup_admin_create_inputs_admin {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 0;
+  gap: 1.5rem;
   margin-top: 1rem;
 }
 
@@ -159,4 +162,26 @@
   gap: 1.5rem;
   padding: 1.5rem;
   color: var(--color-secondary-dark);
+}
+
+.Container__popup_admin_user_buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.Btn__delete {
+  border-color: red;
+  color: red;
+}
+
+.Container__profile_activities_admin_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-items: center;
+}
+
+.Container__profile_activities_admin_header > button {
+  width: 160px;
 }

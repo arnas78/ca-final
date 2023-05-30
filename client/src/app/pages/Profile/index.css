@@ -377,16 +377,17 @@ button.react-calendar__tile,
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   box-sizing: border-box;
   margin-bottom: 2rem;
-  padding-bottom: 2rem;
+  padding: 1.5rem;
 }
 
-.Container__profile_activities > div {
+.Container__profile_activities {
   border-bottom: 1px dashed var(--color-secondary-dark);
   padding-bottom: 1.5rem;
 }
 
-.Container__profile_activities h2 {
+.Container__profile_activities > div > h2 {
   font-weight: bold;
+  margin-bottom: 1.5rem;
 }
 
 .Container__profile_activities_header {
@@ -466,7 +467,8 @@ button.react-calendar__tile,
   gap: 0.75rem;
 }
 
-.Container__profile_activities_events_single, .Container__profile_activities_events_single_lunch {
+.Container__profile_activities_events_single,
+.Container__profile_activities_events_single_lunch {
   width: 100%;
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -481,6 +483,7 @@ button.react-calendar__tile,
   border-radius: 0.5rem;
   transition: all 0.3s;
   border-left: 5px solid var(--color-accent-secondary);
+  -webkit-filter: brightness(0.75);
   filter: brightness(0.75);
   background: rgba(255, 255, 255, 0.334);
 }
@@ -493,16 +496,15 @@ button.react-calendar__tile,
   background: var(--color-accent-secondary);
 }
 
-.Container__profile_activities_events_single_lunch_header{
+.Container__profile_activities_events_single_lunch_header {
   display: flex;
   gap: 1rem;
   align-items: center;
 }
 
 .highlight {
-  color:red;
+  color: red;
 }
-
 
 .Image__profile_event {
   width: 175px;
@@ -584,6 +586,12 @@ button.react-calendar__tile,
   padding: 1rem;
   border: 1px solid var(--color-accent-secondary);
   border-radius: 0.5rem;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.Container__profile_activities_post_single:hover {
+  background: var(--color-accent-secondary);
 }
 
 .Heading__profile_position {
@@ -592,14 +600,16 @@ button.react-calendar__tile,
 
 .Status__waiting {
   border-left: 5px solid rgb(189, 189, 0);
+  -webkit-filter: brightness(1);
   filter: brightness(1);
-  background: white
+  background: white;
 }
 
 .Status__approved {
   border-left: 5px solid var(--color-vegan);
+  -webkit-filter: brightness(1);
   filter: brightness(1);
-  background: white
+  background: white;
 }
 
 .Container__meal_orders {

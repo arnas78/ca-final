@@ -198,6 +198,18 @@ app.get("/api/users", async (req, res) => {
 //   }
 // });
 
+app.put("/api/users/:id", async (req, res) => {
+  const userId = req.params.id;
+  const newData = req.body;
+  try {
+    const a = await User.findByIdAndUpdate(userId, newData);
+
+    res.json({ message: "User updated" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.post("/api/users", upload, async (req, res, next) => {
   const data = {
     image: req.file.path,
@@ -206,7 +218,7 @@ app.post("/api/users", upload, async (req, res, next) => {
     .upload(data.image)
     .then((result) => {
       const {
-        nane,
+        name,
         surname,
         work_email,
         position,
@@ -222,7 +234,7 @@ app.post("/api/users", upload, async (req, res, next) => {
       const image = result.url;
 
       const newUser = {
-        nane,
+        name,
         surname,
         work_email,
         position,
@@ -233,10 +245,11 @@ app.post("/api/users", upload, async (req, res, next) => {
         sex,
         personal_number,
         level,
+        image,
       };
 
-      const event = new User(newUser);
-      event.save();
+      const user = new User(newUser);
+      user.save();
       res.status(200).send({
         message: "success",
         result,
@@ -248,6 +261,20 @@ app.post("/api/users", upload, async (req, res, next) => {
         error,
       });
     });
+});
+
+app.delete("/api/users/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findByIdAndDelete(id);
+
+    res.status(200).send({
+      message: "Sėkmingai ištrinti mokymai:",
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // -- POST /api/users/login     |   User login (connects existing user)

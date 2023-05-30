@@ -7,9 +7,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import image from "../../components/images/photo-1.jpg";
 import "react-calendar/dist/Calendar.css";
 import ContentContext from "../../context/Content";
+import Order from "../../components/Order";
 import User from "../../components/User";
 import {
   faArrowDown,
+  faCalendar,
+  faCalendarDays,
   faEnvelope,
   faEnvelopeOpen,
   faGraduationCap,
@@ -18,6 +21,7 @@ import {
   faPlus,
   faSave,
   faUser,
+  faUtensilSpoon,
   faX,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -59,6 +63,24 @@ const Admin = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
 
+  const allLunchArr =
+    typeof orderData.orders === "undefined"
+      ? []
+      : orderData.orders.filter((obj) => obj.weekday === weekdayChosen);
+
+  const allUserRefers =
+    typeof referData.refers === "undefined" ? [] : referData.refers;
+
+  const allUserVacations =
+    typeof vacationData.vacations === "undefined" ? [] : vacationData.vacations;
+
+  const allUserOrders =
+    typeof orderData.orders === "undefined" ? [] : orderData.orders;
+
+  const handleDay = (e) => {
+    setWeekdayChosen(e.target.value);
+  };
+
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
@@ -85,9 +107,13 @@ const Admin = () => {
     if (selectedFile) {
       return preview;
     } else if (userSelected) {
-      return userExtraArr.filter((obj) => {
-        return obj.user_id === userSelected._id;
-      })[0].image;
+      if (userSelected.image) {
+        return userSelected.image;
+      } else {
+        return userExtraArr.filter((obj) => {
+          return obj.user_id === userSelected._id;
+        })[0].image;
+      }
     }
   };
 
@@ -118,6 +144,78 @@ const Admin = () => {
       });
   };
 
+  const handleDeleteUser = () => {
+    if (userSelected) {
+      fetch(`http://localhost:5000/api/users/` + userSelected._id, {
+        method: "DELETE",
+      });
+      alert("Sėkmingai ištrynėte vartotoją " + userSelected.name);
+      setIsUserSelected(!isUserSelected);
+      handleUsers();
+      handleUserExtras();
+      setUserName("");
+      setUserSurname("");
+      setUserPosition("");
+      setUserEmail("");
+      setUserPhone("");
+      setUserBirthdate("");
+      setUserSex("");
+      setUserPersonalCode("");
+    }
+  };
+
+  const handleUpdate = (e) => {
+    if (userSelected) {
+      if (
+        userName.length === 0 ||
+        userSurname.length === 0 ||
+        userPosition.length === 0 ||
+        userEmail.length === 0 ||
+        userPhone.length === 0 ||
+        userBirthdate.length === 0 ||
+        userSex.length === 0 ||
+        userPersonalCode.length === 0
+      ) {
+        alert("Neteisingi duomenys. Bandykite dar kartą.");
+      } else {
+        let userObj = {
+          name: userName,
+          surname: userSurname,
+          position: userPosition,
+          work_email: userEmail,
+          phone: userPhone,
+          birthdate: userBirthdate,
+          sex: userSex,
+          personal_number: userPersonalCode,
+        };
+
+        const data = fetch(
+          "http://localhost:5000/api/users/" + userSelected._id,
+          {
+            method: "PUT",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(userObj),
+          }
+        ).catch((err) => ("Error occured", err));
+
+        alert("Sėkmingai atnaujinote mokymus!");
+        setIsUserSelected(!isUserSelected);
+        handleUsers();
+        handleUserExtras();
+        setUserName("");
+        setUserSurname("");
+        setUserPosition("");
+        setUserEmail("");
+        setUserPhone("");
+        setUserBirthdate("");
+        setUserSex("");
+        setUserPersonalCode("");
+      }
+    }
+  };
+
   const handleUpload = (e) => {
     if (
       !selectedFile ||
@@ -136,11 +234,12 @@ const Admin = () => {
       formData.append("name", userName);
       formData.append("surname", userSurname);
       formData.append("position", userPosition);
+      formData.append("location", "Kaunas, Lietuva");
       formData.append("work_email", userEmail);
       formData.append("phone", userPhone);
       formData.append("birthdate", userBirthdate);
       formData.append("sex", userSex);
-      formData.append("userPersonalCode", userPersonalCode);
+      formData.append("personal_number", userPersonalCode);
       formData.append("image", selectedFile);
       formData.append("password", "test");
       formData.append("level", 1);
@@ -224,7 +323,10 @@ const Admin = () => {
                       index < allExtraData.extra.length;
                       index++
                     ) {
-                      if (user._id === allExtraData.extra[index].user_id) {
+                      if (
+                        user._id === allExtraData.extra[index].user_id ||
+                        (user.image && user.level !== 9)
+                      ) {
                         return (
                           <User
                             key={i}
@@ -233,6 +335,14 @@ const Admin = () => {
                             onClick={() => {
                               setUserSelected(user);
                               setIsUserSelected(true);
+                              setUserName(user.name);
+                              setUserSurname(user.surname);
+                              setUserPosition(user.position);
+                              setUserEmail(user.work_email);
+                              setUserPhone(user.phone);
+                              setUserBirthdate(user.birthdate);
+                              setUserSex(user.sex);
+                              setUserPersonalCode(user.personal_number);
                             }}
                           />
                         );
@@ -282,7 +392,7 @@ const Admin = () => {
                   alt=" "
                 ></img>
               </div>
-              <div className="Container__popup_admin_create_inputs">
+              <div className="Container__popup_admin_create_inputs_admin">
                 <div>
                   <label>Vardas</label>
                   <input
@@ -290,7 +400,9 @@ const Admin = () => {
                     className="Input__admin"
                     placeholder="Vardas"
                     defaultValue={userSelected ? userSelected.name : ""}
-                    // onChange={adminHandleTitle}
+                    onChange={(e) => {
+                      setUserName(e.target.value);
+                    }}
                   ></input>
                 </div>
                 <div>
@@ -300,7 +412,9 @@ const Admin = () => {
                     className="Input__admin"
                     placeholder="Pavardė"
                     defaultValue={userSelected ? userSelected.surname : ""}
-                    // onChange={adminHandleLevel}
+                    onChange={(e) => {
+                      setUserSurname(e.target.value);
+                    }}
                   />
                 </div>
                 <div>
@@ -310,7 +424,9 @@ const Admin = () => {
                     className="Input__admin"
                     placeholder="Darbo pozicija"
                     defaultValue={userSelected ? userSelected.position : ""}
-                    // onChange={adminHandleLocation}
+                    onChange={(e) => {
+                      setUserPosition(e.target.value);
+                    }}
                   />
                 </div>
 
@@ -321,7 +437,9 @@ const Admin = () => {
                     className="Input__admin"
                     placeholder="Darbo el. paštas"
                     defaultValue={userSelected ? userSelected.work_email : ""}
-                    // onChange={adminHandleRequirements}
+                    onChange={(e) => {
+                      setUserEmail(e.target.value);
+                    }}
                   />
                 </div>
                 <div>
@@ -331,7 +449,9 @@ const Admin = () => {
                     className="Input__admin"
                     placeholder="Telefono numeris"
                     defaultValue={userSelected ? userSelected.phone : ""}
-                    // onChange={adminHandleDescription}
+                    onChange={(e) => {
+                      setUserPhone(e.target.value);
+                    }}
                   />
                 </div>
                 <div>
@@ -341,7 +461,9 @@ const Admin = () => {
                     className="Input__admin"
                     placeholder="Gimimo data"
                     defaultValue={userSelected ? userSelected.birthdate : ""}
-                    // onChange={adminHandlePayrange}
+                    onChange={(e) => {
+                      setUserBirthdate(e.target.value);
+                    }}
                   />
                 </div>
                 <div>
@@ -351,7 +473,9 @@ const Admin = () => {
                     className="Input__admin"
                     placeholder="Lytis"
                     defaultValue={userSelected ? userSelected.sex : ""}
-                    // onChange={adminHandlePayrange}
+                    onChange={(e) => {
+                      setUserSex(e.target.value);
+                    }}
                   />
                 </div>
                 <div>
@@ -363,20 +487,38 @@ const Admin = () => {
                     defaultValue={
                       userSelected ? userSelected.personal_number : ""
                     }
-                    // onChange={adminHandlePayrange}
+                    onChange={(e) => {
+                      setUserPersonalCode(e.target.value);
+                    }}
                   />
                 </div>
               </div>
 
               <div className="Container__popup_admin_user_orders"></div>
-              <button className="Btn__apply Btn__popup" onClick={handleUpload}>
-                Išsaugoti duomenis
-                <FontAwesomeIcon icon={faSave} />
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-              </button>
+              <div className="Container__popup_admin_user_buttons">
+                <button
+                  className="Btn__apply Btn__popup Btn__delete"
+                  onClick={handleDeleteUser}
+                >
+                  Ištrinti vartotoją
+                  <FontAwesomeIcon icon={faSave} />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+                <button
+                  className="Btn__apply Btn__popup"
+                  onClick={handleUpdate}
+                >
+                  Išsaugoti duomenis
+                  <FontAwesomeIcon icon={faSave} />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
             </div>
 
             <div
@@ -418,7 +560,7 @@ const Admin = () => {
                   alt=" "
                 ></img>
               </div>
-              <div className="Container__popup_admin_create_inputs">
+              <div className="Container__popup_admin_create_inputs_admin">
                 <div>
                   <label>Vardas</label>
                   <input
@@ -527,6 +669,147 @@ const Admin = () => {
                 <span></span>
                 <span></span>
               </button>
+            </div>
+            <div className="Container__profile_activities">
+              <div className="Container__profile_activities_admin_header">
+                <h2>Vartotojų veikla</h2>
+                <button className="Btn__apply Btn__popup">
+                  Išsaugoti
+                  <FontAwesomeIcon icon={faSave} />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+
+              {/* <div>
+                <div className="Container__profile_activities_header">
+                  <FontAwesomeIcon icon={faGraduationCap} />
+                  <h3>Mano mokymai</h3>
+                </div>
+                <div className="Container__profile_activities_lectures">
+                  {typeof orderData.orders === "undefined" ||
+                  typeof mealData.meals === "undefined" ? (
+                    <p>Loading...</p>
+                  ) : (
+                    allUserOrders.map((order, i) => {
+                      for (
+                        let index = 0;
+                        index < lectureData.lectures.length;
+                        index++
+                      ) {
+                        if (order.obj_id === lectureData.lectures[index]._id) {
+                          return (
+                            <Order
+                              key={i}
+                              obj={lectureData.lectures[index]}
+                              order={order}
+                              type={"lectures"}
+                            />
+                          );
+                        }
+                      }
+                    })
+                  )}
+                </div>
+              </div> */}
+              {/* <div>
+                <div className="Container__profile_activities_header">
+                  <FontAwesomeIcon icon={faCalendarDays} />
+                  <h3>Mano renginiai</h3>
+                </div>
+                <div className="Container__profile_activities_events">
+                  {typeof orderData.orders === "undefined" ||
+                  typeof eventsData.events === "undefined" ? (
+                    <p>Loading...</p>
+                  ) : (
+                    allUserOrders.map((order, i) => {
+                      for (
+                        let index = 0;
+                        index < eventsData.events.length;
+                        index++
+                      ) {
+                        if (order.obj_id === eventsData.events[index]._id) {
+                          return (
+                            <Order
+                              key={i}
+                              obj={eventsData.events[index]}
+                              order={order}
+                              type={"events"}
+                            />
+                          );
+                        }
+                      }
+                    })
+                  )}
+                </div>
+              </div> */}
+              <div>
+                <div className="Container__profile_activities_header">
+                  <FontAwesomeIcon icon={faCalendarDays} />
+                  <h3>Pasiūlymai į pozicijas</h3>
+                </div>
+                <div className="Container__profile_activities_posts">
+                  {allUserRefers.map((refer, i) => {
+                    return (
+                      <Order key={i} obj={refer} type={"refer"} admin={true} />
+                    );
+                  })}
+                </div>
+              </div>
+              <div>
+                <div className="Container__profile_activities_header_posts">
+                  <div>
+                    <FontAwesomeIcon icon={faUtensilSpoon} />
+                    <h3>Pietų užsakymai</h3>
+                  </div>
+
+                  <div className="Container__sorting">
+                    <FontAwesomeIcon icon={faCalendar} />
+                    <div>
+                      <p>Savaitės diena</p>
+                      <select
+                        className="Select__date"
+                        onChange={handleDay}
+                        defaultValue={weekdayChosen}
+                      >
+                        <option value="monday">Pirmadienis</option>
+                        <option value="tuesday">Antradienis</option>
+                        <option value="wednesday">Treciadienis</option>
+                        <option value="thursday">Ketvirtadienis</option>
+                        <option value="friday">Penktadienis</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div className="Container__profile_activities_posts Container__meal_orders">
+                  {typeof orderData.orders === "undefined" ||
+                  typeof mealData.meals === "undefined" ? (
+                    <p>Loading...</p>
+                  ) : (
+                    allLunchArr.map((order, i) => {
+                      for (
+                        let index = 0;
+                        index < mealData.meals.length;
+                        index++
+                      ) {
+                        if (order.obj_id === mealData.meals[index]._id) {
+                          return (
+                            <Order
+                              key={i}
+                              obj={mealData.meals[index]}
+                              order={order}
+                              type={"lunch"}
+                              canDelete={true}
+                            />
+                          );
+                        }
+                      }
+                    })
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -7,6 +7,7 @@ import {
   faCalendarDays,
   faClock,
   faEuro,
+  faHand,
   faLocationDot,
   faSpoon,
   faThumbsUp,
@@ -17,7 +18,7 @@ import {
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import ContentContext from "../../context/Content";
 
-const Order = ({ obj, order, type, currentDays, canDelete }) => {
+const Order = ({ obj, order, type, currentDays, canDelete, admin }) => {
   const {
     backendData,
     setOrderData,
@@ -180,13 +181,28 @@ const Order = ({ obj, order, type, currentDays, canDelete }) => {
           <h4 className="Heading__profile_position">{obj.title}</h4>
         </div>
 
-        <div className="Post__profile_status">
-          <div>
-            <FontAwesomeIcon icon={faThumbsUp} />
-            <h4>STATUSAS</h4>
+        {admin ? (
+          <div className="Container__sorting_admin">
+            <FontAwesomeIcon icon={faHand} />
+            <div>
+              <p>Statusas</p>
+              <select className="Select__date" defaultValue="hold">
+                <option value="hold">PERŽIŪRIMA</option>
+                <option value="accepted">PATVIRTINTA</option>
+                <option value="rejected">ATMESTA</option>
+              </select>
+            </div>
           </div>
-          <h4 id="yellow">Peržiūrimas</h4>
-        </div>
+        ) : (
+          <div className="Post__profile_status">
+            <div>
+              <FontAwesomeIcon icon={faThumbsUp} />
+              <h4>STATUSAS</h4>
+            </div>
+            <h4 id="yellow">Peržiūrimas</h4>
+          </div>
+        )}
+
         <div className="Lecture__profile_remove" onClick={handleClick}>
           <FontAwesomeIcon icon={faXmark} id="Remove" />
         </div>

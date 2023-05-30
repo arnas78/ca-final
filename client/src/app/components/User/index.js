@@ -15,7 +15,7 @@ const User = ({ user, userAdditional, onClick }) => {
       <div className="Container__admin_user_single_info">
         <img
           className="Image__admin_user"
-          src={userAdditional ? userAdditional.image : image}
+          src={user.image ? user.image : userAdditional.image}
           alt="profile_image"
         ></img>
         <div>
