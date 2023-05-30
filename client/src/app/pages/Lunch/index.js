@@ -40,12 +40,12 @@ const Lunch = () => {
         dateCopy.getDate() + ((7 - dateCopy.getDay() + dayID) % 7 || 7)
       )
     );
-    let nextDay = new Date(nextMonday.setHours(12, 0, 0, 0));
+    let nextDay = new Date(nextMonday.setHours(10, 0, 0, 0));
 
     if (nextDay - new Date() > 604800000) {
-      return new Date().setHours(12, 0, 0, 0);
+      return new Date().setHours(10, 0, 0, 0);
     } else {
-      return new Date(nextMonday.setHours(12, 0, 0, 0));
+      return new Date(nextMonday.setHours(10, 0, 0, 0));
     }
   }
 
