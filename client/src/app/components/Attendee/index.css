@@ -13,13 +13,20 @@
     transition: all 0.3s;
   }
   
+  .Container__popup_attendees {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
   .Container__popup_attendees_single {
     display: flex;
     align-items: center;
     gap: 1rem;
+    width: 100%;
     background: var(--color-accent-secondary);
     color: var(--color-secondary-dark);
+    box-sizing: border-box;
     padding: 0.5rem 1rem;
-    width: 27.2%;
     border-radius: 0.5rem;
   }

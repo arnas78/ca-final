@@ -6,3 +6,22 @@
   padding: 1rem;
   color: var(--color-secondary-light);
 }
+
+.Image__order_lunch {
+  width: 75px;
+  height: 75px;
+  border-radius: 100px;
+}
+
+.Container__orderer_info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  color: var(--color-secondary-dark);
+}
+
+.Image__order_lecture {
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+}

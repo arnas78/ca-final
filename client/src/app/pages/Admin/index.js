@@ -45,6 +45,7 @@ const Admin = () => {
     setVacationData,
     setAllUserData,
     setAllExtraData,
+    
   } = useContext(ContentContext);
 
   let userArr =
@@ -80,6 +81,16 @@ const Admin = () => {
   const handleDay = (e) => {
     setWeekdayChosen(e.target.value);
   };
+
+  const weekday = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
 
   useEffect(() => {
     if (!selectedFile) {
@@ -200,7 +211,25 @@ const Admin = () => {
           }
         ).catch((err) => ("Error occured", err));
 
-        alert("Sėkmingai atnaujinote mokymus!");
+        if (
+          selectedFile
+        ) {
+          const formData = new FormData();
+          formData.append("image", selectedFile);
+          const newData = fetch(
+            "http://localhost:5000/api/user/extra/" + userSelected._id,
+            {
+              method: "PUT",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: formData,
+            }
+          ).catch((err) => ("Error occured", err));
+        }
+
+
+        alert("Sėkmingai atnaujinote vartotoją!");
         setIsUserSelected(!isUserSelected);
         handleUsers();
         handleUserExtras();
@@ -213,6 +242,17 @@ const Admin = () => {
         setUserSex("");
         setUserPersonalCode("");
       }
+    }
+  };
+
+  const handleCanDelete = (day) => {
+    let currentDay = 6;
+    if (currentDay === 6 || currentDay === 0) {
+      return true;
+    } else if (day < currentDay) {
+      return false;
+    } else {
+      return true;
     }
   };
 
@@ -673,7 +713,7 @@ const Admin = () => {
             <div className="Container__profile_activities">
               <div className="Container__profile_activities_admin_header">
                 <h2>Vartotojų veikla</h2>
-                <button className="Btn__apply Btn__popup">
+                <button className="Btn__apply Btn__popup" onClick={() => alert("Duomenys išsaugoti.")}>
                   Išsaugoti
                   <FontAwesomeIcon icon={faSave} />
                   <span></span>
@@ -683,37 +723,7 @@ const Admin = () => {
                 </button>
               </div>
 
-              {/* <div>
-                <div className="Container__profile_activities_header">
-                  <FontAwesomeIcon icon={faGraduationCap} />
-                  <h3>Mano mokymai</h3>
-                </div>
-                <div className="Container__profile_activities_lectures">
-                  {typeof orderData.orders === "undefined" ||
-                  typeof mealData.meals === "undefined" ? (
-                    <p>Loading...</p>
-                  ) : (
-                    allUserOrders.map((order, i) => {
-                      for (
-                        let index = 0;
-                        index < lectureData.lectures.length;
-                        index++
-                      ) {
-                        if (order.obj_id === lectureData.lectures[index]._id) {
-                          return (
-                            <Order
-                              key={i}
-                              obj={lectureData.lectures[index]}
-                              order={order}
-                              type={"lectures"}
-                            />
-                          );
-                        }
-                      }
-                    })
-                  )}
-                </div>
-              </div> */}
+
               {/* <div>
                 <div className="Container__profile_activities_header">
                   <FontAwesomeIcon icon={faCalendarDays} />
@@ -785,7 +795,9 @@ const Admin = () => {
                 </div>
                 <div className="Container__profile_activities_posts Container__meal_orders">
                   {typeof orderData.orders === "undefined" ||
-                  typeof mealData.meals === "undefined" ? (
+                  typeof mealData.meals === "undefined" || 
+                  typeof allExtraData.extra === "undefined" ||
+                  typeof allUserData.users === "undefined" ? (
                     <p>Loading...</p>
                   ) : (
                     allLunchArr.map((order, i) => {
@@ -801,7 +813,12 @@ const Admin = () => {
                               obj={mealData.meals[index]}
                               order={order}
                               type={"lunch"}
-                              canDelete={true}
+                              canDelete={handleCanDelete(
+                                weekday.indexOf(order.weekday)
+                              )}
+                              extra={allExtraData.extra}
+                              users={allUserData.users}
+                              admin={true}
                             />
                           );
                         }
@@ -809,6 +826,41 @@ const Admin = () => {
                     })
                   )}
                 </div>
+                <div>
+                <div className="Container__profile_activities_header">
+                  <FontAwesomeIcon icon={faGraduationCap} />
+                  <h3>Mano mokymai</h3>
+                </div>
+                <div className="Container__profile_activities_lectures">
+                  {typeof orderData.orders === "undefined" ||
+                  typeof allExtraData.extra === "undefined" ||
+                  typeof allUserData.users === "undefined" ? (
+                    <p>Loading...</p>
+                  ) : (
+                    allUserOrders.map((order, i) => {
+                      for (
+                        let index = 0;
+                        index < lectureData.lectures.length;
+                        index++
+                      ) {
+                        if (order.obj_id === lectureData.lectures[index]._id) {
+                          return (
+                            <Order
+                              key={i}
+                              obj={lectureData.lectures[index]}
+                              order={order}
+                              type={"lectures"}
+                              extra={allExtraData.extra}
+                              users={allUserData.users}
+                              admin={true}
+                            />
+                          );
+                        }
+                      }
+                    })
+                  )}
+                </div>
+              </div>
               </div>
             </div>
           </div>

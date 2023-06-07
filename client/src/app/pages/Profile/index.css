@@ -529,6 +529,10 @@ button.react-calendar__tile,
   color: var(--color-secondary-light);
 }
 
+.Event__profile_single {
+  width: 275px;
+}
+
 .Event__profile_single h4 {
   color: var(--color-secondary-dark);
 }

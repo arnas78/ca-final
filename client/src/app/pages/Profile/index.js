@@ -195,7 +195,7 @@ const Profile = () => {
   ];
 
   const handleCanDelete = (day) => {
-    let currentDay = 3;
+    let currentDay = 5;
     if (currentDay === 6 || currentDay === 0) {
       return true;
     } else if (day < currentDay) {

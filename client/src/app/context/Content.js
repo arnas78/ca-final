@@ -17,7 +17,7 @@ function ContentProvider({ children }) {
   const [appliedTrainings, setAppliedTrainings] = useState([]);
   const [lectureChosen, setLectureChosen] = useState(null);
   const [weekdayChosen, setWeekdayChosen] = useState(
-    weekday[new Date().getDay()]
+    weekday[5]
   );
   const [backendData, setBackendData] = useState([{}]);
   const [userExtra, setUserExtra] = useState([{}]);

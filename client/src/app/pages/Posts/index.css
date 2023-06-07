@@ -361,13 +361,13 @@ li {
 }
 
 .Container__post_popup_inputs {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  flex-wrap: wrap;
+  row-gap: 2rem;
 }
 
 .Container__post_popup_inputs_single {
-  width: 48.4%;
 }
 
 .Container__post_popup_inputs_single label {

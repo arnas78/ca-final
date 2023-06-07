@@ -185,3 +185,7 @@
 .Container__profile_activities_admin_header > button {
   width: 160px;
 }
+
+.Container__meal_orders {
+  margin-bottom: 3rem;
+}

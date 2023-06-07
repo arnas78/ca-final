@@ -98,6 +98,16 @@ const Lunch = () => {
 
   const handleAdminPopupEdit = (e) => {
     setAdminPopupEdit((prevCheck) => !prevCheck);
+    if (mainChosen) {
+      setMealName(mainChosen.title);
+      setMealDesc(mainChosen.desc);
+      setMealPrice(mainChosen.price);
+    }
+    else if (soupChosen) {
+      setMealName(soupChosen.title);
+      setMealDesc(soupChosen.desc);
+      setMealPrice(soupChosen.price);
+    }
   };
 
   const adminHandleType = (e) => {
@@ -235,6 +245,7 @@ const Lunch = () => {
 
         alert("Sėkmingai atnaujinote patiekalą!");
         handleAdminPopupEdit();
+        handleSoups();
         setMealName("");
         setMealDesc("");
         setMealPrice(0);
@@ -442,7 +453,7 @@ const Lunch = () => {
   ];
 
   const handleWeekday = () => {
-    let currentDay = 3;
+    let currentDay = 5;
     if (currentDay === 6 || currentDay === 0) {
       return -1;
     } else {
@@ -806,6 +817,7 @@ const Lunch = () => {
                     className="Input__admin"
                     placeholder="Patiekalo aprašymas"
                     onChange={adminHandlePrice}
+                    min={0}
                   />
                 </div>
                 <div className="Admin__create_input_small">

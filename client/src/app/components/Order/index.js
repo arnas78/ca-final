@@ -18,7 +18,7 @@ import {
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import ContentContext from "../../context/Content";
 
-const Order = ({ obj, order, type, currentDays, canDelete, admin }) => {
+const Order = ({ obj, order, type, currentDays, canDelete, admin, extra, users }) => {
   const {
     backendData,
     setOrderData,
@@ -83,6 +83,23 @@ const Order = ({ obj, order, type, currentDays, canDelete, admin }) => {
     }
   };
 
+  const getUserPicture = () => {
+    for (let index = 0; index < extra.length; index++) {
+      if (extra[index].user_id === order.user_id) {
+        return extra[index].image
+      }
+    }
+  }
+
+  const getUserObj = () => {
+    for (let index = 0; index < users.length; index++) {
+      if (users[index]._id === order.user_id) {
+        return users[index]
+      }
+    }
+  }
+
+
   function handleClick() {
     if (type === "vacation") {
       fetch(`http://localhost:5000/api/vacations/` + obj._id, {
@@ -128,7 +145,6 @@ const Order = ({ obj, order, type, currentDays, canDelete, admin }) => {
   }
 
   if (type === "lunch") {
-    console.log(canDelete);
     return (
       <div
         className={
@@ -159,6 +175,16 @@ const Order = ({ obj, order, type, currentDays, canDelete, admin }) => {
               </div>
             </div>
           </div>
+          {admin ? (          <div className="Container__orderer_info">
+            <img className="Image__order_lunch" src={getUserPicture()}></img>
+            <h4>
+              {
+                getUserObj().name + " " + getUserObj().surname
+              }
+            </h4>
+            
+          </div>) : <p></p>}
+
         </div>
 
         {!canDelete ? (
@@ -249,8 +275,19 @@ const Order = ({ obj, order, type, currentDays, canDelete, admin }) => {
       <div className="Container__profile_activities_lectures_single Status__approved">
         <h4 id="Learning__name">{obj.title}</h4>
         <h4 id="Learning__place">{obj.place}</h4>
-        <h4 id="Learning__start">{obj.start}</h4>
-        <h4 id="Learning__end">{obj.end}</h4>
+        {admin ? (          <div className="Container__orderer_info">
+            <img className="Image__order_lecture" src={getUserPicture()}></img>
+            <h4>
+              {
+                getUserObj().name + " " + getUserObj().surname
+              }
+            </h4>
+            
+          </div>) : <div>
+          <h4 id="Learning__name">{obj.start}</h4>
+          <h4>-</h4>
+        <h4 id="Learning__place">{obj.end}</h4>
+            </div>}
         <div className="Lecture__profile_remove" onClick={handleClick}>
           <FontAwesomeIcon icon={faXmark} id="Remove" />
         </div>
